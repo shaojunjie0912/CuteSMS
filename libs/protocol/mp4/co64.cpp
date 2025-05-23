@@ -1,5 +1,5 @@
 #include "co64.h"
-using namespace cutesms;
+namespace cutesms {
 
 Co64Box::Co64Box() : FullBox(BOX_TYPE_CO64, 0, 0) {}
 
@@ -35,3 +35,4 @@ int64_t Co64Box::decode(NetBuffer& buf) {
     }
     return buf.pos() - start;
 }
+}  // namespace cutesms

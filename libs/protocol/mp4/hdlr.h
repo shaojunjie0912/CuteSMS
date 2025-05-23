@@ -41,4 +41,4 @@ const HdlrBox::HandlerType HANDLER_TYPE_SOUN = HANDLER_TYPE('s', 'o', 'u', 'n');
 const HdlrBox::HandlerType HANDLER_TYPE_VIDE = HANDLER_TYPE('v', 'i', 'd', 'e');
 const HdlrBox::HandlerType HANDLER_TYPE_HINT = HANDLER_TYPE('h', 'i', 'n', 't');
 
-};  // namespace cutesms
+}  // namespace cutesms

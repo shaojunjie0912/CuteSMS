@@ -18,4 +18,4 @@ public:
     std::string name_;
     std::string location_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

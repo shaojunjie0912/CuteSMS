@@ -29,4 +29,4 @@ public:
 
     void set_value(uint32_t v) { bandwidth = v; }
 };
-};  // namespace cutesms
+}  // namespace cutesms

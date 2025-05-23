@@ -4,8 +4,7 @@
 
 #include "base/net_buffer.h"
 
-
-using namespace cutesms;
+namespace cutesms {
 
 UrnBox::UrnBox(uint32_t flags) : FullBox(BOX_TYPE_URN, 0, flags) {}
 
@@ -40,3 +39,4 @@ int64_t UrnBox::decode(NetBuffer& buf) {
     buf.skip(1);
     return buf.pos() - start;
 }
+}  // namespace cutesms

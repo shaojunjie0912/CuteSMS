@@ -31,4 +31,4 @@ public:
     std::shared_ptr<TrafBox> traf_;
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

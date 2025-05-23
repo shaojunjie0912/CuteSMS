@@ -77,4 +77,4 @@ struct EncryptionKeys {
 public:
     std::string raw_string;
 };
-};  // namespace cutesms
+}  // namespace cutesms

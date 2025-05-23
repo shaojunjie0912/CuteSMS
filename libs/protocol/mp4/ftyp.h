@@ -51,4 +51,4 @@ private:
     Mp4Builder& builder_;
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

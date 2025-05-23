@@ -9,7 +9,6 @@
 #include "amf0_string.hpp"
 #include "amf0_undefined.hpp"
 
-
 namespace cutesms {
 
 int32_t Amf0StrictArray::decode(const uint8_t *data, size_t len) {
@@ -135,4 +134,4 @@ int32_t Amf0StrictArray::encode(uint8_t *buf, size_t len) const {
     return data - buf;
 }
 
-};  // namespace cutesms
+}  // namespace cutesms

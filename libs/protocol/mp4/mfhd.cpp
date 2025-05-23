@@ -1,5 +1,5 @@
 #include "mfhd.h"
-using namespace cutesms;
+namespace cutesms {
 
 MfhdBox::MfhdBox() : FullBox(BOX_TYPE_MFHD, 0, 0) {}
 
@@ -25,3 +25,5 @@ int64_t MfhdBox::decode(NetBuffer& buf) {
     sequence_number_ = buf.read_4bytes();
     return buf.pos() - start;
 }
+
+}  // namespace cutesms

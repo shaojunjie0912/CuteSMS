@@ -3,7 +3,7 @@
 #include "base/net_buffer.h"
 #include "elst.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 EdtsBox::EdtsBox() : Box(BOX_TYPE_EDTS) {}
 
@@ -42,3 +42,4 @@ int64_t EdtsBox::decode(NetBuffer& buf) {
     elst_->decode(buf);
     return buf.pos() - start;
 }
+}  // namespace cutesms

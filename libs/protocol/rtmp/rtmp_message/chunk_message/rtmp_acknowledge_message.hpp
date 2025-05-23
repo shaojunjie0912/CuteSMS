@@ -26,7 +26,6 @@ SOFTWARE.
 
 #include "rtmp_define.hpp"
 
-
 namespace cutesms {
 class RtmpAcknwledgeMessage {
 public:
@@ -38,4 +37,4 @@ public:
 public:
     size_t acknowledge_ = 0;
 };
-};  // namespace cutesms
+}  // namespace cutesms

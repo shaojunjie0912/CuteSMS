@@ -5,7 +5,7 @@
 #include "base/net_buffer.h"
 #include "spdlog/spdlog.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 int64_t Box::size() {
     int64_t total_bytes = 8;
@@ -67,3 +67,4 @@ int64_t Box::decode(NetBuffer& buf) {
     auto end = buf.pos();
     return end - start;
 }
+}  // namespace cutesms

@@ -25,4 +25,4 @@ public:
 private:
     std::string name_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

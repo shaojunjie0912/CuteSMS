@@ -22,4 +22,4 @@ public:
     // The ordinal number of this fragment, in increasing order
     uint32_t sequence_number_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

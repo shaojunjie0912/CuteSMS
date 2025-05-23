@@ -4,12 +4,11 @@
 #include <variant>
 
 #include "base/network/socket_interface.hpp"
-#include "protocol/rtmp/rtmp_message/chunk_message/rtmp_acknowledge_message.hpp"
-#include "protocol/rtmp/rtmp_message/chunk_message/rtmp_window_acknowledge_size_message.hpp"
+#include "rtmp_message/chunk_message/rtmp_acknowledge_message.hpp"
+#include "rtmp_message/chunk_message/rtmp_window_acknowledge_size_message.hpp"
 #include "spdlog/spdlog.h"
 
-
-using namespace cutesms;
+namespace cutesms {
 using namespace boost::asio::experimental::awaitable_operators;
 
 constexpr uint32_t MAX_BUFFER_BYTES = 2 * 1024 * 1024;
@@ -632,3 +631,5 @@ bool RtmpChunkProtocol::handle_window_acknowledge_size(std::shared_ptr<RtmpMessa
     in_window_acknowledge_size_ = cmd.acknowledge_windows_size_;
     return true;
 }
+
+}  // namespace cutesms

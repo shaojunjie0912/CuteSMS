@@ -28,4 +28,4 @@ private:
     uint32_t ack_window_size_ = 0;
     uint8_t limit_type_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

@@ -19,4 +19,4 @@ public:
 public:
     std::string mid_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

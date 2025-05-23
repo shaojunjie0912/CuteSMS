@@ -1,5 +1,5 @@
 #include "rtcp_rr.hpp"
-using namespace cutesms;
+namespace cutesms {
 RtcpRR::RtcpRR() { header_.pt = PT_RTCP_RR; }
 
 int32_t RtcpRR::decode(uint8_t *data, int32_t len) {
@@ -50,3 +50,5 @@ int32_t RtcpRR::encode(uint8_t *data, int32_t len) {
     }
     return data - data_start;
 }
+
+}  // namespace cutesms

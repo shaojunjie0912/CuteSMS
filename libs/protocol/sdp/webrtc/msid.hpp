@@ -11,4 +11,4 @@ public:
     std::string msid;
     std::string appdata;
 };
-};  // namespace cutesms
+}  // namespace cutesms

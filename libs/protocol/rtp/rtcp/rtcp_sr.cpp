@@ -2,7 +2,7 @@
 
 #include <arpa/inet.h>
 
-using namespace cutesms;
+namespace cutesms {
 int32_t ReceptionReportBlock::decode(uint8_t *data, int32_t len) {
     uint8_t *data_start = data;
     if (len < 4) {
@@ -212,3 +212,4 @@ int32_t RtcpSr::encode(uint8_t *data, int32_t len) {
     }
     return data - data_start;
 }
+}  // namespace cutesms

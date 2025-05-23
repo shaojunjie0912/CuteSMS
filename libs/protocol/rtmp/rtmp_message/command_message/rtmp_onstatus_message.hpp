@@ -45,4 +45,4 @@ private:
     Amf0Null null_;
     Amf0Object info_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

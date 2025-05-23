@@ -5,7 +5,7 @@
 #include "base/net_buffer.h"
 #include "esds.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 AudioSampleEntry::AudioSampleEntry(Box::Type type) : SampleEntry(type) {}
 
@@ -55,3 +55,4 @@ int64_t AudioSampleEntry::decode(NetBuffer& buf) {
 
     return buf.pos() - start;
 }
+}  // namespace cutesms

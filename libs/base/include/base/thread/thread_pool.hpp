@@ -28,4 +28,4 @@ private:
 };
 
 typedef boost::serialization::singleton<ThreadPool> thread_pool_inst;
-};  // namespace cutesms
+}  // namespace cutesms

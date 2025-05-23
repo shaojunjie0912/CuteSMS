@@ -25,4 +25,4 @@ public:
 public:
     std::shared_ptr<TrexBox> trex_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

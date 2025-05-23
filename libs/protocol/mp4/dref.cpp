@@ -6,8 +6,7 @@
 #include "url.h"
 #include "urn.h"
 
-
-using namespace cutesms;
+namespace cutesms {
 DrefBox::DrefBox() : FullBox(BOX_TYPE_DREF, 0, 0) {}
 
 DrefBox::~DrefBox() {}
@@ -53,3 +52,4 @@ int64_t DrefBox::decode(NetBuffer& buf) {
 
     return buf.pos() - start;
 }
+}  // namespace cutesms

@@ -34,4 +34,4 @@ public:
 public:
     std::string session_information;
 };
-};  // namespace cutesms
+}  // namespace cutesms

@@ -25,7 +25,6 @@ SOFTWARE.
 #include <memory>
 #include <string>
 
-
 namespace cutesms {
 class RtmpMessage;
 class RtmpAbortMessage {
@@ -36,4 +35,4 @@ public:
 public:
     uint32_t chunk_id_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

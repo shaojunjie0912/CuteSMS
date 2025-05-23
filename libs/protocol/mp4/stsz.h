@@ -26,4 +26,4 @@ public:
     // Each entry_size is an integer specifying the size of a sample, indexed by its number.
     std::vector<uint32_t> entry_sizes_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

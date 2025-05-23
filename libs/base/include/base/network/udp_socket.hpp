@@ -33,4 +33,4 @@ private:
     UdpSocketHandler *handler_ = nullptr;
     std::unique_ptr<boost::asio::ip::udp::socket> sock_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

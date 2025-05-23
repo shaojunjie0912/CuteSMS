@@ -5,7 +5,7 @@
 #include "base/net_buffer.h"
 #include "mp4_builder.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 MvhdBox::MvhdBox() : FullBox(BOX_TYPE_MVHD, 0, 0) {}
 
@@ -160,3 +160,4 @@ MvhdBuilder& MvhdBuilder::set_next_track_id(uint32_t id) {
     builder_.get_chunk_manager().write_4bytes(id);
     return *this;
 }
+}  // namespace cutesms

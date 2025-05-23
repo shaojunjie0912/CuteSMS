@@ -64,4 +64,4 @@ public:
     uint32_t pt_;  //-1代表所有pt，正值代表具体的pt
     std::unordered_map<std::string, std::string> fmt_params_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

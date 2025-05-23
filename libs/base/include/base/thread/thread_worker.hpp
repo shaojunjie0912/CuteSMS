@@ -82,4 +82,4 @@ private:
     std::atomic_bool running_;  // 线程运行状态标志
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

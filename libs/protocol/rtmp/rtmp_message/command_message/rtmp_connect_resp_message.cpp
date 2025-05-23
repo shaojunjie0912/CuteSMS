@@ -2,8 +2,7 @@
 
 #include "rtmp_connect_command_message.hpp"
 
-
-using namespace cutesms;
+namespace cutesms {
 
 RtmpConnectRespMessage::RtmpConnectRespMessage(const RtmpConnectCommandMessage &conn_msg,
                                                const std::string &name) {
@@ -96,3 +95,4 @@ std::shared_ptr<RtmpMessage> RtmpConnectRespMessage::encode() const {
     rtmp_msg->inc_used_bytes(s);
     return rtmp_msg;
 }
+}  // namespace cutesms

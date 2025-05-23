@@ -193,4 +193,4 @@ private:
     std::vector<N> real_nodes_;
     HashRingAlgorithm<K> hash_algorithm_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

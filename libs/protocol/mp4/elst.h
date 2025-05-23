@@ -43,4 +43,4 @@ public:
 protected:
     std::vector<ElstEntry> entries_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

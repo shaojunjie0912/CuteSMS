@@ -1,5 +1,5 @@
 #include "rtmp_play_message.hpp"
-using namespace cutesms;
+namespace cutesms {
 RtmpPlayMessage::RtmpPlayMessage() {}
 
 RtmpPlayMessage::RtmpPlayMessage(int32_t transaction_id) {
@@ -222,3 +222,5 @@ std::shared_ptr<RtmpMessage> RtmpPlayMessage::encode() const {
     rtmp_msg->inc_used_bytes(pos);
     return rtmp_msg;
 }
+
+}  // namespace cutesms

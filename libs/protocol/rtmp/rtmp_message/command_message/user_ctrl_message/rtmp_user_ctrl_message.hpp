@@ -10,4 +10,4 @@ protected:
     uint16_t event_type_;
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

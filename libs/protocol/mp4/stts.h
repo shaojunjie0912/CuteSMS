@@ -30,4 +30,4 @@ public:
 public:
     std::vector<SttsEntry> entries_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

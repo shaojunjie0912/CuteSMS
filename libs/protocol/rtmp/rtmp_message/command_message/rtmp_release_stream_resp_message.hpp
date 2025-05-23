@@ -46,4 +46,4 @@ private:
     Amf0Null command_obj_;
     Amf0Undefined udef_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

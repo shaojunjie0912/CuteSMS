@@ -15,4 +15,4 @@ public:
     virtual int32_t size() = 0;
     virtual int32_t encode(uint8_t *data, int32_t len) = 0;
 };
-};  // namespace cutesms
+}  // namespace cutesms

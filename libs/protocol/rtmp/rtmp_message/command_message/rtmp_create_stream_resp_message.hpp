@@ -57,4 +57,4 @@ private:
     Amf0Null command_obj_;
     Amf0Number stream_id_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

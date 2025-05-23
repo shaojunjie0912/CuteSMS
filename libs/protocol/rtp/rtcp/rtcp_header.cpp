@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-using namespace cutesms;
+namespace cutesms {
 RtcpHeader::RtcpHeader() {
     version = 2;
     padding = 0;
@@ -101,3 +101,4 @@ uint8_t RtcpHeader::parse_pt(uint8_t *data, size_t len) {
     ((void)len);
     return data[1];
 }
+}  // namespace cutesms

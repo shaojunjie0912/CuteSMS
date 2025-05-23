@@ -20,4 +20,4 @@ public:
 public:
     std::vector<uint32_t> sample_entries_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

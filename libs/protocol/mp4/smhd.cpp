@@ -2,7 +2,7 @@
 
 #include "base/net_buffer.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 SmhdBox::SmhdBox()
     : FullBox(BOX_TYPE_SMHD, 0, 0)  // version和flags初始化为0
@@ -43,3 +43,4 @@ int64_t SmhdBox::decode(NetBuffer& buf) {
 
     return buf.pos() - start;
 }
+}  // namespace cutesms

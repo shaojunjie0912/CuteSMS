@@ -27,7 +27,6 @@ SOFTWARE.
 #include "amf0/amf0_inc.hpp"
 #include "rtmp_define.hpp"
 
-
 namespace cutesms {
 class RtmpCreateStreamMessage {
 public:
@@ -47,4 +46,4 @@ public:
     Amf0Null null_;
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

@@ -13,4 +13,4 @@ public:
     StypBox();
     virtual ~StypBox();
 };
-};  // namespace cutesms
+}  // namespace cutesms

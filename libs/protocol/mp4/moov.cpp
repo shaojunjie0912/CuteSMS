@@ -7,8 +7,7 @@
 #include "mp4_factory.h"
 #include "mvhd.h"
 
-
-using namespace cutesms;
+namespace cutesms {
 
 MoovBox::MoovBox() : Box(BOX_TYPE_MOOV) {}
 
@@ -62,3 +61,4 @@ MoovBuilder::MoovBuilder(Mp4Builder& builder) : builder_(builder) { builder_.beg
 MoovBuilder::~MoovBuilder() { builder_.end_box(); }
 
 MvhdBuilder MoovBuilder::add_mvhd() { return MvhdBuilder(builder_); }
+}  // namespace cutesms

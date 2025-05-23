@@ -1,5 +1,5 @@
 #include "rtmp_fcpublish_message.hpp"
-using namespace cutesms;
+namespace cutesms {
 RtmpFCPublishMessage::RtmpFCPublishMessage() {}
 
 RtmpFCPublishMessage::RtmpFCPublishMessage(int32_t transaction_id, const std::string &stream_name) {
@@ -106,3 +106,5 @@ std::shared_ptr<RtmpMessage> RtmpFCPublishMessage::encode() const {
     rtmp_msg->inc_used_bytes(pos);
     return rtmp_msg;
 }
+
+}  // namespace cutesms

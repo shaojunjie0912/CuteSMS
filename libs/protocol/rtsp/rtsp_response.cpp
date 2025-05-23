@@ -1,5 +1,6 @@
 #include "rtsp_response.hpp"
-using namespace cutesms;
+
+namespace cutesms {
 
 RtspResponse::RtspResponse() {}
 
@@ -169,3 +170,4 @@ int32_t RtspResponse::parse_header(const std::string_view& buf) {
     headers_[attr] = val;
     return pos_end + 2;
 }
+}  // namespace cutesms

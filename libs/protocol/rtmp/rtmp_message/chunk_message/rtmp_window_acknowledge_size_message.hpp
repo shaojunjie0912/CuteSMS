@@ -26,7 +26,6 @@ SOFTWARE.
 
 #include "rtmp_define.hpp"
 
-
 namespace cutesms {
 class RtmpWindowAcknwledgeSizeMessage {
 public:
@@ -38,4 +37,4 @@ public:
 public:
     size_t acknowledge_windows_size_ = 5 * 1024 * 1024;
 };
-};  // namespace cutesms
+}  // namespace cutesms

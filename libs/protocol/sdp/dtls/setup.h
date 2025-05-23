@@ -25,4 +25,4 @@ public:
 public:
     std::string role_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

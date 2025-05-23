@@ -18,4 +18,4 @@ public:
 protected:
     std::shared_ptr<ElstBox> elst_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

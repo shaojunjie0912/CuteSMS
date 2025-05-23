@@ -34,4 +34,4 @@ public:
     static bool aes_encrypt(const std::string &plaintext, const std::string &key, std::string &ciphertext);
     static bool aes_decrypt(const std::string &ciphertext, const std::string &key, std::string &plaintext);
 };
-};  // namespace cutesms
+}  // namespace cutesms

@@ -4,7 +4,7 @@
 
 #include "mp4_factory.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 StszBox::StszBox() : FullBox(BOX_TYPE_STSZ, 0, 0) {}
 
@@ -42,3 +42,4 @@ int64_t StszBox::decode(NetBuffer& buf) {
 
     return buf.pos() - start;
 }
+}  // namespace cutesms

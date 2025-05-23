@@ -19,4 +19,4 @@ struct KeywdsAttr {
 public:
     std::string keywords;
 };
-};  // namespace cutesms
+}  // namespace cutesms

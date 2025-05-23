@@ -2,7 +2,7 @@
 
 #include "spdlog/spdlog.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 bool AudioTagHeader::is_seq_header() { return aac_packet_type == AACSequenceHeader; }
 
@@ -471,3 +471,5 @@ int32_t FlvTag::encode() {
     inc_used_bytes(data - data_buf_);
     return data - data_buf_;
 }
+
+}  // namespace cutesms

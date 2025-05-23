@@ -40,4 +40,4 @@ protected:
     std::shared_ptr<MdhdBox> mdhd_;
     std::shared_ptr<MinfBox> minf_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

@@ -3,7 +3,6 @@
 #include <cstdint>
 #include <string>
 
-
 namespace cutesms {
 // 2.1.  The RTCP Attribute
 
@@ -66,4 +65,4 @@ public:
     std::string connection_address;
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-using namespace cutesms;
+namespace cutesms {
 
 H264RtpPacket::H264RtpPacket() {}
 
@@ -33,3 +33,4 @@ int32_t H264RtpPacket::encode(uint8_t *data, size_t len) {
 }
 
 size_t H264RtpPacket::size() { return 0; }
+}  // namespace cutesms

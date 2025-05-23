@@ -27,4 +27,4 @@ private:
     HTTP_STATE state_ = HTTP_STATE_WAIT_REQUEST_LINE;
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

@@ -1,5 +1,5 @@
 #include "rtmp_create_stream_resp_message.hpp"
-using namespace cutesms;
+namespace cutesms {
 
 RtmpCreateStreamRespMessage::RtmpCreateStreamRespMessage(int32_t transaction_id) {
     command_name_.set_value("_result");
@@ -90,3 +90,4 @@ std::shared_ptr<RtmpMessage> RtmpCreateStreamRespMessage::encode() const {
     rtmp_msg->inc_used_bytes(s);
     return rtmp_msg;
 }
+}  // namespace cutesms

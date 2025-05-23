@@ -2,7 +2,7 @@
 
 #include <boost/array.hpp>
 
-using namespace cutesms;
+namespace cutesms {
 
 RtmpHandshake::RtmpHandshake(std::shared_ptr<SocketInterface> conn) : conn_(conn) {}
 
@@ -66,3 +66,4 @@ void RtmpHandshake::_genS0S1S2(uint8_t *c0c1, uint8_t *s0s1s2) {
     *(int32_t *)(s0s1s2 + 1541) = 0;  // htonl(time(NULL));
     memcpy(s0s1s2 + 1545, c0c1 + 9, 1528);
 }
+}  // namespace cutesms

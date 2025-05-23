@@ -36,4 +36,4 @@ protected:
     std::string_view buf_;
     std::string_view initial_buf_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

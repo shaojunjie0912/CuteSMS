@@ -4,7 +4,6 @@
 #include <string_view>
 #include <vector>
 
-
 #define BOX_TYPE(c1, c2, c3, c4)                                                 \
     (((static_cast<uint32_t>(c1)) << 24) | ((static_cast<uint32_t>(c2)) << 16) | \
      ((static_cast<uint32_t>(c3)) << 8) | ((static_cast<uint32_t>(c4))))
@@ -110,4 +109,4 @@ const Box::Type BOX_TYPE_TRUN = BOX_TYPE('t', 'r', 'u', 'n');
 const Box::Type BOX_TYPE_STYP = BOX_TYPE('s', 't', 'y', 'p');
 const Box::Type BOX_TYPE_TREX = BOX_TYPE('t', 'r', 'e', 'x');
 const Box::Type BOX_TYPE_TFDT = BOX_TYPE('t', 'f', 'd', 't');
-};  // namespace cutesms
+}  // namespace cutesms

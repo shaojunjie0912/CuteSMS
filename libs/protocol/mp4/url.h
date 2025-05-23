@@ -15,4 +15,4 @@ public:
 public:
     std::string location_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

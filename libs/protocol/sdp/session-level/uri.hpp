@@ -23,4 +23,4 @@ public:
 public:
     std::string uri;
 };
-};  // namespace cutesms
+}  // namespace cutesms

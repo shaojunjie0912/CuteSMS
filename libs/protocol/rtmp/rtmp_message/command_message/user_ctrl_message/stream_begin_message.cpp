@@ -3,7 +3,7 @@
 #include <netinet/in.h>
 #include <stdint.h>
 
-using namespace cutesms;
+namespace cutesms {
 
 RtmpStreamBeginMessage::RtmpStreamBeginMessage(uint32_t stream_id)
     : RtmpUserCtrlMessage(RTMP_USER_EVENT_STREAM_BEGIN) {
@@ -30,3 +30,4 @@ std::shared_ptr<RtmpMessage> RtmpStreamBeginMessage::encode() const {
     rtmp_msg->inc_used_bytes(s);
     return rtmp_msg;
 }
+}  // namespace cutesms

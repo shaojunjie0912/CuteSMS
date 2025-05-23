@@ -78,4 +78,4 @@ struct PESPacket : public Packet {
     int32_t decode(const char *data, int32_t len);
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

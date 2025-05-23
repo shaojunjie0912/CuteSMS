@@ -5,8 +5,7 @@
 #include "minf.h"
 #include "mp4_factory.h"
 
-
-using namespace cutesms;
+namespace cutesms {
 
 MdiaBox::MdiaBox() : Box(BOX_TYPE_MDIA) {}
 
@@ -67,3 +66,4 @@ int64_t MdiaBox::decode(NetBuffer& buf) {
     }
     return buf.pos() - start;
 }
+}  // namespace cutesms

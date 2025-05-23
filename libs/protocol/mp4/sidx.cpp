@@ -2,7 +2,7 @@
 
 #include "base/net_buffer.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 int64_t SegmentIndexEntry::size() { return 12; }
 
@@ -87,3 +87,4 @@ int64_t SidxBox::decode(NetBuffer& buf) {
 
     return buf.pos() - start;
 }
+}  // namespace cutesms

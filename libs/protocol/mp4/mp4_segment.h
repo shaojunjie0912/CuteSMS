@@ -5,7 +5,6 @@
 
 #include "base/utils/utils.h"
 
-
 namespace cutesms {
 class Mp4Segment {
 public:
@@ -53,4 +52,4 @@ protected:
 
     bool is_reaped_ = false;
 };
-};  // namespace cutesms
+}  // namespace cutesms

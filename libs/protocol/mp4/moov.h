@@ -4,7 +4,6 @@
 
 #include "box.h"
 
-
 namespace cutesms {
 class Mp4Builder;
 class MvhdBuilder;
@@ -35,4 +34,4 @@ private:
     Mp4Builder& builder_;
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

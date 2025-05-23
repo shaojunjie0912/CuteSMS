@@ -62,4 +62,4 @@ protected:
     int64_t active_time_ = time(NULL);
     boost::asio::steady_timer active_timeout_timer_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

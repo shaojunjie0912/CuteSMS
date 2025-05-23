@@ -16,4 +16,4 @@ struct CategoryAttr {
 public:
     std::string category;
 };
-};  // namespace cutesms
+}  // namespace cutesms

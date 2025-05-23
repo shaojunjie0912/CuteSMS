@@ -4,7 +4,7 @@
 
 #include "base/net_buffer.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 UrlBox::UrlBox() : FullBox(BOX_TYPE_URL, 0, 0) {}
 
@@ -36,3 +36,4 @@ int64_t UrlBox::decode(NetBuffer& buf) {
     buf.skip(1);
     return buf.pos() - start;
 }
+}  // namespace cutesms

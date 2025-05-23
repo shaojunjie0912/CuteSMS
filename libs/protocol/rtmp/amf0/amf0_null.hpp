@@ -37,4 +37,4 @@ public:
 
     size_t size() const { return 1; }
 };
-};  // namespace cutesms
+}  // namespace cutesms

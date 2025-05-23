@@ -4,7 +4,6 @@
 
 #include "box.h"
 
-
 namespace cutesms {
 class NetBuffer;
 class AvccBox : public Box {
@@ -19,4 +18,4 @@ public:
 public:
     std::string avc_config_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

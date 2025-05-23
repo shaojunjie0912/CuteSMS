@@ -40,4 +40,4 @@ public:
 public:
     std::vector<StscEntry> entries_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

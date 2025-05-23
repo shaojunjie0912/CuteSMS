@@ -61,4 +61,4 @@ public:
     uint8_t get_rc() { return rc; }
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

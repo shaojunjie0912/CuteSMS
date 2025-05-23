@@ -2,7 +2,7 @@
 
 #include "base/net_buffer.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 TfdtBox::TfdtBox() : FullBox(BOX_TYPE_TFDT, 0, 0) {}
 
@@ -32,3 +32,4 @@ int64_t TfdtBox::decode(NetBuffer& buf) {
     }
     return buf.pos() - start;
 }
+}  // namespace cutesms

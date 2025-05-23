@@ -4,7 +4,6 @@
 
 #include "box.h"
 
-
 namespace cutesms {
 class TkhdBox;
 class MdiaBox;
@@ -35,4 +34,4 @@ protected:
     std::shared_ptr<TkhdBox> tkhd_;
     std::shared_ptr<MdiaBox> mdia_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

@@ -22,4 +22,4 @@ protected:
     std::string val_;
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

@@ -6,7 +6,7 @@
 
 #include "spdlog/spdlog.h"
 
-using namespace cutesms;
+namespace cutesms {
 bool RtpHeader::is_rtcp_packet(uint8_t *data, size_t len) {
     if (len < 2) {
         return false;
@@ -171,3 +171,4 @@ uint32_t RtpHeader::parse_ssrc(uint8_t *data, size_t len) {
     ((void)len);
     return ntohl(*(uint32_t *)(data + 8));
 }
+}  // namespace cutesms

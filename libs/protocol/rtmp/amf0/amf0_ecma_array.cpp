@@ -2,7 +2,7 @@
 
 #include "amf0_object.hpp"
 
-using namespace cutesms;
+namespace cutesms {
 
 Json::Value Amf0EcmaArray::to_json() {
     Json::Value root;
@@ -191,3 +191,4 @@ int32_t Amf0EcmaArray::encode(uint8_t *buf, size_t len) const {
     len -= consumed;
     return data - buf;
 }
+}  // namespace cutesms

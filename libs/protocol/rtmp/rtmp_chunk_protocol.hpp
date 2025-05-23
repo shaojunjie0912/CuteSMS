@@ -33,9 +33,9 @@ SOFTWARE.
 #include <unordered_map>
 #include <vector>
 
-#include "protocol/rtmp/rtmp_message/chunk_message/rtmp_abort_message.hpp"
-#include "protocol/rtmp/rtmp_message/chunk_message/rtmp_set_chunk_size_message.hpp"
 #include "rtmp_define.hpp"
+#include "rtmp_message/chunk_message/rtmp_abort_message.hpp"
+#include "rtmp_message/chunk_message/rtmp_set_chunk_size_message.hpp"
 
 
 namespace cutesms {
@@ -101,4 +101,4 @@ private:
     std::unordered_map<uint32_t, std::shared_ptr<RtmpChunk>> recv_chunk_streams_;
     std::unordered_map<uint32_t, std::shared_ptr<RtmpChunk>> recv_chunk_cache_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

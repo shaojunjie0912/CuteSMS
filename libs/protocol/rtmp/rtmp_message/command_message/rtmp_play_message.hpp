@@ -28,7 +28,6 @@ SOFTWARE.
 #include "amf0/amf0_inc.hpp"
 #include "rtmp_define.hpp"
 
-
 namespace cutesms {
 class RtmpPlayMessage {
 public:
@@ -57,4 +56,4 @@ public:
     bool reset_play_ = false;
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

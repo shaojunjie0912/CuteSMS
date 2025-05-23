@@ -6,8 +6,7 @@
 #include "mp4_factory.h"
 #include "tkhd.h"
 
-
-using namespace cutesms;
+namespace cutesms {
 
 TrakBox::TrakBox() : Box(BOX_TYPE_TRAK) {}
 
@@ -69,3 +68,4 @@ std::shared_ptr<TkhdBox> TrakBox::get_tkhd() { return tkhd_; }
 void TrakBox::set_mdia(std::shared_ptr<MdiaBox> mdia) { mdia_ = mdia; }
 
 std::shared_ptr<MdiaBox> TrakBox::get_mdia() { return mdia_; }
+}  // namespace cutesms

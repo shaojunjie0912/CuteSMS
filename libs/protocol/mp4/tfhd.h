@@ -58,4 +58,4 @@ public:
     uint32_t default_sample_flags_;
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

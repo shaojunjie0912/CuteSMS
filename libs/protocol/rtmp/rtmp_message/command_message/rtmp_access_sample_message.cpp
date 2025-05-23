@@ -1,5 +1,5 @@
 #include "rtmp_access_sample_message.hpp"
-using namespace cutesms;
+namespace cutesms {
 
 RtmpAccessSampleMessage::RtmpAccessSampleMessage(bool video, bool audio) {
     command_name_.set_value("|RtmpSampleAccess");
@@ -52,3 +52,5 @@ std::shared_ptr<RtmpMessage> RtmpAccessSampleMessage::encode() const {
     rtmp_msg->inc_used_bytes(s);
     return rtmp_msg;
 }
+
+}  // namespace cutesms

@@ -3,7 +3,7 @@
 #include "base/net_buffer.h"
 #include "spdlog/spdlog.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 Mp4BaseDescriptor::Mp4BaseDescriptor() {}
 
@@ -254,3 +254,5 @@ int64_t EsdsBox::decode(NetBuffer& buf) {
     es_.decode(buf);
     return buf.pos() - start;
 }
+
+}  // namespace cutesms

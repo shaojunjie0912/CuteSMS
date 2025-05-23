@@ -5,7 +5,7 @@
 #include "h265_rtp_pkt_info.h"
 #include "spdlog/spdlog.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 std::shared_ptr<RtpH265NALU> RtpH265Depacketizer::on_packet(std::shared_ptr<RtpPacket> pkt) {
     H265RtpPktInfo pkt_info;
@@ -23,3 +23,4 @@ std::shared_ptr<RtpH265NALU> RtpH265Depacketizer::on_packet(std::shared_ptr<RtpP
     }
     return nullptr;
 }
+}  // namespace cutesms

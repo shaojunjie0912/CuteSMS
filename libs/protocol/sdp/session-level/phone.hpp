@@ -50,4 +50,4 @@ public:
 public:
     std::string phone;
 };
-};  // namespace cutesms
+}  // namespace cutesms

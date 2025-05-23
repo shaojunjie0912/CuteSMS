@@ -20,4 +20,4 @@ public:
 private:
     std::vector<std::string> mids_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

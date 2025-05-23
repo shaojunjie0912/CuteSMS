@@ -4,7 +4,6 @@
 #include <memory>
 #include <string_view>
 
-
 namespace cutesms {
 enum PacketType {
     PACKET_UNKNOWN = -1,
@@ -34,4 +33,4 @@ protected:
     size_t data_bytes_ = 0;
     size_t using_bytes_ = 0;
 };
-};  // namespace cutesms
+}  // namespace cutesms

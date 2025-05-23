@@ -116,4 +116,4 @@ protected:
     uint32_t clock_rate;
     std::vector<std::string> encoding_params;
 };
-};  // namespace cutesms
+}  // namespace cutesms

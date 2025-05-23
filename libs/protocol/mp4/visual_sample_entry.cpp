@@ -9,8 +9,7 @@
 #include "hvcc.h"
 #include "mp4_factory.h"
 
-
-using namespace cutesms;
+namespace cutesms {
 
 VisualSampleEntry::VisualSampleEntry(Box::Type type) : SampleEntry(type) {}
 
@@ -121,3 +120,4 @@ void VisualSampleEntry::set_hvcc_box(std::shared_ptr<Box> hvcc) {
     assert(hvcc->type() == BOX_TYPE_HVCC);
     hvcc_ = hvcc;
 }
+}  // namespace cutesms

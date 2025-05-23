@@ -27,7 +27,6 @@ SOFTWARE.
 #include "amf0/amf0_inc.hpp"
 #include "rtmp_define.hpp"
 
-
 namespace cutesms {
 class RtmpPublishMessage {
 public:
@@ -50,4 +49,4 @@ public:
     Amf0String publish_type_;
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

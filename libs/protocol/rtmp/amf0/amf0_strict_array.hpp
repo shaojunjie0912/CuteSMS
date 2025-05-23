@@ -31,4 +31,4 @@ public:
 private:
     std::vector<Amf0Data *> datas_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

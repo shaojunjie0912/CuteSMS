@@ -2,7 +2,7 @@
 
 #include "base/net_buffer.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 SampleEntry::SampleEntry(Box::Type type) : Box(type) {}
 
@@ -30,3 +30,4 @@ int64_t SampleEntry::decode(NetBuffer& buf) {
     data_reference_index_ = buf.read_2bytes();
     return buf.pos() - start;
 }
+}  // namespace cutesms

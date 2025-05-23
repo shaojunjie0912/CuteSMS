@@ -11,7 +11,6 @@
 #include "amf0_undefined.hpp"
 #include "json/json.h"
 
-
 namespace cutesms {
 class Amf0EcmaArray : public Amf0Data {
 public:
@@ -56,4 +55,4 @@ public:
 
     std::unordered_map<std::string, Amf0Data *> properties_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

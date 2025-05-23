@@ -2,7 +2,6 @@
 #include <stddef.h>
 #include <stdint.h>
 
-
 namespace cutesms {
 class RtpPacket;
 
@@ -47,4 +46,4 @@ private:
     uint8_t end_bit = 0;
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

@@ -22,4 +22,4 @@ public:
     uint32_t default_sample_size_ = 0;
     uint32_t default_sample_flags_ = 0;
 };
-};  // namespace cutesms
+}  // namespace cutesms

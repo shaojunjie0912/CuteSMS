@@ -4,7 +4,7 @@
 
 #include "rtmp_define.hpp"
 
-using namespace cutesms;
+namespace cutesms {
 
 int32_t RtmpSetPeerBandwidthMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg) {
     auto using_data = rtmp_msg->get_using_data();
@@ -37,3 +37,4 @@ std::shared_ptr<RtmpMessage> RtmpSetPeerBandwidthMessage::encode() const {
 
     return rtmp_msg;
 }
+}  // namespace cutesms

@@ -31,4 +31,4 @@ enum HTTP_METHOD {
 #define HTTP_VERSION_1_1 "HTTP/1.1"
 
 extern std::unordered_map<std::string, std::string> http_content_type_map;
-};  // namespace cutesms
+}  // namespace cutesms

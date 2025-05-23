@@ -8,7 +8,6 @@
 #include "amf0_string.hpp"
 #include "json/json.h"
 
-
 namespace cutesms {
 class Amf0Object : public Amf0Data {
 public:
@@ -118,4 +117,4 @@ public:
 public:
     std::unordered_map<std::string, Amf0Data *> properties_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

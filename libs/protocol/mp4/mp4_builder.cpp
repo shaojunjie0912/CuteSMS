@@ -3,8 +3,7 @@
 #include "ftyp.h"
 #include "moov.h"
 
-
-using namespace cutesms;
+namespace cutesms {
 
 Mp4Builder::Mp4Builder() {}
 
@@ -38,3 +37,4 @@ void Mp4Builder::end_box() {
 FtypBuilder Mp4Builder::add_ftyp() { return FtypBuilder(*this); }
 
 MoovBuilder Mp4Builder::add_moov() { return MoovBuilder(*this); }
+}  // namespace cutesms

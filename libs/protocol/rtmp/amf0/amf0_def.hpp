@@ -41,4 +41,4 @@ protected:
     AMF0_MARKER_TYPE type_;
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

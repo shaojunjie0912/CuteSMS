@@ -7,7 +7,6 @@
 #include "base/chunk_manager.h"
 #include "box.h"
 
-
 namespace cutesms {
 class MoovBuilder;
 class FtypBuilder;
@@ -37,4 +36,4 @@ public:
     FtypBuilder add_ftyp();
     MoovBuilder add_moov();
 };
-};  // namespace cutesms
+}  // namespace cutesms

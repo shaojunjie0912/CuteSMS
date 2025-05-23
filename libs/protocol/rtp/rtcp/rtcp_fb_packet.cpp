@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-using namespace cutesms;
+namespace cutesms {
 
 RtcpFbPacket::~RtcpFbPacket() {
     if (payload_) {
@@ -56,3 +56,4 @@ int32_t RtcpFbPacket::encode(uint8_t *data, size_t len) {
 size_t RtcpFbPacket::size() { return 0; }
 
 std::string_view RtcpFbPacket::get_payload() { return std::string_view(payload_, payload_len_); }
+}  // namespace cutesms

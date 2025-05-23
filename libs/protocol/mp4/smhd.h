@@ -22,4 +22,4 @@ public:
     int16_t balance;
     uint16_t reserved;
 };
-};  // namespace cutesms
+}  // namespace cutesms

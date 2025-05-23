@@ -48,4 +48,4 @@ public:
 private:
     uint16_t obj_index_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

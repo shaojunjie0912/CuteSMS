@@ -3,8 +3,7 @@
 #include "base/net_buffer.h"
 #include "mp4_factory.h"
 
-
-using namespace cutesms;
+namespace cutesms {
 
 StblBox::StblBox() : Box(BOX_TYPE_STBL) {}
 
@@ -54,3 +53,4 @@ std::shared_ptr<Box> StblBox::find_box(Box::Type type) {
     }
     return nullptr;
 }
+}  // namespace cutesms

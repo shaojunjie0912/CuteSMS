@@ -47,4 +47,4 @@ public:
 protected:
     std::string ufrag_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

@@ -2,7 +2,7 @@
 
 #include "base/net_buffer.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 StcoBox::StcoBox()
     : FullBox(BOX_TYPE_STCO, 0, 0)  // stco盒子版本固定为0
@@ -54,3 +54,4 @@ int64_t StcoBox::decode(NetBuffer& buf) {
 
     return buf.pos() - start;
 }
+}  // namespace cutesms

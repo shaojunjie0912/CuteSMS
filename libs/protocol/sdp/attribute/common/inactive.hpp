@@ -16,4 +16,4 @@ namespace cutesms {
 struct InactiveAttr {
     inline static std::string prefix{"a=inactive"};
 };
-};  // namespace cutesms
+}  // namespace cutesms

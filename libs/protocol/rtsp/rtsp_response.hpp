@@ -5,7 +5,6 @@
 
 #include "rtsp_define.hpp"
 
-
 namespace cutesms {
 class RtspResponse {
 public:
@@ -34,4 +33,4 @@ private:
     std::unordered_map<std::string, std::string> headers_;
     std::string body_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

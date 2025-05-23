@@ -82,4 +82,4 @@ public:
 
     double value_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

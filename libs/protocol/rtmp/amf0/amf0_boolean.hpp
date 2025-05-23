@@ -63,4 +63,4 @@ public:
 private:
     bool value_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

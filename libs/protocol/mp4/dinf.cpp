@@ -7,8 +7,7 @@
 #include "url.h"
 #include "urn.h"
 
-
-using namespace cutesms;
+namespace cutesms {
 
 DinfBox::DinfBox() : Box(BOX_TYPE_DINF) {}
 
@@ -46,3 +45,4 @@ int64_t DinfBox::decode(NetBuffer& buf) {
     dref_->decode(buf);
     return buf.pos() - start;
 }
+}  // namespace cutesms

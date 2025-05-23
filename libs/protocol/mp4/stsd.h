@@ -22,4 +22,4 @@ public:
 public:
     std::vector<std::shared_ptr<SampleEntry>> entries_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

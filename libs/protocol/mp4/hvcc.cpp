@@ -5,8 +5,7 @@
 #include "base/net_buffer.h"
 #include "mp4_factory.h"
 
-
-using namespace cutesms;
+namespace cutesms {
 
 HvccBox::HvccBox() : Box(BOX_TYPE_HVCC) {}
 
@@ -31,3 +30,4 @@ int64_t HvccBox::decode(NetBuffer& buf) {
     hevc_config_ = buf.read_string(left_bytes);
     return buf.pos() - start;
 }
+}  // namespace cutesms

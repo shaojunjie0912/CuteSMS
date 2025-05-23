@@ -14,4 +14,4 @@ public:
 public:
     static std::pair<std::shared_ptr<Box>, int64_t> decode_box(NetBuffer& buf);
 };
-};  // namespace cutesms
+}  // namespace cutesms

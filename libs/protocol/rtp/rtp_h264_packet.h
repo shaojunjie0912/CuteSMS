@@ -45,4 +45,4 @@ private:
     uint8_t end_bit = 0;
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

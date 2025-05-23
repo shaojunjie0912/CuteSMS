@@ -4,7 +4,6 @@
 
 #include "rtp_h265_packet.h"
 
-
 namespace cutesms {
 class RtpPacket;
 
@@ -37,4 +36,4 @@ private:
     uint8_t end_bit = 0;
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

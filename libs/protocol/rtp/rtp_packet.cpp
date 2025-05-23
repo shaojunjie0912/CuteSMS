@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-using namespace cutesms;
+namespace cutesms {
 
 RtpPacket::~RtpPacket() {
     if (payload_) {
@@ -53,3 +53,4 @@ std::string_view RtpPacket::get_payload() { return std::string_view(payload_, pa
 uint16_t RtpPacket::get_seq_num() { return header_.seqnum; }
 
 uint32_t RtpPacket::get_timestamp() { return header_.timestamp; }
+}  // namespace cutesms

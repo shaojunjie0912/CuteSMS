@@ -20,4 +20,4 @@ private:
     Amf0Boolean video_;
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

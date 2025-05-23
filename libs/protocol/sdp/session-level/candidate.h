@@ -171,4 +171,4 @@ private:
     uint16_t rel_port_;
     std::unordered_map<std::string, std::string> exts_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

@@ -7,8 +7,7 @@
 #include "spdlog/spdlog.h"
 #include "traf.h"
 
-
-using namespace cutesms;
+namespace cutesms {
 
 MoofBox::MoofBox() : Box(BOX_TYPE_MOOF) {}
 
@@ -76,3 +75,4 @@ int64_t MoofBox::decode(NetBuffer& buf) {
 
     return buf.pos() - start;
 }
+}  // namespace cutesms

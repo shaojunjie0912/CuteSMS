@@ -1,5 +1,5 @@
 #include "full_box.h"
-using namespace cutesms;
+namespace cutesms {
 
 FullBox::FullBox(Type t, uint8_t version, uint32_t flags) : Box(t), version_(version), flags_(flags) {}
 
@@ -23,3 +23,4 @@ int64_t FullBox::decode(NetBuffer& buf) {
     flags_ = buf.read_3bytes();
     return buf.pos() - start;
 }
+}  // namespace cutesms

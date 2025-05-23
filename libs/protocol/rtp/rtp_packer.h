@@ -20,7 +20,6 @@
 
 #include "rtp_packet.h"
 
-
 namespace cutesms {
 class RtpPacker {
 public:
@@ -42,4 +41,4 @@ public:
     std::vector<std::shared_ptr<RtpPacket>> pack(const std::list<std::string_view> &nalus, uint8_t pt,
                                                  int ssrc, int64_t pts) override;
 };
-};  // namespace cutesms
+}  // namespace cutesms

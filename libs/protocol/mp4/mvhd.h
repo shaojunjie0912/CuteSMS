@@ -3,7 +3,6 @@
 
 #include "full_box.h"
 
-
 namespace cutesms {
 class NetBuffer;
 class Mp4Builder;
@@ -55,4 +54,4 @@ private:
     uint8_t version_ = 0;  // 默认版本 0
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

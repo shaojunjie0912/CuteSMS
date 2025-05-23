@@ -1,5 +1,5 @@
 #include "vmhd.h"
-using namespace cutesms;
+namespace cutesms {
 
 VmhdBox::VmhdBox() : FullBox(BOX_TYPE_VMHD, 0, 1) {}
 
@@ -31,3 +31,4 @@ int64_t VmhdBox::decode(NetBuffer& buf) {
     }
     return buf.pos() - start;
 }
+}  // namespace cutesms

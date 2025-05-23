@@ -10,4 +10,4 @@ public:
     std::string active_duration;
     std::string offset;
 };
-};  // namespace cutesms
+}  // namespace cutesms

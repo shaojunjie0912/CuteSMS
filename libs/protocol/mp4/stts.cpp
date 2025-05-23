@@ -2,7 +2,7 @@
 
 #include "base/net_buffer.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 int64_t SttsEntry::size() { return 8; }
 
@@ -51,3 +51,4 @@ int64_t SttsBox::decode(NetBuffer& buf) {
     }
     return buf.pos() - start;
 }
+}  // namespace cutesms

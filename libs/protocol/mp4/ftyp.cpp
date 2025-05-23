@@ -8,7 +8,7 @@
 #include "mp4_builder.h"
 #include "spdlog/spdlog.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 FtypBox::FtypBox() : Box(BOX_TYPE_FTYP) {
     // 默认值
@@ -72,3 +72,4 @@ FtypBuilder& FtypBuilder::set_compatible_brands(const std::vector<uint32_t>& bra
     }
     return *this;
 }
+}  // namespace cutesms

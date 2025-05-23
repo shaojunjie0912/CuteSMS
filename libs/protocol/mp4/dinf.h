@@ -25,4 +25,4 @@ public:
 public:
     std::shared_ptr<DrefBox> dref_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

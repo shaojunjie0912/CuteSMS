@@ -30,4 +30,4 @@ public:
     int32_t sender_octet_count_;
     std::vector<ReceptionReportBlock> reception_report_blocks;
 };
-};  // namespace cutesms
+}  // namespace cutesms

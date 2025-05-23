@@ -17,4 +17,4 @@ public:
 private:
     std::vector<ReceptionReportBlock> reception_report_blocks;
 };
-};  // namespace cutesms
+}  // namespace cutesms

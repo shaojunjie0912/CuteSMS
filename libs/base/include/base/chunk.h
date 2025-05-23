@@ -42,4 +42,4 @@ protected:
     size_t used_bytes_ = 0;
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

@@ -71,4 +71,4 @@ public:
     int16_t time_zone_;
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

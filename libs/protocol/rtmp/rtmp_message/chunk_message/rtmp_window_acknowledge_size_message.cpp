@@ -2,7 +2,7 @@
 
 #include <arpa/inet.h>
 
-using namespace cutesms;
+namespace cutesms {
 
 RtmpWindowAcknwledgeSizeMessage::RtmpWindowAcknwledgeSizeMessage(size_t s) : acknowledge_windows_size_(s) {}
 
@@ -31,3 +31,4 @@ std::shared_ptr<RtmpMessage> RtmpWindowAcknwledgeSizeMessage::encode() const {
     rtmp_msg->inc_used_bytes(sizeof(acknowledge_windows_size_));
     return rtmp_msg;
 }
+}  // namespace cutesms

@@ -13,7 +13,6 @@
 #include "amf0_string.hpp"
 #include "amf0_undefined.hpp"
 
-
 namespace cutesms {
 int32_t Amf0Object::decode(const uint8_t *data, size_t len) {
     uint8_t *data_start = (uint8_t *)data;
@@ -200,4 +199,4 @@ Json::Value Amf0Object::to_json() {
     return root;
 }
 
-};  // namespace cutesms
+}  // namespace cutesms

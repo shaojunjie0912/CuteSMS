@@ -25,7 +25,6 @@ SOFTWARE.
 #include <memory>
 #include <string>
 
-
 namespace cutesms {
 class RtmpMessage;
 
@@ -41,4 +40,4 @@ public:
 public:
     int32_t chunk_size_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

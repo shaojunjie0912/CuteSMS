@@ -9,4 +9,4 @@ public:
     bool parse(const std::string &line);
     std::string to_string() const;
 };
-};  // namespace cutesms
+}  // namespace cutesms

@@ -2,7 +2,7 @@
 
 #include "base/net_buffer.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 TrexBox::TrexBox() : FullBox(BOX_TYPE_TREX, 0, 0) {}
 
@@ -36,3 +36,5 @@ int64_t TrexBox::decode(NetBuffer& buf) {
     default_sample_flags_ = buf.read_4bytes();
     return buf.pos() - start;
 }
+
+}  // namespace cutesms

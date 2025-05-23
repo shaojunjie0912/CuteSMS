@@ -3,7 +3,7 @@
 #include "base/net_buffer.h"
 #include "mp4_factory.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 MinfBox::MinfBox() : Box(BOX_TYPE_MINF) {}
 
@@ -53,3 +53,4 @@ int64_t MinfBox::decode(NetBuffer& buf) {
 
     return buf.pos() - start;
 }
+}  // namespace cutesms

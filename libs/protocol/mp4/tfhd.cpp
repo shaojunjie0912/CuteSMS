@@ -2,7 +2,7 @@
 
 #include "base/net_buffer.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 TfhdBox::TfhdBox(uint32_t flags) : FullBox(BOX_TYPE_TFHD, 0, flags) {}
 
@@ -84,3 +84,4 @@ int64_t TfhdBox::decode(NetBuffer& buf) {
 
     return buf.pos() - start;
 }
+}  // namespace cutesms

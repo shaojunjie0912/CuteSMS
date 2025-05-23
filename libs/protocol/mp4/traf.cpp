@@ -6,8 +6,7 @@
 #include "tfhd.h"
 #include "trun.h"
 
-
-using namespace cutesms;
+namespace cutesms {
 
 TrafBox::TrafBox() : Box(BOX_TYPE_TRAF) {}
 
@@ -72,3 +71,4 @@ int64_t TrafBox::decode(NetBuffer& buf) {
 
     return buf.pos() - start;
 }
+}  // namespace cutesms

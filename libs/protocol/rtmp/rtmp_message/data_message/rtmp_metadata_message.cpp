@@ -1,6 +1,6 @@
 #include "rtmp_metadata_message.hpp"
 
-using namespace cutesms;
+namespace cutesms {
 RtmpMetaDataMessage::RtmpMetaDataMessage() {}
 
 RtmpMetaDataMessage::~RtmpMetaDataMessage() {}
@@ -454,3 +454,4 @@ int32_t RtmpMetaDataMessage::encode(uint8_t *data, int32_t len) {
 
     return data - data_start;
 }
+}  // namespace cutesms

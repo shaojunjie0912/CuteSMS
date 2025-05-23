@@ -25,4 +25,4 @@ public:
     char *payload_ = nullptr;
     size_t payload_len_ = 0;
 };
-};  // namespace cutesms
+}  // namespace cutesms

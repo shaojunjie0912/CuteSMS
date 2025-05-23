@@ -6,7 +6,6 @@
 
 #include "chunk.h"
 
-
 namespace cutesms {
 class ChunkManager {
 public:
@@ -53,4 +52,4 @@ private:
     std::list<std::shared_ptr<Chunk>> chunks_;  // 内存块列表
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

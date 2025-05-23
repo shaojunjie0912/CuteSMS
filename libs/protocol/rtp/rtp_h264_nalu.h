@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "codec/h264/h264_nalu.h"
-#include "protocol/rtp/rtp_h264_packet.h"
+#include "rtp_h264_packet.h"
 
 namespace cutesms {
 class RtpH264NALU : public H264NALU {
@@ -35,4 +35,4 @@ private:
     bool stap_a_ = false;
     std::map<uint16_t, std::shared_ptr<RtpPacket>> rtp_pkts_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

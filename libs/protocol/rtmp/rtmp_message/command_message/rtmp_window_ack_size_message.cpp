@@ -2,7 +2,7 @@
 
 #include <netinet/in.h>
 
-using namespace cutesms;
+namespace cutesms {
 
 int32_t RtmpWindowAckSizeMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg) {
     auto using_data = rtmp_msg->get_using_data();
@@ -27,3 +27,4 @@ std::shared_ptr<RtmpMessage> RtmpWindowAckSizeMessage::encode() const {
     rtmp_msg->inc_used_bytes(sizeof(ack_window_size_));
     return rtmp_msg;
 }
+}  // namespace cutesms

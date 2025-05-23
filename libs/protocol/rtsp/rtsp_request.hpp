@@ -6,7 +6,6 @@
 
 #include "rtsp_define.hpp"
 
-
 namespace cutesms {
 class RtspRequest {
 public:
@@ -45,4 +44,4 @@ private:
     int32_t parse_header(const std::string_view& buf);
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

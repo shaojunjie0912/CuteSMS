@@ -1,5 +1,5 @@
 #include "rtp_aac_depacketizer.h"
-using namespace cutesms;
+namespace cutesms {
 
 std::shared_ptr<RtpAACNALU> RtpAACDepacketizer::on_packet(std::shared_ptr<RtpPacket> pkt) {
     auto& pkts_map = time_rtp_pkts_buf_[pkt->get_timestamp()];
@@ -12,3 +12,4 @@ std::shared_ptr<RtpAACNALU> RtpAACDepacketizer::on_packet(std::shared_ptr<RtpPac
     }
     return nullptr;
 }
+}  // namespace cutesms

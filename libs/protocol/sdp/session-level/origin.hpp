@@ -89,4 +89,4 @@ private:
     //   in a manner that does not affect the global uniqueness of the field.
     std::string unicast_address_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

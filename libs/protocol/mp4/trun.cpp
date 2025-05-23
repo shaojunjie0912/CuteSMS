@@ -3,7 +3,7 @@
 #include "base/net_buffer.h"
 #include "spdlog/spdlog.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 TrunEntry::TrunEntry(FullBox* o) { owner_ = o; }
 
@@ -138,3 +138,4 @@ int64_t TrunBox::decode(NetBuffer& buf) {
 
     return buf.pos() - start;
 }
+}  // namespace cutesms

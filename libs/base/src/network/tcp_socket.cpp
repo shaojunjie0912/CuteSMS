@@ -246,4 +246,4 @@ std::string TcpSocket::get_local_address() { return socket_.local_endpoint().add
 
 std::string TcpSocket::get_remote_address() { return socket_.remote_endpoint().address().to_string(); }
 
-};  // namespace cutesms
+}  // namespace cutesms

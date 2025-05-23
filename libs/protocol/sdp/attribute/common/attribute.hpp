@@ -51,4 +51,4 @@ public:
     virtual bool parse(const std::string& line) = 0;
     virtual std::string to_string() const = 0;
 };
-};  // namespace cutesms
+}  // namespace cutesms

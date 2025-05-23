@@ -15,7 +15,6 @@
 #include "openssl/ssl.h"
 #include "tcp_socket.hpp"
 
-
 namespace cutesms {
 #define TLS_MAX_RECV_BUF (1024 * 1024)
 class TlsSocket;
@@ -71,4 +70,4 @@ private:
     TlsServerNameHandler *server_name_handler_ = nullptr;
     std::shared_ptr<TlsSession> tls_session_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

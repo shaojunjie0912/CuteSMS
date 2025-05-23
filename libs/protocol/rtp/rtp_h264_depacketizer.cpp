@@ -4,7 +4,7 @@
 
 #include "spdlog/spdlog.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 std::shared_ptr<RtpH264NALU> RtpH264Depacketizer::on_packet(std::shared_ptr<RtpPacket> pkt) {
     H264RtpPktInfo pkt_info;
@@ -85,3 +85,4 @@ std::shared_ptr<RtpH264NALU> RtpH264Depacketizer::on_packet(std::shared_ptr<RtpP
     // }
     // return out_pkt;
 }
+}  // namespace cutesms

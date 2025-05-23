@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-using namespace cutesms;
+namespace cutesms {
 int32_t RtcpFbHeader::decode(uint8_t *data, size_t len) {
     uint8_t *data_start = data;
     if (len < 1) {
@@ -94,3 +94,4 @@ int32_t RtcpFbHeader::encode(uint8_t *data, size_t len) {
 
     return data - data_start;
 }
+}  // namespace cutesms

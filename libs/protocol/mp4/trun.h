@@ -67,4 +67,4 @@ public:
     // provides a set of flags for the first sample only of this run.
     uint32_t first_sample_flags_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

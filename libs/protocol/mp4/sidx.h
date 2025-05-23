@@ -38,4 +38,4 @@ public:
     int64_t encode(NetBuffer& buf) override;
     int64_t decode(NetBuffer& buf) override;
 };
-};  // namespace cutesms
+}  // namespace cutesms

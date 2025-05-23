@@ -56,4 +56,4 @@ private:
     uint32_t masking_key_;
     std::unique_ptr<char[]> payload_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

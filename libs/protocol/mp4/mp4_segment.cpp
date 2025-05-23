@@ -2,7 +2,7 @@
 
 #include <string.h>
 
-using namespace cutesms;
+namespace cutesms {
 
 Mp4Segment::Mp4Segment() {
     buf_ = std::make_unique<uint8_t[]>(MP4_DEFAULT_SIZE);
@@ -40,3 +40,4 @@ void Mp4Segment::update_timestamp(int64_t start, int64_t end) {
 }
 
 int64_t Mp4Segment::get_duration() { return duration_ms_; }
+}  // namespace cutesms

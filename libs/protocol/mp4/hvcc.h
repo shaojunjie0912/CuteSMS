@@ -4,7 +4,6 @@
 
 #include "box.h"
 
-
 namespace cutesms {
 class NetBuffer;
 class HvccBox : public Box {
@@ -19,4 +18,4 @@ public:
 protected:
     std::string hevc_config_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

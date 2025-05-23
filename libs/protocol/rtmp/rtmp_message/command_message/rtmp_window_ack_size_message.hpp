@@ -3,7 +3,6 @@
 
 #include "rtmp_define.hpp"
 
-
 namespace cutesms {
 class RtmpWindowAckSizeMessage {
 public:
@@ -17,4 +16,4 @@ public:
 private:
     uint32_t ack_window_size_ = 0;
 };
-};  // namespace cutesms
+}  // namespace cutesms

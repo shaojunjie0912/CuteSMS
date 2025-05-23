@@ -8,7 +8,7 @@
 #include "sample_entry.h"
 #include "visual_sample_entry.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 StsdBox::StsdBox() : FullBox(BOX_TYPE_STSD, 0, 0) {}
 
@@ -45,3 +45,4 @@ int64_t StsdBox::decode(NetBuffer& buf) {
 
     return buf.pos() - start;
 }
+}  // namespace cutesms

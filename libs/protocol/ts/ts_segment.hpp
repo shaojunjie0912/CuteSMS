@@ -67,4 +67,4 @@ private:
 
     constexpr static int SINGLE_TS_BYTES = 188 * 4096;
 };
-};  // namespace cutesms
+}  // namespace cutesms

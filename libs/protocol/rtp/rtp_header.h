@@ -6,7 +6,6 @@
 #include <memory>
 #include <vector>
 
-
 namespace cutesms {
 
 // https://tools.ietf.org/html/rfc3550 @page 11
@@ -79,4 +78,4 @@ public:
     uint8_t get_pt() { return pt; }
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

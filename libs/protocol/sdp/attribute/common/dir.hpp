@@ -2,7 +2,6 @@
 #include <string>
 #include <vector>
 
-
 namespace cutesms {
 struct DirAttr {
 public:
@@ -27,4 +26,4 @@ public:
 private:
     MEDIA_DIR dir_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

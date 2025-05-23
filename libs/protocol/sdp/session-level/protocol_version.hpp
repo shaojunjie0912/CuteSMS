@@ -3,7 +3,6 @@
 
 #include <string>
 
-
 namespace cutesms {
 struct ProtocolVersion {
 public:
@@ -16,4 +15,4 @@ public:
 private:
     int version;
 };
-};  // namespace cutesms
+}  // namespace cutesms

@@ -51,4 +51,4 @@ public:
     uint16_t language_;
     uint16_t pre_defined_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

@@ -8,8 +8,7 @@
 #include "codec/hevc/hevc_define.hpp"
 #include "spdlog/spdlog.h"
 
-
-using namespace cutesms;
+namespace cutesms {
 #define NAL_RTP_PACKET_SIZE 1400
 
 RtpPacker::RtpPacker() {}
@@ -208,3 +207,5 @@ std::vector<std::shared_ptr<RtpPacket>> H265RtpPacker::pack(const std::list<std:
     }
     return pkts;
 }
+
+}  // namespace cutesms

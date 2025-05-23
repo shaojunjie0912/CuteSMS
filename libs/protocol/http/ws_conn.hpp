@@ -37,4 +37,4 @@ private:
     std::shared_ptr<HttpRequest> req_;
     // std::shared_ptr<Session> session_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

@@ -4,7 +4,7 @@
 
 #include "mp4_factory.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 int64_t StscEntry::encode(NetBuffer& buf) {
     auto start = buf.pos();
@@ -57,3 +57,4 @@ int64_t StscBox::decode(NetBuffer& buf) {
 
     return buf.pos() - start;
 }
+}  // namespace cutesms

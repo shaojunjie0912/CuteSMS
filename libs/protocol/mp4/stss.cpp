@@ -1,6 +1,6 @@
 #include "stss.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 StssBox::StssBox() : FullBox(BOX_TYPE_STSS, 0, 0) {}
 
@@ -38,3 +38,4 @@ bool StssBox::is_sync(uint32_t sample_index) {
     (void)sample_index;
     return true;
 }
+}  // namespace cutesms

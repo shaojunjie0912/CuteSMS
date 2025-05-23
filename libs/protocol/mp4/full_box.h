@@ -7,7 +7,6 @@
 #include "base/net_buffer.h"
 #include "box.h"
 
-
 namespace cutesms {
 class NetBuffer;
 class FullBox : public Box {
@@ -25,4 +24,4 @@ public:
     uint32_t flags_ = 0;
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

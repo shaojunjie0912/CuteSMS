@@ -2,8 +2,7 @@
 
 #include <string.h>
 
-
-using namespace cutesms;
+namespace cutesms {
 HdlrBox::HdlrBox() : FullBox(BOX_TYPE_HDLR, 0, 0) {}
 
 HdlrBox::~HdlrBox() {}
@@ -41,3 +40,4 @@ int64_t HdlrBox::encode(NetBuffer& buf) {
 
     return buf.pos() - start;
 }
+}  // namespace cutesms

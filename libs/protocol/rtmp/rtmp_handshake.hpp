@@ -16,4 +16,4 @@ private:
 private:
     std::shared_ptr<SocketInterface> conn_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

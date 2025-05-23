@@ -80,4 +80,4 @@ private:
     std::list<std::shared_ptr<T>> free_conns_;
     std::list<std::shared_ptr<T>> using_conns_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

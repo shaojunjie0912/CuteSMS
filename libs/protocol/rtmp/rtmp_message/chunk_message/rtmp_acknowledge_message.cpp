@@ -2,7 +2,7 @@
 
 #include <netinet/in.h>
 
-using namespace cutesms;
+namespace cutesms {
 
 RtmpAcknwledgeMessage::RtmpAcknwledgeMessage(size_t s) : acknowledge_(s) {}
 
@@ -31,3 +31,4 @@ std::shared_ptr<RtmpMessage> RtmpAcknwledgeMessage::encode() const {
     rtmp_msg->inc_used_bytes(sizeof(acknowledge_));
     return rtmp_msg;
 }
+}  // namespace cutesms

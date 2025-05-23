@@ -16,7 +16,6 @@
 
 #include "amf0_def.hpp"
 
-
 namespace cutesms {
 class Amf0String : public Amf0Data {
 public:
@@ -93,4 +92,4 @@ public:
     std::string value_;
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

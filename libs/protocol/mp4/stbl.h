@@ -18,4 +18,4 @@ public:
 protected:
     std::vector<std::shared_ptr<Box>> boxes_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

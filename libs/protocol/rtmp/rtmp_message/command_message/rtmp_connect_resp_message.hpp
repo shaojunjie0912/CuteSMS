@@ -50,4 +50,4 @@ private:
     Amf0Object props_;
     Amf0Object info_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

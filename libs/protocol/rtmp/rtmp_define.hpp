@@ -29,7 +29,6 @@ SOFTWARE.
 
 #include "base/packet.h"
 
-
 namespace cutesms {
 #define RTMP_CHUNK_FMT_TYPE0 0
 #define RTMP_CHUNK_FMT_TYPE1 1
@@ -243,4 +242,4 @@ public:
     std::shared_ptr<RtmpMessage> rtmp_message_;
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

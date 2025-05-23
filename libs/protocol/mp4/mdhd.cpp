@@ -2,7 +2,7 @@
 
 #include "base/net_buffer.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 MdhdBox::MdhdBox() : FullBox(BOX_TYPE_MDHD, 0, 0) {
     creation_time_ = 0;
@@ -84,3 +84,4 @@ int64_t MdhdBox::decode(NetBuffer& buf) {
 
     return buf.pos() - start;
 }
+}  // namespace cutesms

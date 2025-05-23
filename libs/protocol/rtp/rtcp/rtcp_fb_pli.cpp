@@ -1,5 +1,5 @@
 #include "rtcp_fb_pli.h"
-using namespace cutesms;
+namespace cutesms {
 
 RtcpFbPli::RtcpFbPli() {
     header_.version = 2;
@@ -7,3 +7,4 @@ RtcpFbPli::RtcpFbPli() {
     header_.fmt = FMT_PLI;
     header_.length = 2;
 }
+}  // namespace cutesms

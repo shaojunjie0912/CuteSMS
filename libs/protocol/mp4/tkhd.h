@@ -30,4 +30,4 @@ public:
     uint32_t width_;                                                              // fixed-point 16.16 values
     uint32_t height_;                                                             // fixed-point 16.16 values
 };
-};  // namespace cutesms
+}  // namespace cutesms

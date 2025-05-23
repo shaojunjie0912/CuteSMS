@@ -11,4 +11,4 @@ public:
 private:
     uint32_t stream_id_ = 0;
 };
-};  // namespace cutesms
+}  // namespace cutesms

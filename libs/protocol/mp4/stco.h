@@ -16,4 +16,4 @@ public:
     // media file.
     std::vector<uint32_t> entries;
 };
-};  // namespace cutesms
+}  // namespace cutesms

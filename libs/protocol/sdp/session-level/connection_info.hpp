@@ -140,4 +140,4 @@ public:
     int32_t ttl = 0;
     int32_t num_of_addr = 1;
 };
-};  // namespace cutesms
+}  // namespace cutesms

@@ -50,4 +50,4 @@ private:
     std::string mslabel_;
     std::string label_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

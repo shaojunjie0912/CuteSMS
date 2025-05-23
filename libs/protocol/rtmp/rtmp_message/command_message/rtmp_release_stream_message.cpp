@@ -1,5 +1,5 @@
 #include "rtmp_release_stream_message.hpp"
-using namespace cutesms;
+namespace cutesms {
 RtmpReleaseStreamMessage::RtmpReleaseStreamMessage() {}
 
 RtmpReleaseStreamMessage::RtmpReleaseStreamMessage(int32_t transaction_id, const std::string &stream_name) {
@@ -107,3 +107,5 @@ std::shared_ptr<RtmpMessage> RtmpReleaseStreamMessage::encode() const {
     rtmp_msg->inc_used_bytes(pos);
     return rtmp_msg;
 }
+
+}  // namespace cutesms

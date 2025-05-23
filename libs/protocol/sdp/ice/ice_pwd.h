@@ -47,4 +47,4 @@ public:
 private:
     std::string pwd_;
 };
-};  // namespace cutesms
+}  // namespace cutesms

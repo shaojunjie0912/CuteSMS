@@ -74,4 +74,4 @@ public:
     std::string uri;
     std::vector<std::string> ext_attrs;
 };
-};  // namespace cutesms
+}  // namespace cutesms

@@ -3,7 +3,7 @@
 #include "base/net_buffer.h"
 #include "trex.h"
 
-using namespace cutesms;
+namespace cutesms {
 
 MvexBox::MvexBox() : Box(BOX_TYPE_MVEX) {}
 
@@ -35,3 +35,5 @@ int64_t MvexBox::decode(NetBuffer& buf) {
     }
     return buf.pos() - start;
 }
+
+}  // namespace cutesms

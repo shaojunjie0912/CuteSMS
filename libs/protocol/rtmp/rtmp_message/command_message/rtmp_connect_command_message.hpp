@@ -28,7 +28,6 @@ SOFTWARE.
 #include "amf0/amf0_inc.hpp"
 #include "rtmp_define.hpp"
 
-
 namespace cutesms {
 class RtmpConnectCommandMessage {
     friend class RtmpSession;
@@ -57,4 +56,4 @@ public:
     double object_encoding_ = 0.0;
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

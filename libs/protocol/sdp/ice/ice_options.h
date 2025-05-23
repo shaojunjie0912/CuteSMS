@@ -19,4 +19,4 @@ public:
 public:
     std::string option;
 };
-};  // namespace cutesms
+}  // namespace cutesms

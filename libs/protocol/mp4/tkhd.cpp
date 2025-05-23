@@ -4,8 +4,7 @@
 
 #include "mp4_factory.h"
 
-
-using namespace cutesms;
+namespace cutesms {
 int64_t TkhdBox::size() {
     int64_t total_bytes = FullBox::size();
     if (version_ == 1) {
@@ -115,3 +114,4 @@ int64_t TkhdBox::decode(NetBuffer& buf) {
 
     return buf.pos() - start;
 }
+}  // namespace cutesms

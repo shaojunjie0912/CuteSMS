@@ -29,4 +29,4 @@ public:
 protected:
     uint32_t max_packet_time;
 };
-};  // namespace cutesms
+}  // namespace cutesms

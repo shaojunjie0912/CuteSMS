@@ -17,4 +17,4 @@ struct OrientAttr {
 public:
     std::string orientation;
 };
-};  // namespace cutesms
+}  // namespace cutesms

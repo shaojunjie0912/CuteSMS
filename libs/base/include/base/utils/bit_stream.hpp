@@ -4,7 +4,6 @@
 #include <exception>
 #include <string_view>
 
-
 namespace cutesms {
 class BitStream {
 public:
@@ -23,4 +22,4 @@ public:
     std::string_view stream_;
     size_t bit_pos_ = 0;
 };
-};  // namespace cutesms
+}  // namespace cutesms

@@ -26,4 +26,4 @@ private:
     uint64_t start_time_ = 0;
     uint64_t stop_time_ = 0;
 };
-};  // namespace cutesms
+}  // namespace cutesms

@@ -22,4 +22,4 @@ public:
     uint16_t opcolor_[3] = {0};
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

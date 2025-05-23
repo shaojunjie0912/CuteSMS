@@ -3,7 +3,7 @@
 #include "spdlog/spdlog.h"
 #include "stdio.h"
 
-using namespace cutesms;
+namespace cutesms {
 H265RtpPktInfo::H265RtpPktInfo() {}
 
 H265RtpPktInfo::~H265RtpPktInfo() {}
@@ -31,3 +31,4 @@ int32_t H265RtpPktInfo::parse(const char *data, size_t len) {
 
     return 2;
 }
+}  // namespace cutesms

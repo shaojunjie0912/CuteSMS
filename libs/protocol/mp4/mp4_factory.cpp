@@ -8,8 +8,7 @@
 #include "moov.h"
 #include "mvhd.h"
 
-
-using namespace cutesms;
+namespace cutesms {
 MP4BoxFactory::MP4BoxFactory() {}
 
 std::pair<std::shared_ptr<Box>, int64_t> MP4BoxFactory::decode_box(NetBuffer& buf) {
@@ -45,3 +44,4 @@ std::pair<std::shared_ptr<Box>, int64_t> MP4BoxFactory::decode_box(NetBuffer& bu
 
     return {box, buf.pos() - start};
 }
+}  // namespace cutesms

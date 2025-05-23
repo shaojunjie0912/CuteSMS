@@ -29,7 +29,6 @@ SOFTWARE.
 #include "flv/flv_tag.hpp"
 #include "rtmp_define.hpp"
 
-
 namespace cutesms {
 class RtmpMetaDataMessage {
 public:
@@ -82,4 +81,4 @@ private:
     std::shared_ptr<Amf0Data> amf0_metadata_;
 };
 
-};  // namespace cutesms
+}  // namespace cutesms

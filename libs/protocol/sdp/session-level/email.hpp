@@ -50,4 +50,4 @@ public:
 public:
     std::string address;
 };
-};  // namespace cutesms
+}  // namespace cutesms

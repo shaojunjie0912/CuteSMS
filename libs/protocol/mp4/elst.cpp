@@ -2,8 +2,7 @@
 
 #include <string_view>
 
-
-using namespace cutesms;
+namespace cutesms {
 
 int64_t ElstEntry::size(uint8_t version) {
     if (version == 1) {
@@ -76,3 +75,4 @@ int64_t ElstBox::decode(NetBuffer& buf) {
     }
     return buf.pos() - start;
 }
+}  // namespace cutesms

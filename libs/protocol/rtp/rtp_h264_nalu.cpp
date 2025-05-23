@@ -1,5 +1,5 @@
 #include "rtp_h264_nalu.h"
-using namespace cutesms;
+namespace cutesms {
 bool RtpH264NALU::is_last_nalu() {
     auto it = rtp_pkts_.cbegin();
     if (it != rtp_pkts_.cend()) {
@@ -23,3 +23,4 @@ uint16_t RtpH264NALU::get_last_seqno() {
     }
     return 0;
 }
+}  // namespace cutesms

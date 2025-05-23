@@ -1,5 +1,5 @@
 #include "rtmp_connect_command_message.hpp"
-using namespace cutesms;
+namespace cutesms {
 RtmpConnectCommandMessage::RtmpConnectCommandMessage() {}
 
 RtmpConnectCommandMessage::RtmpConnectCommandMessage(int32_t transaction_id, const std::string &tc_url,
@@ -144,3 +144,5 @@ std::shared_ptr<RtmpMessage> RtmpConnectCommandMessage::encode() const {
     rtmp_msg->inc_used_bytes(need_size);
     return rtmp_msg;
 }
+
+}  // namespace cutesms

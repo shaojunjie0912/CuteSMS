@@ -1,5 +1,5 @@
 #include "rtmp_onstatus_message.hpp"
-using namespace cutesms;
+namespace cutesms {
 RtmpOnStatusMessage::RtmpOnStatusMessage() {
     command_name_.set_value("onStatus");
     transaction_id_.set_value(0);
@@ -89,3 +89,4 @@ std::shared_ptr<RtmpMessage> RtmpOnStatusMessage::encode() const {
     rtmp_msg->inc_used_bytes(s);
     return rtmp_msg;
 }
+}  // namespace cutesms
