@@ -1,18 +1,22 @@
-#include <sstream>
+#include "payload.h"
+
+#include <base/utils/utils.h>
+
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/join.hpp>
-#include "base/utils/utils.h"
-#include "payload.h"
-using namespace mms;
+#include <sstream>
+
+namespace cutesms {
+
 std::string Payload::prefix = "a=rtpmap:";
-bool Payload::is_my_prefix(const std::string & line) {
+bool Payload::is_my_prefix(const std::string& line) {
     if (boost::starts_with(line, prefix)) {
         return true;
-    } 
+    }
     return false;
 }
 
-bool Payload::parse(const std::string & line) {
+bool Payload::parse(const std::string& line) {
     std::string::size_type end_pos = line.rfind("\r");
     if (end_pos == std::string::npos) {
         end_pos = line.size() - 1;
@@ -39,8 +43,7 @@ bool Payload::parse(const std::string & line) {
     return true;
 }
 
-bool Payload::parse_rtcp_fb_attr(const std::string & line)
-{
+bool Payload::parse_rtcp_fb_attr(const std::string& line) {
     RtcpFb fb;
     if (!fb.parse(line)) {
         return false;
@@ -50,8 +53,7 @@ bool Payload::parse_rtcp_fb_attr(const std::string & line)
     return true;
 }
 
-bool Payload::parse_fmtp_attr(const std::string & line)
-{
+bool Payload::parse_fmtp_attr(const std::string& line) {
     Fmtp fmtp;
     if (!fmtp.parse(line)) {
         return false;
@@ -68,12 +70,13 @@ std::string Payload::to_string() const {
     }
     oss << std::endl;
 
-    for (auto & p : rtcp_fbs_) {
+    for (auto& p : rtcp_fbs_) {
         oss << p.to_string();
     }
 
-    for (auto & p : fmtps_) {
+    for (auto& p : fmtps_) {
         oss << p.second.to_string();
     }
     return oss.str();
 }
+}  // namespace cutesms

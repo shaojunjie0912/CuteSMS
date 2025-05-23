@@ -1,9 +1,12 @@
-#include <sstream>
 #include "phone.hpp"
+
+#include <sstream>
+
 #include "base/utils/utils.h"
-using namespace mms;
+
+namespace cutesms {
 std::string Phone::prefix = "p=";
-bool Phone::parse(const std::string & line) {
+bool Phone::parse(const std::string& line) {
     std::string::size_type end_pos = line.rfind("\r");
     if (end_pos == std::string::npos) {
         end_pos = line.size() - 1;
@@ -17,3 +20,4 @@ std::string Phone::to_string() const {
     oss << prefix << phone << std::endl;
     return oss.str();
 }
+}  // namespace cutesms

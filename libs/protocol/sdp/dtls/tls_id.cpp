@@ -1,10 +1,13 @@
 #include "tls_id.h"
-#include <sstream>
-#include "base/utils/utils.h"
-using namespace mms;
 
-std::string TlsIdAttr::prefix = "a=tls-id:";
-bool TlsIdAttr::parse(const std::string & line) {
+#include <base/utils/utils.h>
+
+#include <sstream>
+
+
+namespace cutesms {
+
+bool TlsIdAttr::parse(const std::string& line) {
     std::string::size_type end_pos = line.rfind("\r");
     if (end_pos == std::string::npos) {
         end_pos = line.size() - 1;
@@ -18,3 +21,4 @@ std::string TlsIdAttr::to_string() const {
     oss << prefix << id << std::endl;
     return oss.str();
 }
+}  // namespace cutesms

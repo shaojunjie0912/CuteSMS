@@ -1,7 +1,9 @@
-#include <string_view>
 #include "elst.h"
 
-using namespace mms;
+#include <string_view>
+
+
+using namespace cutesms;
 
 int64_t ElstEntry::size(uint8_t version) {
     if (version == 1) {
@@ -11,7 +13,7 @@ int64_t ElstEntry::size(uint8_t version) {
     }
 }
 
-int64_t ElstEntry::encode(NetBuffer & buf, uint8_t version) {
+int64_t ElstEntry::encode(NetBuffer& buf, uint8_t version) {
     auto start = buf.pos();
     if (version == 1) {
         segment_duration_ = buf.read_8bytes();
@@ -25,7 +27,7 @@ int64_t ElstEntry::encode(NetBuffer & buf, uint8_t version) {
     return buf.pos() - start;
 }
 
-int64_t ElstEntry::decode(NetBuffer & buf, uint8_t version) {
+int64_t ElstEntry::decode(NetBuffer& buf, uint8_t version) {
     auto start = buf.pos();
     if (version == 1) {
         segment_duration_ = buf.read_8bytes();
@@ -39,34 +41,30 @@ int64_t ElstEntry::decode(NetBuffer & buf, uint8_t version) {
     return buf.pos() - start;
 }
 
-ElstBox::ElstBox() : FullBox(BOX_TYPE_ELST, 0, 0) {
+ElstBox::ElstBox() : FullBox(BOX_TYPE_ELST, 0, 0) {}
 
-}
-
-ElstBox::~ElstBox() {
-
-}
+ElstBox::~ElstBox() {}
 
 int64_t ElstBox::size() {
     int64_t total_bytes = FullBox::size();
-    for (auto & e : entries_) {
+    for (auto& e : entries_) {
         total_bytes += e.size(version_);
     }
     return total_bytes;
 }
 
-int64_t ElstBox::encode(NetBuffer & buf) {
+int64_t ElstBox::encode(NetBuffer& buf) {
     auto start = buf.pos();
     FullBox::encode(buf);
 
-    for (auto & e : entries_) {
+    for (auto& e : entries_) {
         e.encode(buf, version_);
     }
 
     return buf.pos() - start;
 }
 
-int64_t ElstBox::decode(NetBuffer & buf) {
+int64_t ElstBox::decode(NetBuffer& buf) {
     auto start = buf.pos();
     FullBox::decode(buf);
     int64_t left_bytes = decoded_size() - (buf.pos() - start);

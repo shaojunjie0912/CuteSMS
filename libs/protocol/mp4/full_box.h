@@ -1,12 +1,14 @@
 #pragma once
-#include <string>
-#include <vector>
 #include <memory>
+#include <string>
 #include <string_view>
-#include "box.h"
-#include "base/net_buffer.h"
+#include <vector>
 
-namespace mms {
+#include "base/net_buffer.h"
+#include "box.h"
+
+
+namespace cutesms {
 class NetBuffer;
 class FullBox : public Box {
 public:
@@ -14,14 +16,13 @@ public:
     virtual ~FullBox() = default;
 
     virtual int64_t size();
-    virtual int64_t encode(NetBuffer & buf);
-    virtual int64_t decode(NetBuffer & buf);
-    Type type() {
-        return type_;
-    }
+    virtual int64_t encode(NetBuffer& buf);
+    virtual int64_t decode(NetBuffer& buf);
+    Type type() { return type_; }
+
 public:
     uint8_t version_;
     uint32_t flags_ = 0;
 };
 
-};
+};  // namespace cutesms

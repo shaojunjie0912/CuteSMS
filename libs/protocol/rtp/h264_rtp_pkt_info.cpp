@@ -1,37 +1,30 @@
-#include "stdio.h"
-#include "spdlog/spdlog.h"
 #include "h264_rtp_pkt_info.h"
-using namespace mms;
-H264RtpPktInfo::H264RtpPktInfo() {
 
-}
+#include "spdlog/spdlog.h"
+#include "stdio.h"
 
-H264RtpPktInfo::~H264RtpPktInfo() {
+using namespace cutesms;
+H264RtpPktInfo::H264RtpPktInfo() {}
 
-}
+H264RtpPktInfo::~H264RtpPktInfo() {}
 
 int32_t H264RtpPktInfo::parse(const char *data, size_t len) {
-    if (len < 2)
-    {
+    if (len < 2) {
         return -1;
     }
 
-    type = (H264_RTP_HEADER_TYPE)(data[0] & 0x1F);  
-    if (H264_RTP_PAYLOAD_FU_A == type)// fu_indicator(1byte) + fu_header(1byte) + rbsp
+    type = (H264_RTP_HEADER_TYPE)(data[0] & 0x1F);
+    if (H264_RTP_PAYLOAD_FU_A == type)  // fu_indicator(1byte) + fu_header(1byte) + rbsp
     {
-        uint8_t fu_header  = data[1];
-        start_bit  = (fu_header >> 7) & 0x01;
-        end_bit    = (fu_header >> 6) & 0x01;
-        nalu_type  = (fu_header & 0x1F);
+        uint8_t fu_header = data[1];
+        start_bit = (fu_header >> 7) & 0x01;
+        end_bit = (fu_header >> 6) & 0x01;
+        nalu_type = (fu_header & 0x1F);
         return 2;
-    } 
-    else if (H264_RTP_PAYLOAD_STAP_A == type) 
-    {
+    } else if (H264_RTP_PAYLOAD_STAP_A == type) {
         return 1;
-    } 
-    else if (type >= H264_RTP_PAYLOAD_SINGLE_NALU_START && type <= H264_RTP_PAYLOAD_SINGLE_NALU_END)
-    {
-        nalu_type  = type;
+    } else if (type >= H264_RTP_PAYLOAD_SINGLE_NALU_START && type <= H264_RTP_PAYLOAD_SINGLE_NALU_END) {
+        nalu_type = type;
     }
 
     return 1;

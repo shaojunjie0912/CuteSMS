@@ -3,13 +3,13 @@
  * @Date: 2023-10-03 12:24:22
  * @LastEditTime: 2023-10-07 20:13:05
  * @LastEditors: jbl19860422
- * @Description: 
- * @FilePath: \mms\mms\server\http\websocket\websocket_packet.hpp
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved. 
+ * @Description:
+ * @FilePath: \cutesms\cutesms\server\http\websocket\websocket_packet.hpp
+ * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
  */
 #pragma once
 #include <memory>
-namespace mms {
+namespace cutesms {
 class WebSocketPacket {
 public:
     typedef enum {
@@ -37,17 +37,17 @@ public:
     int32_t decode(const char *data, int32_t len);
     int32_t encode(char *data, int32_t len);
     int32_t encode_header(char *data, int32_t len);
-    static int32_t encode_header(char *data, int32_t len, OpCode code, bool fin, bool mask_flag, uint32_t mask_key, int32_t payload_len);
+    static int32_t encode_header(char *data, int32_t len, OpCode code, bool fin, bool mask_flag,
+                                 uint32_t mask_key, int32_t payload_len);
     int32_t header_size(int32_t payload_size);
     int32_t size();
 
     void set_opcode(OpCode opcode);
-    OpCode get_opcode() {
-        return opcode_;
-    }
+    OpCode get_opcode() { return opcode_; }
     void set_masking_key(uint32_t k);
     void set_payload(std::unique_ptr<char[]> payload, int32_t payload_len);
     std::string_view get_payload();
+
 private:
     bool fin_ = false;
     OpCode opcode_;
@@ -56,4 +56,4 @@ private:
     uint32_t masking_key_;
     std::unique_ptr<char[]> payload_;
 };
-};
+};  // namespace cutesms

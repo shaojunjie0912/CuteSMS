@@ -1,13 +1,16 @@
-#include <sstream>
-#include <iostream>
-#include <boost/algorithm/string/join.hpp>
-#include <boost/algorithm/string.hpp>
-
 #include "bundle.hpp"
-#include "base/utils/utils.h"
-using namespace mms;
+
+#include <base/utils/utils.h>
+
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/join.hpp>
+#include <iostream>
+#include <sstream>
+
+namespace cutesms {
+
 std::string BundleAttr::prefix = "a=group:BUNDLE ";
-bool BundleAttr::parse(const std::string & line) {
+bool BundleAttr::parse(const std::string& line) {
     std::string::size_type end_pos = line.rfind("\r");
     if (end_pos == std::string::npos) {
         end_pos = line.size() - 1;
@@ -29,3 +32,4 @@ std::string BundleAttr::to_string() const {
     oss << mids_[0] << " " << mids_[1] << std::endl;
     return oss.str();
 }
+}  // namespace cutesms

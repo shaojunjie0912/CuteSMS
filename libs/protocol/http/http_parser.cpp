@@ -1,10 +1,11 @@
-#include <boost/asio/awaitable.hpp>
 #include "http_parser.hpp"
 
-using namespace mms;
+#include <boost/asio/awaitable.hpp>
 
-boost::asio::awaitable<int32_t> HttpParser::read(const std::string_view & buf) {
-    switch(state_) {
+namespace cutesms {
+
+boost::asio::awaitable<int32_t> HttpParser::read(const std::string_view& buf) {
+    switch (state_) {
         case HTTP_STATE_WAIT_REQUEST_LINE: {
             http_req_ = std::make_shared<HttpRequest>();
             auto pos = buf.find("\r\n");
@@ -13,7 +14,7 @@ boost::asio::awaitable<int32_t> HttpParser::read(const std::string_view & buf) {
                     state_ = HTTP_STATE_REQUEST_ERROR;
                     co_return -1;
                 } else {
-                    state_ = HTTP_STATE_WAIT_HEADER;                        
+                    state_ = HTTP_STATE_WAIT_HEADER;
                     co_return pos + 2;
                 }
             } else {
@@ -52,10 +53,10 @@ boost::asio::awaitable<int32_t> HttpParser::read(const std::string_view & buf) {
                     state_ = HTTP_STATE_REQUEST_ERROR;
                     co_return -5;
                 }
-                co_await req_cb_(std::move(http_req_));//todo 这里要考虑多些
+                co_await req_cb_(std::move(http_req_));  // todo 这里要考虑多些
                 state_ = HTTP_STATE_WAIT_REQUEST_LINE;
                 co_return buf.size();
-            } catch(std::exception & e) {
+            } catch (std::exception& e) {
                 co_return -4;
             }
             break;
@@ -67,9 +68,10 @@ boost::asio::awaitable<int32_t> HttpParser::read(const std::string_view & buf) {
     co_return 0;
 }
 
-void HttpParser::on_http_request(const std::function<boost::asio::awaitable<void>(std::shared_ptr<HttpRequest>)> & cb) {
+void HttpParser::on_http_request(
+    const std::function<boost::asio::awaitable<void>(std::shared_ptr<HttpRequest>)>& cb) {
     req_cb_ = cb;
 }
 
-HttpParser::~HttpParser() {
-}
+HttpParser::~HttpParser() {}
+}  // namespace cutesms

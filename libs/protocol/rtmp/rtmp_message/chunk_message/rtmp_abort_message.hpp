@@ -22,16 +22,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 #pragma once
-#include <string>
 #include <memory>
+#include <string>
 
-namespace mms {
+
+namespace cutesms {
 class RtmpMessage;
 class RtmpAbortMessage {
 public:
     int32_t decode(std::shared_ptr<RtmpMessage> rtmp_msg);
     std::shared_ptr<RtmpMessage> encode();
+
 public:
     uint32_t chunk_id_;
 };
-};
+};  // namespace cutesms

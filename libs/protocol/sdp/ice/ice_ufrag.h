@@ -30,26 +30,21 @@
 //    characters.  The upper limit allows for buffer sizing in
 //    implementations.  Its large upper limit allows for increased amounts
 //    of randomness to be added over time.
-namespace mms {
+namespace cutesms {
 struct IceUfrag {
 public:
-    static std::string prefix;
+    inline static std::string prefix{"a=ice-ufrag:"};
     IceUfrag() = default;
-    IceUfrag(const std::string & u) : ufrag_(u) {
+    IceUfrag(const std::string& u) : ufrag_(u) {}
 
-    }
+    bool parse(const std::string& line);
+    const std::string& getUfrag() const { return ufrag_; }
 
-    bool parse(const std::string & line);
-    const std::string & getUfrag() const {
-        return ufrag_;
-    }
-
-    void setUfrag(const std::string & val) {
-        ufrag_ = val;
-    }
+    void setUfrag(const std::string& val) { ufrag_ = val; }
 
     std::string to_string() const;
+
 protected:
     std::string ufrag_;
 };
-};
+};  // namespace cutesms

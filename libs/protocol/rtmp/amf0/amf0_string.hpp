@@ -3,29 +3,32 @@
  * @Date: 2022-12-24 21:46:54
  * @LastEditTime: 2023-09-16 14:09:37
  * @LastEditors: jbl19860422
- * @Description: 
- * @FilePath: \mms\mms\server\rtmp\amf0\amf0_string.hpp
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved. 
+ * @Description:
+ * @FilePath: \cutesms\cutesms\server\rtmp\amf0\amf0_string.hpp
+ * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
  */
 #pragma once
-#include <string>
-#include <iostream>
-#include <string.h>
 #include <netinet/in.h>
+#include <string.h>
+
+#include <iostream>
+#include <string>
+
 #include "amf0_def.hpp"
 
-namespace mms {
+
+namespace cutesms {
 class Amf0String : public Amf0Data {
 public:
     using value_type = std::string;
     static const AMF0_MARKER_TYPE marker = STRING_MARKER;
-    Amf0String() : Amf0Data(STRING_MARKER){}
+    Amf0String() : Amf0Data(STRING_MARKER) {}
     virtual ~Amf0String() {}
 
     int32_t decode(const uint8_t *data, size_t len) {
         // read marker
-        uint8_t *p = (uint8_t*)data;
-        if(len < 1) {
+        uint8_t *p = (uint8_t *)data;
+        if (len < 1) {
             return -1;
         }
 
@@ -36,22 +39,22 @@ public:
         len--;
         p++;
 
-        if(len < 2) {
+        if (len < 2) {
             return -3;
         }
 
         uint16_t string_len = 0;
-        string_len = ntohs(*(uint16_t*)p);//UTF-8字符串长度
+        string_len = ntohs(*(uint16_t *)p);  // UTF-8字符串长度
         p += 2;
         len -= 2;
         // read data
-        if(len < string_len) {
+        if (len < string_len) {
             return -4;
         }
-        value_.assign((const char*)p, string_len);// UTF-8字符串内容
+        value_.assign((const char *)p, string_len);  // UTF-8字符串内容
         p += string_len;
         len -= string_len;
-        return p - (uint8_t*)data;
+        return p - (uint8_t *)data;
     }
 
     int32_t encode(uint8_t *buf, size_t len) const {
@@ -80,19 +83,14 @@ public:
         return data - buf;
     }
 
-    const std::string & get_value() const {
-        return value_;
-    }
+    const std::string &get_value() const { return value_; }
 
-    void set_value(const std::string & s) {
-        value_ = s;
-    }
+    void set_value(const std::string &s) { value_ = s; }
 
-    size_t size() const {
-        return 1 + 2 + value_.size();
-    }
+    size_t size() const { return 1 + 2 + value_.size(); }
+
 public:
     std::string value_;
 };
 
-};
+};  // namespace cutesms

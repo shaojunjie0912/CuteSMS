@@ -1,15 +1,13 @@
 #include "mvex.h"
-#include "trex.h"
+
 #include "base/net_buffer.h"
-using namespace mms;
+#include "trex.h"
 
-MvexBox::MvexBox() : Box(BOX_TYPE_MVEX) {
+using namespace cutesms;
 
-}
+MvexBox::MvexBox() : Box(BOX_TYPE_MVEX) {}
 
-MvexBox::~MvexBox() {
-
-}
+MvexBox::~MvexBox() {}
 
 int64_t MvexBox::size() {
     int64_t total_bytes = Box::size();
@@ -19,7 +17,7 @@ int64_t MvexBox::size() {
     return total_bytes;
 }
 
-int64_t MvexBox::encode(NetBuffer & buf) {
+int64_t MvexBox::encode(NetBuffer& buf) {
     update_size();
     auto start = buf.pos();
     Box::encode(buf);
@@ -29,7 +27,7 @@ int64_t MvexBox::encode(NetBuffer & buf) {
     return buf.pos() - start;
 }
 
-int64_t MvexBox::decode(NetBuffer & buf) {
+int64_t MvexBox::decode(NetBuffer& buf) {
     auto start = buf.pos();
     Box::decode(buf);
     if (trex_) {
@@ -37,4 +35,3 @@ int64_t MvexBox::decode(NetBuffer & buf) {
     }
     return buf.pos() - start;
 }
-

@@ -1,7 +1,8 @@
 // SDP中fingerprint的作用
 // sdp信息中会出现如下字段
 
-// a=fingerprint:sha-256 5D:60:1C:B7:B3:A7:C6:32:E8:6D:54:80:00:4B:26:0A:A1:62:CB:57:79:83:2D:69:A6:D9:B9:28:6A:77:71:C7
+// a=fingerprint:sha-256
+// 5D:60:1C:B7:B3:A7:C6:32:E8:6D:54:80:00:4B:26:0A:A1:62:CB:57:79:83:2D:69:A6:D9:B9:28:6A:77:71:C7
 // a=setup:actpass
 // 1
 // 2
@@ -9,7 +10,8 @@
 
 // 代码如下：
 // ————————————————
-// 版权声明：本文为CSDN博主「slionercheng」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+// 版权声明：本文为CSDN博主「slionercheng」的原创文章，遵循CC 4.0
+// BY-SA版权协议，转载请附上原文出处链接及本声明。
 // 原文链接：https://blog.csdn.net/qq_27031005/article/details/112689200
 
 // WebRTC 中 DTLS 参数
@@ -32,35 +34,28 @@
 
 #pragma once
 #include <string>
-namespace mms {
+namespace cutesms {
 struct FingerPrint {
 public:
-    static std::string prefix;
-    bool parse(const std::string & line);
+    inline static std::string prefix{"a=fingerprint:"};
+    bool parse(const std::string& line);
     FingerPrint() = default;
-    FingerPrint(const std::string & hash_name, const std::string & hash_val) : hash_name_(hash_name), hash_val_(hash_val) {
+    FingerPrint(const std::string& hash_name, const std::string& hash_val)
+        : hash_name_(hash_name), hash_val_(hash_val) {}
 
-    }
+    const std::string& get_hash_name() const { return hash_name_; }
 
-    const std::string & get_hash_name() const {
-        return hash_name_;
-    }
+    void set_hash_name(const std::string& val) { hash_name_ = val; }
 
-    void set_hash_name(const std::string & val) {
-        hash_name_ = val;
-    }
+    const std::string& get_hash_val() const { return hash_val_; }
 
-    const std::string & get_hash_val() const {
-        return hash_val_;
-    }
-
-    void set_hash_val(const std::string & val) {
-        hash_val_ = val;
-    }
+    void set_hash_val(const std::string& val) { hash_val_ = val; }
 
     std::string to_string() const;
+
 private:
     std::string hash_name_;
     std::string hash_val_;
 };
-};
+
+};  // namespace cutesms

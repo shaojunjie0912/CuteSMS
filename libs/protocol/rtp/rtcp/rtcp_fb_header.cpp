@@ -1,12 +1,13 @@
-#include <iostream>
-#include <arpa/inet.h>
 #include "rtcp_fb_header.h"
-using namespace mms;
-int32_t RtcpFbHeader::decode(uint8_t *data, size_t len)
-{
+
+#include <arpa/inet.h>
+
+#include <iostream>
+
+using namespace cutesms;
+int32_t RtcpFbHeader::decode(uint8_t *data, size_t len) {
     uint8_t *data_start = data;
-    if (len < 1)
-    {
+    if (len < 1) {
         return -1;
     }
 
@@ -17,8 +18,7 @@ int32_t RtcpFbHeader::decode(uint8_t *data, size_t len)
 
     data++;
     len--;
-    if (len < 1)
-    {
+    if (len < 1) {
         return -2;
     }
 
@@ -26,38 +26,34 @@ int32_t RtcpFbHeader::decode(uint8_t *data, size_t len)
     data++;
     len--;
     // length
-    if (len < 2)
-    {
+    if (len < 2) {
         return -3;
     }
 
-    length = ntohs(*(uint16_t*)data);
+    length = ntohs(*(uint16_t *)data);
     data += 2;
     len -= 2;
     // ssrc
-    if (len < 4)
-    {
+    if (len < 4) {
         return -4;
     }
 
-    sender_ssrc = ntohl(*(uint32_t*)data);
+    sender_ssrc = ntohl(*(uint32_t *)data);
     data += 4;
     len -= 4;
     // media source ssrc
     if (len < 4) {
         return -5;
     }
-    media_source_ssrc = ntohl(*(uint32_t*)data);
+    media_source_ssrc = ntohl(*(uint32_t *)data);
     data += 4;
 
     return data - data_start;
 }
 
-int32_t RtcpFbHeader::encode(uint8_t *data, size_t len)
-{
+int32_t RtcpFbHeader::encode(uint8_t *data, size_t len) {
     uint8_t *data_start = data;
-    if (len < 1)
-    {
+    if (len < 1) {
         return -1;
     }
 
@@ -65,8 +61,7 @@ int32_t RtcpFbHeader::encode(uint8_t *data, size_t len)
     *data = tmpv1;
     data++;
     len--;
-    if (len < 1)
-    {
+    if (len < 1) {
         return -2;
     }
 
@@ -74,28 +69,26 @@ int32_t RtcpFbHeader::encode(uint8_t *data, size_t len)
     data++;
     len--;
     // length
-    if (len < 2)
-    {
+    if (len < 2) {
         return -3;
     }
 
-    *(uint16_t*)data = htons(length);
+    *(uint16_t *)data = htons(length);
     data += 2;
     len -= 2;
     // ssrc
-    if (len < 4)
-    {
+    if (len < 4) {
         return -4;
     }
 
-    *(uint32_t*)data = htonl(sender_ssrc);
+    *(uint32_t *)data = htonl(sender_ssrc);
     data += 4;
     len -= 4;
 
     if (len < 4) {
         return -5;
     }
-     *(uint32_t*)data = htonl(media_source_ssrc);
+    *(uint32_t *)data = htonl(media_source_ssrc);
     data += 4;
     len -= 4;
 

@@ -1,18 +1,14 @@
 #include "rtmp_release_stream_message.hpp"
-using namespace mms;
-RtmpReleaseStreamMessage::RtmpReleaseStreamMessage() {
+using namespace cutesms;
+RtmpReleaseStreamMessage::RtmpReleaseStreamMessage() {}
 
-}
-
-RtmpReleaseStreamMessage::RtmpReleaseStreamMessage(int32_t transaction_id, const std::string & stream_name) {
+RtmpReleaseStreamMessage::RtmpReleaseStreamMessage(int32_t transaction_id, const std::string &stream_name) {
     command_name_.set_value("releaseStream");
     transaction_id_.set_value(transaction_id);
     stream_name_.set_value(stream_name);
 }
 
-RtmpReleaseStreamMessage::~RtmpReleaseStreamMessage() {
-
-}
+RtmpReleaseStreamMessage::~RtmpReleaseStreamMessage() {}
 
 int32_t RtmpReleaseStreamMessage::size() const {
     int32_t size = 0;
@@ -27,7 +23,7 @@ int32_t RtmpReleaseStreamMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg) 
     int32_t consumed = 0;
     int32_t pos = 0;
     auto using_data = rtmp_msg->get_using_data();
-    const uint8_t *payload = (const uint8_t*)using_data.data();
+    const uint8_t *payload = (const uint8_t *)using_data.data();
     int32_t len = using_data.size();
     consumed = command_name_.decode(payload, len);
     if (consumed < 0) {
@@ -38,7 +34,7 @@ int32_t RtmpReleaseStreamMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg) 
     len -= consumed;
 
     consumed = transaction_id_.decode(payload, len);
-    if(consumed < 0) {
+    if (consumed < 0) {
         return -2;
     }
     pos += consumed;
@@ -66,7 +62,7 @@ int32_t RtmpReleaseStreamMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg) 
 std::shared_ptr<RtmpMessage> RtmpReleaseStreamMessage::encode() const {
     auto need_size = size();
     std::shared_ptr<RtmpMessage> rtmp_msg = std::make_shared<RtmpMessage>(need_size);
-    rtmp_msg->chunk_stream_id_ = RTMP_CHUNK_ID_COMMAND_MESSAGE;//RTMP_CHUNK_ID_PROTOCOL_CONTROL_MESSAGE;
+    rtmp_msg->chunk_stream_id_ = RTMP_CHUNK_ID_COMMAND_MESSAGE;  // RTMP_CHUNK_ID_PROTOCOL_CONTROL_MESSAGE;
     rtmp_msg->timestamp_ = 0;
     rtmp_msg->message_type_id_ = RTMP_MESSAGE_TYPE_AMF0_COMMAND;
     rtmp_msg->message_stream_id_ = RTMP_MESSAGE_ID_PROTOCOL_CONTROL;
@@ -74,7 +70,7 @@ std::shared_ptr<RtmpMessage> RtmpReleaseStreamMessage::encode() const {
     int32_t consumed = 0;
     int32_t pos = 0;
     auto unuse_data = rtmp_msg->get_unuse_data();
-    uint8_t *payload = (uint8_t*)unuse_data.data();
+    uint8_t *payload = (uint8_t *)unuse_data.data();
     int32_t len = need_size;
     consumed = command_name_.encode(payload, len);
     if (consumed < 0) {
@@ -85,7 +81,7 @@ std::shared_ptr<RtmpMessage> RtmpReleaseStreamMessage::encode() const {
     len -= consumed;
 
     consumed = transaction_id_.encode(payload, len);
-    if(consumed < 0) {
+    if (consumed < 0) {
         return nullptr;
     }
     pos += consumed;
@@ -99,9 +95,9 @@ std::shared_ptr<RtmpMessage> RtmpReleaseStreamMessage::encode() const {
     pos += consumed;
     payload += consumed;
     len -= consumed;
-    
+
     consumed = stream_name_.encode(payload, len);
-    if(consumed < 0) {
+    if (consumed < 0) {
         return nullptr;
     }
     pos += consumed;

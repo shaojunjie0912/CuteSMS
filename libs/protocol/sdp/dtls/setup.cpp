@@ -1,7 +1,8 @@
 #include "setup.h"
+
+#include <base/utils/utils.h>
+
 #include <sstream>
-#include "base/utils/utils.h"
-using namespace mms;
 
 // Setup Attribute
 
@@ -22,8 +23,9 @@ using namespace mms;
 //       'holdconn': The endpoint does not want the connection to be
 //       established for the time being.
 
-std::string SetupAttr::prefix = "a=setup:";
-bool SetupAttr::parse(const std::string & line) {
+namespace cutesms {
+
+bool SetupAttr::parse(const std::string& line) {
     std::string::size_type end_pos = line.rfind("\r");
     if (end_pos == std::string::npos) {
         end_pos = line.size() - 1;
@@ -37,3 +39,4 @@ std::string SetupAttr::to_string() const {
     oss << prefix << role_ << std::endl;
     return oss.str();
 }
+}  // namespace cutesms

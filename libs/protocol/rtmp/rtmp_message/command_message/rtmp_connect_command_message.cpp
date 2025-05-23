@@ -1,10 +1,10 @@
 #include "rtmp_connect_command_message.hpp"
-using namespace mms;
-RtmpConnectCommandMessage::RtmpConnectCommandMessage() {
+using namespace cutesms;
+RtmpConnectCommandMessage::RtmpConnectCommandMessage() {}
 
-}
-
-RtmpConnectCommandMessage::RtmpConnectCommandMessage(int32_t transaction_id, const std::string & tc_url, const std::string & page_url, const std::string & swf_url, const std::string & app) {
+RtmpConnectCommandMessage::RtmpConnectCommandMessage(int32_t transaction_id, const std::string &tc_url,
+                                                     const std::string &page_url, const std::string &swf_url,
+                                                     const std::string &app) {
     tc_url_ = tc_url;
     command_name_.set_value("connect");
     transaction_id_.set_value(transaction_id);
@@ -17,15 +17,13 @@ RtmpConnectCommandMessage::RtmpConnectCommandMessage(int32_t transaction_id, con
     command_object_.set_item_value("app", app_);
 }
 
-RtmpConnectCommandMessage::~RtmpConnectCommandMessage() {
-
-}
+RtmpConnectCommandMessage::~RtmpConnectCommandMessage() {}
 
 int32_t RtmpConnectCommandMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg) {
     int32_t consumed = 0;
     int32_t pos = 0;
     auto using_data = rtmp_msg->get_using_data();
-    const uint8_t *payload = (const uint8_t*)using_data.data();
+    const uint8_t *payload = (const uint8_t *)using_data.data();
     int32_t len = using_data.size();
     consumed = command_name_.decode(payload, len);
     if (consumed < 0) {
@@ -36,7 +34,7 @@ int32_t RtmpConnectCommandMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg)
     len -= consumed;
 
     consumed = transaction_id_.decode(payload, len);
-    if(consumed < 0) {
+    if (consumed < 0) {
         return -2;
     }
     pos += consumed;
@@ -50,7 +48,7 @@ int32_t RtmpConnectCommandMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg)
     pos += consumed;
     payload += consumed;
     len -= consumed;
-    
+
     if (len > 0) {
         Amf0Object opt;
         consumed = opt.decode(payload, len);
@@ -62,7 +60,7 @@ int32_t RtmpConnectCommandMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg)
         payload += consumed;
         len -= consumed;
     }
-    
+
     auto tcUrl = command_object_.get_property<Amf0String>("tcUrl");
     if (!tcUrl) {
         return -5;
@@ -72,7 +70,7 @@ int32_t RtmpConnectCommandMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg)
     if (pageUrl) {
         page_url_ = *pageUrl;
     }
-    
+
     auto swfUrl = command_object_.get_property<Amf0String>("swfUrl");
     if (swfUrl) {
         swf_url_ = *swfUrl;
@@ -82,12 +80,12 @@ int32_t RtmpConnectCommandMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg)
     if (app) {
         app_ = *app;
     }
-    
+
     auto objectEncoding = command_object_.get_property<Amf0Number>("objectEncoding");
     if (objectEncoding) {
         object_encoding_ = *objectEncoding;
     }
- 
+
     return pos;
 }
 
@@ -103,16 +101,16 @@ int32_t RtmpConnectCommandMessage::size() const {
 }
 
 std::shared_ptr<RtmpMessage> RtmpConnectCommandMessage::encode() const {
-    //todo implement this method
+    // todo implement this method
     auto need_size = size();
     std::shared_ptr<RtmpMessage> rtmp_msg = std::make_shared<RtmpMessage>(need_size);
-    rtmp_msg->chunk_stream_id_ = RTMP_CHUNK_ID_COMMAND_MESSAGE;//RTMP_CHUNK_ID_PROTOCOL_CONTROL_MESSAGE;
+    rtmp_msg->chunk_stream_id_ = RTMP_CHUNK_ID_COMMAND_MESSAGE;  // RTMP_CHUNK_ID_PROTOCOL_CONTROL_MESSAGE;
     rtmp_msg->timestamp_ = 0;
     rtmp_msg->message_type_id_ = RTMP_MESSAGE_TYPE_AMF0_COMMAND;
     rtmp_msg->message_stream_id_ = RTMP_MESSAGE_ID_PROTOCOL_CONTROL;
     // window ack_size
     auto unuse_data = rtmp_msg->get_unuse_data();
-    uint8_t * payload = (uint8_t*)unuse_data.data();
+    uint8_t *payload = (uint8_t *)unuse_data.data();
     int32_t left_size = need_size;
     int32_t consumed = command_name_.encode(payload, left_size);
     if (consumed <= 0) {
@@ -141,7 +139,7 @@ std::shared_ptr<RtmpMessage> RtmpConnectCommandMessage::encode() const {
             return nullptr;
         }
     }
-    
+
     // rtmp_msg->payload_size_ = need_size;
     rtmp_msg->inc_used_bytes(need_size);
     return rtmp_msg;

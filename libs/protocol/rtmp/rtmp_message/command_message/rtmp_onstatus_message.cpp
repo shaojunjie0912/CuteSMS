@@ -1,17 +1,15 @@
 #include "rtmp_onstatus_message.hpp"
-using namespace mms;
+using namespace cutesms;
 RtmpOnStatusMessage::RtmpOnStatusMessage() {
     command_name_.set_value("onStatus");
     transaction_id_.set_value(0);
 }
 
-RtmpOnStatusMessage::~RtmpOnStatusMessage() {
-
-}
+RtmpOnStatusMessage::~RtmpOnStatusMessage() {}
 
 int32_t RtmpOnStatusMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg) {
     auto using_data = rtmp_msg->get_using_data();
-    const uint8_t *payload = (const uint8_t*)using_data.data();
+    const uint8_t *payload = (const uint8_t *)using_data.data();
     const uint8_t *data_start = payload;
     int32_t len = using_data.size();
     int32_t consumed = command_name_.decode(payload, len);
@@ -58,7 +56,7 @@ std::shared_ptr<RtmpMessage> RtmpOnStatusMessage::encode() const {
     rtmp_msg->message_stream_id_ = RTMP_MESSAGE_ID_PROTOCOL_CONTROL;
     // window ack_size
     auto unuse_data = rtmp_msg->get_unuse_data();
-    uint8_t * payload = (uint8_t*)unuse_data.data();
+    uint8_t *payload = (uint8_t *)unuse_data.data();
     int32_t len = s;
     int32_t consumed = command_name_.encode(payload, len);
     if (consumed < 0) {

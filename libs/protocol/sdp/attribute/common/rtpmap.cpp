@@ -4,7 +4,7 @@
  * @LastEditTime: 2023-09-16 12:08:09
  * @LastEditors: jbl19860422
  * @Description:
- * @FilePath: \mms\mms\protocol\sdp\attribute\common\rtpmap.cpp
+ * @FilePath: \cutesms\cutesms\protocol\sdp\attribute\common\rtpmap.cpp
  * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
  */
 #include "rtpmap.h"

@@ -1,10 +1,11 @@
 #pragma once
-#include <vector>
 #include <memory>
+#include <vector>
 
 #include "box.h"
 
-namespace mms {
+
+namespace cutesms {
 class NetBuffer;
 class AvccBox : public Box {
 public:
@@ -12,9 +13,10 @@ public:
     virtual ~AvccBox() = default;
 
     int64_t size() override;
-    int64_t encode(NetBuffer & buf) override;
-    int64_t decode(NetBuffer & buf) override;
+    int64_t encode(NetBuffer& buf) override;
+    int64_t decode(NetBuffer& buf) override;
+
 public:
     std::string avc_config_;
 };
-};
+};  // namespace cutesms

@@ -1,6 +1,6 @@
 #pragma once
 #include "rtcp_packet.h"
-namespace mms {
+namespace cutesms {
 struct ReceptionReportBlock {
     int32_t ssrc;
     uint8_t fraction_lost;
@@ -21,6 +21,7 @@ public:
 
     int32_t decode(uint8_t *data, int32_t len);
     int32_t encode(uint8_t *data, int32_t len);
+
 public:
     uint32_t ntp_timestamp_sec_;
     uint32_t ntp_timestamp_psec_;
@@ -29,4 +30,4 @@ public:
     int32_t sender_octet_count_;
     std::vector<ReceptionReportBlock> reception_report_blocks;
 };
-};
+};  // namespace cutesms

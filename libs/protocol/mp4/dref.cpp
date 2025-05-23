@@ -1,40 +1,38 @@
+#include "dref.h"
+
 #include <string.h>
 
 #include "mp4_factory.h"
 #include "url.h"
 #include "urn.h"
-#include "dref.h"
 
-using namespace mms;
-DrefBox::DrefBox() : FullBox(BOX_TYPE_DREF, 0, 0) {
 
-}
+using namespace cutesms;
+DrefBox::DrefBox() : FullBox(BOX_TYPE_DREF, 0, 0) {}
 
-DrefBox::~DrefBox() {
-
-}
+DrefBox::~DrefBox() {}
 
 int64_t DrefBox::size() {
     int64_t total_bytes = FullBox::size();
     total_bytes += 4;
-    for (auto & e : entries_) {
+    for (auto& e : entries_) {
         total_bytes += e->size();
     }
     return total_bytes;
 }
 
-int64_t DrefBox::encode(NetBuffer & buf) {
+int64_t DrefBox::encode(NetBuffer& buf) {
     update_size();
     auto start = buf.pos();
     FullBox::encode(buf);
     buf.write_4bytes(entries_.size());
-    for (auto & e : entries_) {
+    for (auto& e : entries_) {
         e->encode(buf);
     }
     return buf.pos() - start;
 }
 
-int64_t DrefBox::decode(NetBuffer & buf) {
+int64_t DrefBox::decode(NetBuffer& buf) {
     auto start = buf.pos();
     FullBox::decode(buf);
     size_t entry_count = buf.read_4bytes();
@@ -49,7 +47,7 @@ int64_t DrefBox::decode(NetBuffer & buf) {
                 entries_.push_back(std::static_pointer_cast<DrefBox>(box));
             }
         } else {
-            return  -1;
+            return -1;
         }
     }
 

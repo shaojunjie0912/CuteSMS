@@ -1,12 +1,13 @@
 #pragma once
 #include <string>
 // 5.2.  Origin ("o=")
-namespace mms {
+namespace cutesms {
 struct Origin {
 public:
     static std::string prefix;
     Origin() = default;
-    Origin(const std::string & username, uint64_t session_id, uint32_t session_version, const std::string & nettype, const std::string & addrtype, const std::string & unicast_address) {
+    Origin(const std::string& username, uint64_t session_id, uint32_t session_version,
+           const std::string& nettype, const std::string& addrtype, const std::string& unicast_address) {
         username_ = username;
         session_id_ = session_id;
         session_version_ = session_version;
@@ -14,9 +15,10 @@ public:
         addrtype_ = addrtype;
         unicast_address_ = unicast_address;
     }
-    bool parse(const std::string & line);
+    bool parse(const std::string& line);
 
-    void set(const std::string & username, uint64_t session_id, uint32_t session_version, const std::string & nettype, const std::string & addrtype, const std::string & unicast_address) {
+    void set(const std::string& username, uint64_t session_id, uint32_t session_version,
+             const std::string& nettype, const std::string& addrtype, const std::string& unicast_address) {
         username_ = username;
         session_id_ = session_id;
         session_version_ = session_version;
@@ -25,55 +27,32 @@ public:
         unicast_address_ = unicast_address;
     }
 
-    inline const std::string & get_user_name() const {
-        return username_;
-    }
+    inline const std::string& get_user_name() const { return username_; }
 
-    inline void set_user_name(const std::string & u) {
-        username_ = u;
-    }
+    inline void set_user_name(const std::string& u) { username_ = u; }
 
-    inline uint64_t get_session_id() {
-        return session_id_;
-    }
+    inline uint64_t get_session_id() { return session_id_; }
 
-    void set_session_id(uint64_t sid) {
-        session_id_ = sid;
-    }
+    void set_session_id(uint64_t sid) { session_id_ = sid; }
 
-    uint32_t get_session_version() {
-        return session_version_;
-    }
+    uint32_t get_session_version() { return session_version_; }
 
-    void set_session_version(uint32_t v) {
-        session_version_ = v;
-    }
+    void set_session_version(uint32_t v) { session_version_ = v; }
 
-    const std::string & get_net_type() const {
-        return nettype_;
-    }
+    const std::string& get_net_type() const { return nettype_; }
 
-    void set_net_type(const std::string & nt) {
-        nettype_ = nt;
-    }
+    void set_net_type(const std::string& nt) { nettype_ = nt; }
 
-    const std::string & get_addr_type() const {
-        return addrtype_;
-    }
+    const std::string& get_addr_type() const { return addrtype_; }
 
-    void set_addr_type(const std::string & at) {
-        addrtype_ = at;
-    }
+    void set_addr_type(const std::string& at) { addrtype_ = at; }
 
-    const std::string & get_unicast_address() const {
-        return unicast_address_;
-    }
+    const std::string& get_unicast_address() const { return unicast_address_; }
 
-    void set_unicast_address(const std::string & ua) {
-        unicast_address_ = ua;
-    }
+    void set_unicast_address(const std::string& ua) { unicast_address_ = ua; }
 
     std::string to_string() const;
+
 private:
     // <username> is the user's login on the originating host, or it is "-"
     //   if the originating host does not support the concept of user IDs.
@@ -109,6 +88,5 @@ private:
     //   chosen to populate the "o=" field, provided that these are selected
     //   in a manner that does not affect the global uniqueness of the field.
     std::string unicast_address_;
-    
 };
-};
+};  // namespace cutesms

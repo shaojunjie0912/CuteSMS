@@ -22,24 +22,27 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 #pragma once
-#include <string>
 #include <optional>
+#include <string>
 
 #include "amf0/amf0_inc.hpp"
 #include "rtmp_define.hpp"
 
-namespace mms {
+
+namespace cutesms {
 class RtmpPlayMessage {
 public:
     RtmpPlayMessage();
     RtmpPlayMessage(int32_t transaction_id);
-    RtmpPlayMessage(int32_t transaction_id, const std::string & stream_name);
+    RtmpPlayMessage(int32_t transaction_id, const std::string& stream_name);
     virtual ~RtmpPlayMessage();
+
 public:
     int32_t decode(std::shared_ptr<RtmpMessage> rtmp_msg);
     std::shared_ptr<RtmpMessage> encode() const;
     int32_t size() const;
-    const std::string & stream_name() const;
+    const std::string& stream_name() const;
+
 public:
     Amf0String command_name_;
     Amf0Number transaction_id_;
@@ -54,5 +57,4 @@ public:
     bool reset_play_ = false;
 };
 
-
-};
+};  // namespace cutesms

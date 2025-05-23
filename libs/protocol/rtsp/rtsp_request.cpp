@@ -1,29 +1,18 @@
 #include "rtsp_request.hpp"
-using namespace mms;
-RtspRequest::RtspRequest() {
-}
+using namespace cutesms;
+RtspRequest::RtspRequest() {}
 
-RtspRequest::~RtspRequest() {
+RtspRequest::~RtspRequest() {}
 
-}
+const std::string& RtspRequest::get_method() const { return method_; }
 
-const std::string & RtspRequest::get_method() const {
-    return method_;
-}
+void RtspRequest::set_method(const std::string& val) { method_ = val; }
 
-void RtspRequest::set_method(const std::string & val) {
-    method_ = val;
-}
+const std::string& RtspRequest::get_uri() const { return abs_uri_; }
 
-const std::string & RtspRequest::get_uri() const {
-    return abs_uri_;
-}
+void RtspRequest::set_uri(const std::string& val) { abs_uri_ = val; }
 
-void RtspRequest::set_uri(const std::string & val) {
-    abs_uri_ = val;
-}
-
-const std::string & RtspRequest::get_header(const std::string & k) const {
+const std::string& RtspRequest::get_header(const std::string& k) const {
     static std::string empty_str("");
     auto it = headers_.find(k);
     if (it == headers_.end()) {
@@ -32,11 +21,9 @@ const std::string & RtspRequest::get_header(const std::string & k) const {
     return it->second;
 }
 
-void RtspRequest::add_header(const std::string & k, const std::string & v) {
-    headers_[k] = v;
-}
+void RtspRequest::add_header(const std::string& k, const std::string& v) { headers_[k] = v; }
 
-const std::string & RtspRequest::get_query_param(const std::string & k) const {
+const std::string& RtspRequest::get_query_param(const std::string& k) const {
     static std::string empty_str("");
     auto it = query_params_.find(k);
     if (it == query_params_.end()) {
@@ -45,11 +32,9 @@ const std::string & RtspRequest::get_query_param(const std::string & k) const {
     return it->second;
 }
 
-void RtspRequest::add_query_param(const std::string & k, const std::string & v) {
-    query_params_[k] = v;
-}
+void RtspRequest::add_query_param(const std::string& k, const std::string& v) { query_params_[k] = v; }
 
-void RtspRequest::set_query_params(const std::unordered_map<std::string, std::string> & query_params) {
+void RtspRequest::set_query_params(const std::unordered_map<std::string, std::string>& query_params) {
     query_params_ = query_params;
 }
 
@@ -60,21 +45,13 @@ void RtspRequest::clear() {
     headers_.clear();
 }
 
-const std::string & RtspRequest::get_version() {
-    return version_;
-}
+const std::string& RtspRequest::get_version() { return version_; }
 
-void RtspRequest::set_version(const std::string & v) {
-    version_ = v;
-}
+void RtspRequest::set_version(const std::string& v) { version_ = v; }
 
-void RtspRequest::set_body(const std::string & body) {
-    body_ = body;
-}
+void RtspRequest::set_body(const std::string& body) { body_ = body; }
 
-const std::string & RtspRequest::get_body() const {
-    return body_;
-}
+const std::string& RtspRequest::get_body() const { return body_; }
 
 std::string RtspRequest::to_req_string() const {
     std::ostringstream oss;
@@ -82,7 +59,7 @@ std::string RtspRequest::to_req_string() const {
     if (query_params_.size() > 0) {
         oss << "?";
         size_t i = 0;
-        for (auto & param : query_params_) {
+        for (auto& param : query_params_) {
             if (i == query_params_.size() - 1) {
                 oss << param.first << "=" << param.second;
             } else {
@@ -93,7 +70,7 @@ std::string RtspRequest::to_req_string() const {
     }
     oss << " RTSP/" << version_ << RTSP_CRLF;
     if (headers_.size() > 0) {
-        for (auto & p : headers_) {
+        for (auto& p : headers_) {
             oss << p.first << ": " << p.second << RTSP_CRLF;
         }
     }
@@ -104,7 +81,7 @@ std::string RtspRequest::to_req_string() const {
     return oss.str();
 }
 
-int32_t RtspRequest::parse(const std::string_view & buf) {
+int32_t RtspRequest::parse(const std::string_view& buf) {
     std::string_view buf_inner = buf;
     auto consumed_header = parse_rtsp_header(buf_inner);
     if (consumed_header <= 0) {
@@ -116,7 +93,7 @@ int32_t RtspRequest::parse(const std::string_view & buf) {
     if (it_content_len != headers_.end()) {
         try {
             content_len = std::atoi(it_content_len->second.c_str());
-        } catch (std::exception & e) {
+        } catch (std::exception& e) {
             return -1;
         }
 
@@ -127,7 +104,7 @@ int32_t RtspRequest::parse(const std::string_view & buf) {
 
     if (content_len > 0) {
         if ((int32_t)buf_inner.size() < content_len) {
-            return 0;//不足，等一整个完整包
+            return 0;  // 不足，等一整个完整包
         }
         body_.assign(buf_inner.data(), content_len);
         return consumed_header + content_len;
@@ -135,7 +112,7 @@ int32_t RtspRequest::parse(const std::string_view & buf) {
     return consumed_header;
 }
 
-int32_t RtspRequest::parse_rtsp_header(const std::string_view & buf) {
+int32_t RtspRequest::parse_rtsp_header(const std::string_view& buf) {
     auto pos_end = buf.find(RTSP_HEADER_DIVIDER);
     if (pos_end == std::string_view::npos) {
         return 0;
@@ -152,19 +129,19 @@ int32_t RtspRequest::parse_rtsp_header(const std::string_view & buf) {
     if (consumed < 0) {
         return -2;
     }
-    //结束
+    // 结束
     return pos_end + 4;
 }
 
 #include "spdlog/spdlog.h"
-int32_t RtspRequest::parse_request_line(const std::string_view & buf) {
+int32_t RtspRequest::parse_request_line(const std::string_view& buf) {
     std::string_view buf_inner = buf;
     auto pos_end = buf_inner.find(RTSP_CRLF);
     if (pos_end == std::string_view::npos) {
         return -1;
     }
     auto s = buf_inner.substr(0, pos_end);
-    //METHOD
+    // METHOD
     auto pos = s.find(" ");
     if (pos == std::string_view::npos) {
         return -2;
@@ -180,10 +157,10 @@ int32_t RtspRequest::parse_request_line(const std::string_view & buf) {
     auto pos1 = uri.find("?");
     if (pos1 != std::string::npos) {
         abs_uri_ = uri.substr(0, pos1);
-        std::string_view params = uri.substr(pos1+1);
+        std::string_view params = uri.substr(pos1 + 1);
         std::vector<std::string> vsp;
         boost::split(vsp, params, boost::is_any_of("&"));
-        for(auto & s : vsp) {
+        for (auto& s : vsp) {
             auto equ_pos = s.find("=");
             if (equ_pos == std::string::npos) {
                 continue;
@@ -196,9 +173,9 @@ int32_t RtspRequest::parse_request_line(const std::string_view & buf) {
     } else {
         abs_uri_ = uri;
     }
-    
+
     s.remove_prefix(pos + 1);
-    //RTSP-Version
+    // RTSP-Version
     if (s.size() <= 0) {
         return -7;
     }
@@ -218,7 +195,7 @@ int32_t RtspRequest::parse_request_line(const std::string_view & buf) {
     return pos_end + 2;
 }
 
-int32_t RtspRequest::parse_headers(const std::string_view & buf) {
+int32_t RtspRequest::parse_headers(const std::string_view& buf) {
     std::string_view buf_inner(buf);
     int32_t total_consumed = 0;
     while (1) {
@@ -226,7 +203,7 @@ int32_t RtspRequest::parse_headers(const std::string_view & buf) {
         if (consumed < 0) {
             return -1;
         }
-        
+
         buf_inner.remove_prefix(consumed);
         total_consumed += consumed;
         if (consumed == 2) {
@@ -236,13 +213,13 @@ int32_t RtspRequest::parse_headers(const std::string_view & buf) {
     return total_consumed;
 }
 
-int32_t RtspRequest::parse_header(const std::string_view & buf) {
+int32_t RtspRequest::parse_header(const std::string_view& buf) {
     auto pos_end = buf.find(RTSP_CRLF);
     if (pos_end == std::string_view::npos) {
         return -1;
     }
 
-    if (pos_end == 0) {//结束
+    if (pos_end == 0) {  // 结束
         return pos_end + 2;
     }
 

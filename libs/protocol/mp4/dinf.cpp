@@ -1,19 +1,18 @@
 #include "dinf.h"
-#include "url.h"
-#include "urn.h"
-#include "dref.h"
-#include "base/net_buffer.h"
+
 #include <cassert>
 
-using namespace mms;
+#include "base/net_buffer.h"
+#include "dref.h"
+#include "url.h"
+#include "urn.h"
 
-DinfBox::DinfBox() : Box(BOX_TYPE_DINF) {
 
-}
+using namespace cutesms;
 
-DinfBox::~DinfBox() {
+DinfBox::DinfBox() : Box(BOX_TYPE_DINF) {}
 
-}
+DinfBox::~DinfBox() {}
 
 int64_t DinfBox::size() {
     assert(dref_ != nullptr);
@@ -25,7 +24,7 @@ int64_t DinfBox::size() {
     return total_bytes;
 }
 
-int64_t DinfBox::encode(NetBuffer & buf) {
+int64_t DinfBox::encode(NetBuffer& buf) {
     assert(dref_ != nullptr);
     update_size();
     auto start = buf.pos();
@@ -36,7 +35,7 @@ int64_t DinfBox::encode(NetBuffer & buf) {
     return buf.pos() - start;
 }
 
-int64_t DinfBox::decode(NetBuffer & buf) {
+int64_t DinfBox::decode(NetBuffer& buf) {
     auto start = buf.pos();
     Box::decode(buf);
     auto left_bytes = decoded_size() - (buf.pos() - start);

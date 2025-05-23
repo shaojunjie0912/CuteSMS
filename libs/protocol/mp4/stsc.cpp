@@ -1,10 +1,12 @@
 #include "stsc.h"
-#include "mp4_factory.h"
 
 #include <string.h>
-using namespace mms;
 
-int64_t StscEntry::encode(NetBuffer & buf) {
+#include "mp4_factory.h"
+
+using namespace cutesms;
+
+int64_t StscEntry::encode(NetBuffer& buf) {
     auto start = buf.pos();
     buf.write_4bytes(first_chunk);
     buf.write_4bytes(samples_per_chunk);
@@ -12,7 +14,7 @@ int64_t StscEntry::encode(NetBuffer & buf) {
     return buf.pos() - start;
 }
 
-int64_t StscEntry::decode(NetBuffer & buf) {
+int64_t StscEntry::decode(NetBuffer& buf) {
     auto start = buf.pos();
     first_chunk = buf.read_4bytes();
     samples_per_chunk = buf.read_4bytes();
@@ -20,21 +22,17 @@ int64_t StscEntry::decode(NetBuffer & buf) {
     return buf.pos() - start;
 }
 
-StscBox::StscBox() : FullBox(BOX_TYPE_STSC, 0, 0) {
+StscBox::StscBox() : FullBox(BOX_TYPE_STSC, 0, 0) {}
 
-}
-
-StscBox::~StscBox() {
-
-}
+StscBox::~StscBox() {}
 
 int64_t StscBox::size() {
     int64_t total_bytes = FullBox::size();
-    total_bytes += 4 + entries_.size()*12;
+    total_bytes += 4 + entries_.size() * 12;
     return total_bytes;
 }
 
-int64_t StscBox::encode(NetBuffer & buf) {
+int64_t StscBox::encode(NetBuffer& buf) {
     update_size();
     auto start = buf.pos();
     FullBox::encode(buf);
@@ -46,7 +44,7 @@ int64_t StscBox::encode(NetBuffer & buf) {
     return buf.pos() - start;
 }
 
-int64_t StscBox::decode(NetBuffer & buf) {
+int64_t StscBox::decode(NetBuffer& buf) {
     auto start = buf.pos();
     FullBox::decode(buf);
 
@@ -56,6 +54,6 @@ int64_t StscBox::decode(NetBuffer & buf) {
         se.decode(buf);
         entries_.push_back(se);
     }
-    
+
     return buf.pos() - start;
 }

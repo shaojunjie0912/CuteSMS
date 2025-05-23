@@ -1,15 +1,15 @@
 #include "trak.h"
-#include "tkhd.h"
-#include "mdia.h"
 
-#include "mp4_factory.h"
 #include <string.h>
 
-using namespace mms;
+#include "mdia.h"
+#include "mp4_factory.h"
+#include "tkhd.h"
 
-TrakBox::TrakBox() : Box(BOX_TYPE_TRAK) {
 
-}
+using namespace cutesms;
+
+TrakBox::TrakBox() : Box(BOX_TYPE_TRAK) {}
 
 int64_t TrakBox::size() {
     int64_t total_bytes = Box::size();
@@ -24,11 +24,11 @@ int64_t TrakBox::size() {
     return total_bytes;
 }
 
-int64_t TrakBox::encode(NetBuffer & buf) {
+int64_t TrakBox::encode(NetBuffer& buf) {
     update_size();
     auto start = buf.pos();
     Box::encode(buf);
-    
+
     if (tkhd_) {
         tkhd_->encode(buf);
     }
@@ -39,7 +39,7 @@ int64_t TrakBox::encode(NetBuffer & buf) {
     return buf.pos() - start;
 }
 
-int64_t TrakBox::decode(NetBuffer & buf) {
+int64_t TrakBox::decode(NetBuffer& buf) {
     auto start = buf.pos();
     Box::decode(buf);
 
@@ -58,22 +58,14 @@ int64_t TrakBox::decode(NetBuffer & buf) {
 
         left_bytes -= consumed;
     }
-    
+
     return buf.pos() - start;
 }
 
-void TrakBox::set_tkhd(std::shared_ptr<TkhdBox> tkhd) {
-    tkhd_ = tkhd;
-}
+void TrakBox::set_tkhd(std::shared_ptr<TkhdBox> tkhd) { tkhd_ = tkhd; }
 
-std::shared_ptr<TkhdBox> TrakBox::get_tkhd() {
-    return tkhd_;
-}
+std::shared_ptr<TkhdBox> TrakBox::get_tkhd() { return tkhd_; }
 
-void TrakBox::set_mdia(std::shared_ptr<MdiaBox> mdia) {
-    mdia_ = mdia;
-}
+void TrakBox::set_mdia(std::shared_ptr<MdiaBox> mdia) { mdia_ = mdia; }
 
-std::shared_ptr<MdiaBox> TrakBox::get_mdia() {
-    return mdia_;
-}
+std::shared_ptr<MdiaBox> TrakBox::get_mdia() { return mdia_; }

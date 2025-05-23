@@ -1,13 +1,14 @@
+#include "msid.hpp"
+
+#include <base/utils/utils.h>
+
 #include <boost/algorithm/string.hpp>
 #include <iostream>
 #include <sstream>
-#include <boost/algorithm/string.hpp>
 
-#include "msid.hpp"
-#include "base/utils/utils.h"
-using namespace mms;
+namespace cutesms {
 std::string Msid::prefix = "a=msid:";
-bool Msid::parse(const std::string & line) {
+bool Msid::parse(const std::string& line) {
     std::string::size_type end_pos = line.rfind("\r");
     if (end_pos == std::string::npos) {
         end_pos = line.size() - 1;
@@ -23,3 +24,4 @@ bool Msid::parse(const std::string & line) {
     appdata = vs[1];
     return true;
 }
+}  // namespace cutesms

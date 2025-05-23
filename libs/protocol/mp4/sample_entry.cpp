@@ -1,14 +1,12 @@
 #include "sample_entry.h"
+
 #include "base/net_buffer.h"
-using namespace mms;
 
-SampleEntry::SampleEntry(Box::Type type) : Box(type) {
-    
-}
+using namespace cutesms;
 
-SampleEntry::~SampleEntry() {
+SampleEntry::SampleEntry(Box::Type type) : Box(type) {}
 
-}
+SampleEntry::~SampleEntry() {}
 
 int64_t SampleEntry::size() {
     int64_t total_bytes = Box::size();
@@ -16,7 +14,7 @@ int64_t SampleEntry::size() {
     return total_bytes;
 }
 
-int64_t SampleEntry::encode(NetBuffer & buf) {
+int64_t SampleEntry::encode(NetBuffer& buf) {
     update_size();
     auto start = buf.pos();
     Box::encode(buf);
@@ -25,7 +23,7 @@ int64_t SampleEntry::encode(NetBuffer & buf) {
     return buf.pos() - start;
 }
 
-int64_t SampleEntry::decode(NetBuffer & buf) {
+int64_t SampleEntry::decode(NetBuffer& buf) {
     auto start = buf.pos();
     Box::decode(buf);
     buf.skip(6);

@@ -1,8 +1,8 @@
 #include "rtp_aac_depacketizer.h"
-using namespace mms;
+using namespace cutesms;
 
 std::shared_ptr<RtpAACNALU> RtpAACDepacketizer::on_packet(std::shared_ptr<RtpPacket> pkt) {
-    auto & pkts_map = time_rtp_pkts_buf_[pkt->get_timestamp()];
+    auto& pkts_map = time_rtp_pkts_buf_[pkt->get_timestamp()];
     pkts_map.insert(std::pair(pkt->get_seq_num(), pkt));
     if (pkt->get_header().marker == 1) {
         std::shared_ptr<RtpAACNALU> out_pkt = std::make_shared<RtpAACNALU>();

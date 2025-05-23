@@ -45,10 +45,10 @@
 //    Attributes MUST be registered with IANA (see Section 8).  If an
 //    attribute is received that is not understood, it MUST be ignored by
 //    the receiver.
-namespace mms {
+namespace cutesms {
 struct Attribute {
 public:
     virtual bool parse(const std::string& line) = 0;
     virtual std::string to_string() const = 0;
 };
-};  // namespace mms
+};  // namespace cutesms

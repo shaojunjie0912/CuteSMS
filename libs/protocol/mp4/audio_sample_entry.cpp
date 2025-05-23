@@ -1,16 +1,15 @@
-#include <string.h>
-#include "base/net_buffer.h"
 #include "audio_sample_entry.h"
+
+#include <string.h>
+
+#include "base/net_buffer.h"
 #include "esds.h"
-using namespace mms;
 
-AudioSampleEntry::AudioSampleEntry(Box::Type type) : SampleEntry(type) {
-    
-}
+using namespace cutesms;
 
-AudioSampleEntry::~AudioSampleEntry() {
+AudioSampleEntry::AudioSampleEntry(Box::Type type) : SampleEntry(type) {}
 
-}
+AudioSampleEntry::~AudioSampleEntry() {}
 
 int64_t AudioSampleEntry::size() {
     int64_t total_bytes = SampleEntry::size();
@@ -22,7 +21,7 @@ int64_t AudioSampleEntry::size() {
 }
 
 #include "spdlog/spdlog.h"
-int64_t AudioSampleEntry::encode(NetBuffer & buf) {
+int64_t AudioSampleEntry::encode(NetBuffer& buf) {
     auto start = buf.pos();
     SampleEntry::encode(buf);
 
@@ -39,7 +38,7 @@ int64_t AudioSampleEntry::encode(NetBuffer & buf) {
     return buf.pos() - start;
 }
 
-int64_t AudioSampleEntry::decode(NetBuffer & buf) {
+int64_t AudioSampleEntry::decode(NetBuffer& buf) {
     auto start = buf.pos();
     SampleEntry::decode(buf);
     buf.skip(8);

@@ -4,22 +4,22 @@ file(GLOB_RECURSE MMS_RTP_LIB_SOURCES  "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
                                         "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp" 
                                         "${CMAKE_CURRENT_SOURCE_DIR}/*.cc")
 
-add_library(mms-rtp STATIC ${MMS_RTP_LIB_SOURCES})
-add_dependencies(mms-rtp 
+add_library(cutesms-rtp STATIC ${MMS_RTP_LIB_SOURCES})
+add_dependencies(cutesms-rtp 
     libboost
     libjsoncpp
     libboringssl
-    mms-base
+    cutesms-base
 )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(mms-rtp 
+target_include_directories(cutesms-rtp 
                            PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../)
-target_include_directories(mms-rtp 
+target_include_directories(cutesms-rtp 
                            PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 
-target_link_libraries(mms-rtp
+target_link_libraries(cutesms-rtp
     boost_system.a
     boost_serialization.a
     boost_date_time.a
@@ -35,7 +35,7 @@ target_link_libraries(mms-rtp
     libyaml-cpp.a
     dl
     pthread
-    mms-base
+    cutesms-base
 )
 
-install(TARGETS mms-rtp ARCHIVE DESTINATION lib)
+install(TARGETS cutesms-rtp ARCHIVE DESTINATION lib)

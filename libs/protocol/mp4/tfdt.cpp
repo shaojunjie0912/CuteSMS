@@ -1,20 +1,16 @@
 #include "tfdt.h"
+
 #include "base/net_buffer.h"
-using namespace mms;
 
-TfdtBox::TfdtBox() : FullBox(BOX_TYPE_TFDT, 0, 0) {
+using namespace cutesms;
 
-}
+TfdtBox::TfdtBox() : FullBox(BOX_TYPE_TFDT, 0, 0) {}
 
-TfdtBox::~TfdtBox() {
+TfdtBox::~TfdtBox() {}
 
-}
+int64_t TfdtBox::size() { return FullBox::size() + (version_ ? 8 : 4); }
 
-int64_t TfdtBox::size() {
-    return FullBox::size() + (version_?8:4);
-}
-
-int64_t TfdtBox::encode(NetBuffer & buf) {
+int64_t TfdtBox::encode(NetBuffer& buf) {
     update_size();
     auto start = buf.pos();
     FullBox::encode(buf);
@@ -26,7 +22,7 @@ int64_t TfdtBox::encode(NetBuffer & buf) {
     return buf.pos() - start;
 }
 
-int64_t TfdtBox::decode(NetBuffer & buf) {
+int64_t TfdtBox::decode(NetBuffer& buf) {
     auto start = buf.pos();
     FullBox::decode(buf);
     if (version_) {

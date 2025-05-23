@@ -1,16 +1,15 @@
 #include "urn.h"
+
 #include <string.h>
+
 #include "base/net_buffer.h"
 
-using namespace mms;
 
-UrnBox::UrnBox(uint32_t flags) : FullBox(BOX_TYPE_URN, 0, flags) {
+using namespace cutesms;
 
-}
+UrnBox::UrnBox(uint32_t flags) : FullBox(BOX_TYPE_URN, 0, flags) {}
 
-UrnBox::~UrnBox() {
-
-}
+UrnBox::~UrnBox() {}
 
 int64_t UrnBox::size() {
     int64_t total_bytes = FullBox::size();
@@ -19,7 +18,7 @@ int64_t UrnBox::size() {
     return total_bytes;
 }
 
-int64_t UrnBox::encode(NetBuffer & buf) {
+int64_t UrnBox::encode(NetBuffer& buf) {
     auto start = buf.pos();
     FullBox::encode(buf);
     buf.write_string(name_);
@@ -27,7 +26,7 @@ int64_t UrnBox::encode(NetBuffer & buf) {
     return buf.pos() - start;
 }
 
-int64_t UrnBox::decode(NetBuffer & buf) {
+int64_t UrnBox::decode(NetBuffer& buf) {
     auto start = buf.pos();
     FullBox::decode(buf);
     // int64_t left_bytes = decoded_size() - (buf.pos() - start);

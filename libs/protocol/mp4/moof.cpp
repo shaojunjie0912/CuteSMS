@@ -1,20 +1,18 @@
 #include "moof.h"
+
+#include "base/net_buffer.h"
 #include "mdhd.h"
 #include "mfhd.h"
-#include "traf.h"
 #include "mp4_factory.h"
-#include "base/net_buffer.h"
 #include "spdlog/spdlog.h"
+#include "traf.h"
 
-using namespace mms;
 
-MoofBox::MoofBox() : Box(BOX_TYPE_MOOF) {
+using namespace cutesms;
 
-}
+MoofBox::MoofBox() : Box(BOX_TYPE_MOOF) {}
 
-MoofBox::~MoofBox() {
-
-}
+MoofBox::~MoofBox() {}
 
 int64_t MoofBox::size() {
     int64_t total_bytes = Box::size();
@@ -35,7 +33,7 @@ int64_t MoofBox::size() {
     return total_bytes;
 }
 
-int64_t MoofBox::encode(NetBuffer & buf) {
+int64_t MoofBox::encode(NetBuffer& buf) {
     update_size();
     auto start = buf.pos();
     Box::encode(buf);
@@ -55,7 +53,7 @@ int64_t MoofBox::encode(NetBuffer & buf) {
     return buf.pos() - start;
 }
 
-int64_t MoofBox::decode(NetBuffer & buf) {
+int64_t MoofBox::decode(NetBuffer& buf) {
     auto start = buf.pos();
     Box::decode(buf);
     auto left_bytes = decoded_size() - (buf.pos() - start);
@@ -75,6 +73,6 @@ int64_t MoofBox::decode(NetBuffer & buf) {
 
         left_bytes -= consumed;
     }
-    
+
     return buf.pos() - start;
 }

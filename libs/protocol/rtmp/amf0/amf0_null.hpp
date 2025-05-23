@@ -1,15 +1,16 @@
 #pragma once
 #include "amf0_def.hpp"
-namespace mms {
+namespace cutesms {
 class Amf0Null : public Amf0Data {
 public:
     static const AMF0_MARKER_TYPE marker = NULL_MARKER;
     Amf0Null() : Amf0Data(NULL_MARKER) {}
     virtual ~Amf0Null() {}
+
 public:
     int32_t decode(const uint8_t *data, size_t len) {
-        uint8_t *data_start = (uint8_t*)data;
-        if(len < 1) {
+        uint8_t *data_start = (uint8_t *)data;
+        if (len < 1) {
             return -1;
         }
 
@@ -34,8 +35,6 @@ public:
         return data - buf;
     }
 
-    size_t size() const {
-        return 1;
-    }
+    size_t size() const { return 1; }
 };
-};
+};  // namespace cutesms

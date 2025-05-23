@@ -1,7 +1,8 @@
+#include "mp4_segment.h"
+
 #include <string.h>
 
-#include "mp4_segment.h"
-using namespace mms;
+using namespace cutesms;
 
 Mp4Segment::Mp4Segment() {
     buf_ = std::make_unique<uint8_t[]>(MP4_DEFAULT_SIZE);
@@ -11,8 +12,8 @@ Mp4Segment::Mp4Segment() {
 
 std::string_view Mp4Segment::alloc_buffer(size_t s) {
     if ((used_bytes_ + s) >= allocated_bytes_) {
-        auto buf_new = std::make_unique<uint8_t[]>(allocated_bytes_*2);
-        allocated_bytes_ = allocated_bytes_*2;
+        auto buf_new = std::make_unique<uint8_t[]>(allocated_bytes_ * 2);
+        allocated_bytes_ = allocated_bytes_ * 2;
         memcpy(buf_new.get(), buf_.get(), used_bytes_);
         buf_.swap(buf_new);
     }
@@ -32,13 +33,10 @@ void Mp4Segment::update_timestamp(int64_t start, int64_t end) {
         end = 0;
     }
 
-
     start_timestamp_ = start;
     end_timestamp_ = end;
-    
+
     duration_ms_ = end - start;
 }
 
-int64_t Mp4Segment::get_duration() {
-    return duration_ms_;
-}
+int64_t Mp4Segment::get_duration() { return duration_ms_; }

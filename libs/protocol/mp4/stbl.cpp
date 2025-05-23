@@ -1,16 +1,14 @@
 #include "stbl.h"
-#include "mp4_factory.h"
+
 #include "base/net_buffer.h"
+#include "mp4_factory.h"
 
-using namespace mms;
 
-StblBox::StblBox() : Box(BOX_TYPE_STBL) {
+using namespace cutesms;
 
-}
+StblBox::StblBox() : Box(BOX_TYPE_STBL) {}
 
-StblBox::~StblBox() {
-    
-}
+StblBox::~StblBox() {}
 
 int64_t StblBox::size() {
     int64_t total_bytes = Box::size();
@@ -20,17 +18,17 @@ int64_t StblBox::size() {
     return total_bytes;
 }
 
-int64_t StblBox::encode(NetBuffer & buf) {
+int64_t StblBox::encode(NetBuffer& buf) {
     update_size();
     auto start = buf.pos();
     Box::encode(buf);
-    for (auto & c : boxes_) {
+    for (auto& c : boxes_) {
         c->encode(buf);
     }
     return buf.pos() - start;
 }
 
-int64_t StblBox::decode(NetBuffer & buf) {
+int64_t StblBox::decode(NetBuffer& buf) {
     auto start = buf.pos();
     Box::decode(buf);
     auto left_bytes = decoded_size() - (buf.pos() - start);
@@ -42,16 +40,14 @@ int64_t StblBox::decode(NetBuffer & buf) {
         boxes_.push_back(child);
         left_bytes -= consumed;
     }
-    
+
     return buf.pos() - start;
 }
 
-void StblBox::add_box(std::shared_ptr<Box> child) {
-    boxes_.push_back(child);
-}
+void StblBox::add_box(std::shared_ptr<Box> child) { boxes_.push_back(child); }
 
 std::shared_ptr<Box> StblBox::find_box(Box::Type type) {
-    for (auto & box : boxes_) {
+    for (auto& box : boxes_) {
         if (box->type() == type) {
             return box;
         }

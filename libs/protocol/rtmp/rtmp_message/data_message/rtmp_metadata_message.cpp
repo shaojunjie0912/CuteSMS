@@ -1,19 +1,15 @@
 #include "rtmp_metadata_message.hpp"
 
-using namespace mms;
-RtmpMetaDataMessage::RtmpMetaDataMessage() {
+using namespace cutesms;
+RtmpMetaDataMessage::RtmpMetaDataMessage() {}
 
-}
-
-RtmpMetaDataMessage::~RtmpMetaDataMessage() {
-
-}
+RtmpMetaDataMessage::~RtmpMetaDataMessage() {}
 
 int32_t RtmpMetaDataMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg) {
     int32_t consumed = 0;
     int32_t pos = 0;
     auto using_data = rtmp_msg->get_using_data();
-    const uint8_t *payload = (const uint8_t*)using_data.data();
+    const uint8_t *payload = (const uint8_t *)using_data.data();
     int32_t len = using_data.size();
     Amf0String name;
     Amf0EcmaArray metadata_arr;
@@ -52,9 +48,9 @@ int32_t RtmpMetaDataMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg) {
         pos += consumed;
         payload += consumed;
         len -= consumed;
-        
+
         cache_msg_ = rtmp_msg;
-        {// get metadata info
+        {  // get metadata info
             auto t = metadata_->get_property<Amf0Number>("audiocodecid");
             if (t) {
                 audio_codec_id_ = (AudioTagHeader::SoundFormat)*t;
@@ -110,7 +106,7 @@ int32_t RtmpMetaDataMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg) {
             if (t) {
                 width_ = *t;
             }
-            
+
             t = metadata_->get_property<Amf0Boolean>("stereo");
             if (t) {
                 stereo_ = *t;
@@ -125,7 +121,7 @@ int32_t RtmpMetaDataMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg) {
             t = metadata_->get_property<Amf0Number>("videodatarate");
             if (t) {
                 video_data_rate_ = *t;
-            }        
+            }
         }
     } else if (marker == ECMA_ARRAY_MARKER) {
         amf0_metadata_ = std::make_shared<Amf0EcmaArray>();
@@ -138,9 +134,9 @@ int32_t RtmpMetaDataMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg) {
         pos += consumed;
         payload += consumed;
         len -= consumed;
-        
+
         cache_msg_ = rtmp_msg;
-        {// get metadata info
+        {  // get metadata info
             auto t = metadata_->get_property<Amf0Number>("audiocodecid");
             if (t) {
                 audio_codec_id_ = (AudioTagHeader::SoundFormat)*t;
@@ -196,7 +192,7 @@ int32_t RtmpMetaDataMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg) {
             if (t) {
                 width_ = *t;
             }
-            
+
             t = metadata_->get_property<Amf0Boolean>("stereo");
             if (t) {
                 stereo_ = *t;
@@ -211,12 +207,12 @@ int32_t RtmpMetaDataMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg) {
             t = metadata_->get_property<Amf0Number>("videodatarate");
             if (t) {
                 video_data_rate_ = *t;
-            }        
+            }
         }
     } else {
         return -5;
     }
-    
+
     return pos;
 }
 
@@ -225,7 +221,7 @@ int32_t RtmpMetaDataMessage::decode(std::shared_ptr<FlvTag> flv_tag) {
     int32_t pos = 0;
     SCRIPTDATA *script_data = (SCRIPTDATA *)flv_tag->tag_data.get();
     std::string_view payload_vw = script_data->get_payload();
-    const uint8_t *payload = (const uint8_t*)payload_vw.data();
+    const uint8_t *payload = (const uint8_t *)payload_vw.data();
     int32_t len = payload_vw.size();
     Amf0String name;
     std::unique_ptr<Amf0Data> metadata;
@@ -266,14 +262,14 @@ int32_t RtmpMetaDataMessage::decode(std::shared_ptr<FlvTag> flv_tag) {
     pos += consumed;
     payload += consumed;
     len -= consumed;
-    
+
     cache_flv_tag_ = flv_tag;
     if (marker == OBJECT_MARKER) {
-        retrieve_info((Amf0Object*)metadata.get());
+        retrieve_info((Amf0Object *)metadata.get());
     } else if (marker == ECMA_ARRAY_MARKER) {
-        retrieve_info((Amf0EcmaArray*)metadata.get());
+        retrieve_info((Amf0EcmaArray *)metadata.get());
     }
-    
+
     return pos;
 }
 
@@ -333,7 +329,7 @@ bool RtmpMetaDataMessage::retrieve_info(Amf0EcmaArray *metadata) {
     if (t) {
         width_ = *t;
     }
-    
+
     auto v = metadata->get_property<Amf0Boolean>("stereo");
     if (v) {
         stereo_ = *v;
@@ -348,8 +344,8 @@ bool RtmpMetaDataMessage::retrieve_info(Amf0EcmaArray *metadata) {
     t = metadata->get_property<Amf0Number>("videodatarate");
     if (t) {
         video_data_rate_ = *t;
-    }   
-    return true;     
+    }
+    return true;
 }
 
 bool RtmpMetaDataMessage::retrieve_info(Amf0Object *metadata) {
@@ -408,7 +404,7 @@ bool RtmpMetaDataMessage::retrieve_info(Amf0Object *metadata) {
     if (t) {
         width_ = *t;
     }
-    
+
     auto v = metadata->get_property<Amf0Boolean>("stereo");
     if (v) {
         stereo_ = *v;
@@ -423,12 +419,12 @@ bool RtmpMetaDataMessage::retrieve_info(Amf0Object *metadata) {
     t = metadata->get_property<Amf0Number>("videodatarate");
     if (t) {
         video_data_rate_ = *t;
-    }  
+    }
     return true;
 }
 
 int32_t RtmpMetaDataMessage::encode(uint8_t *data, int32_t len) {
-    //todo implement this method
+    // todo implement this method
     uint8_t *data_start = data;
     Amf0String name;
     name.set_value("@setDataFrame");
@@ -455,6 +451,6 @@ int32_t RtmpMetaDataMessage::encode(uint8_t *data, int32_t len) {
     }
     data += consumed;
     len -= consumed;
- 
+
     return data - data_start;
 }

@@ -1,10 +1,12 @@
-#include<netinet/in.h>
 #include "rtmp_window_ack_size_message.hpp"
-using namespace mms;
+
+#include <netinet/in.h>
+
+using namespace cutesms;
 
 int32_t RtmpWindowAckSizeMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg) {
     auto using_data = rtmp_msg->get_using_data();
-    uint8_t * payload = (uint8_t*)using_data.data();
+    uint8_t* payload = (uint8_t*)using_data.data();
     int32_t len = using_data.size();
     if (len < 4) {
         return -1;

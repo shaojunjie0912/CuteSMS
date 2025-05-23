@@ -9,13 +9,14 @@
 //    ice-options           = "ice-options" ":" ice-option-tag
 //                              0*(SP ice-option-tag)
 //    ice-option-tag        = 1*ice-char
-namespace mms {
+namespace cutesms {
 struct IceOption {
 public:
-    static std::string prefix;
-    bool parse(const std::string & line);
+    inline static std::string prefix{"a=ice-options:"};
+    bool parse(const std::string &line);
     std::string to_string() const;
+
 public:
     std::string option;
 };
-};
+};  // namespace cutesms

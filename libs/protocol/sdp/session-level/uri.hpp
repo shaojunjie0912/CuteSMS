@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-namespace mms {
+namespace cutesms {
 // 5.5.  URI ("u=")
 //       u=<uri>
 //    A URI is a Uniform Resource Identifier as used by WWW clients [7].
@@ -12,18 +12,15 @@ namespace mms {
 class Uri {
 public:
     static std::string prefix;
-    bool parse(const std::string & line);
+    bool parse(const std::string& line);
 
-    const std::string & get_uri() const {
-        return uri;
-    }
+    const std::string& get_uri() const { return uri; }
 
-    void set_uri(const std::string & val) {
-        uri = val;
-    }
+    void set_uri(const std::string& val) { uri = val; }
 
     std::string to_string() const;
+
 public:
     std::string uri;
 };
-};
+};  // namespace cutesms

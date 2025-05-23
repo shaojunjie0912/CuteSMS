@@ -1,19 +1,18 @@
 #pragma once
 #include "amf0_def.hpp"
-namespace mms {
+namespace cutesms {
 class Amf0Date : public Amf0Data {
 public:
     using value_type = double;
     static const AMF0_MARKER_TYPE marker = DATE_MARKER;
     Amf0Date() : Amf0Data(DATE_MARKER) {}
+
 public:
-    double & get_value() {
-        return utc_;
-    }
+    double &get_value() { return utc_; }
 
     int32_t decode(const uint8_t *data, size_t len) {
         int pos = 0;
-        if(len < 1) {
+        if (len < 1) {
             return -1;
         }
 
@@ -30,7 +29,7 @@ public:
             return -3;
         }
 
-        char *p = (char*)&utc_;
+        char *p = (char *)&utc_;
         p[0] = data[7];
         p[1] = data[6];
         p[2] = data[5];
@@ -48,7 +47,7 @@ public:
             return -4;
         }
 
-        p = (char*)&time_zone_;
+        p = (char *)&time_zone_;
         p[0] = data[1];
         p[1] = data[0];
         pos += 2;
@@ -64,11 +63,12 @@ public:
     }
 
     size_t size() const {
-        return 11;//1 + 8 + 2;
+        return 11;  // 1 + 8 + 2;
     }
+
 public:
     double utc_;
     int16_t time_zone_;
 };
 
-};
+};  // namespace cutesms

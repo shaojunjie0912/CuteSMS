@@ -1,18 +1,16 @@
-#include <arpa/inet.h>
 #include "rtmp_window_acknowledge_size_message.hpp"
-using namespace mms;
 
-RtmpWindowAcknwledgeSizeMessage::RtmpWindowAcknwledgeSizeMessage(size_t s) : acknowledge_windows_size_(s) {
+#include <arpa/inet.h>
 
-}
+using namespace cutesms;
 
-RtmpWindowAcknwledgeSizeMessage::RtmpWindowAcknwledgeSizeMessage() {
+RtmpWindowAcknwledgeSizeMessage::RtmpWindowAcknwledgeSizeMessage(size_t s) : acknowledge_windows_size_(s) {}
 
-}
+RtmpWindowAcknwledgeSizeMessage::RtmpWindowAcknwledgeSizeMessage() {}
 
 int32_t RtmpWindowAcknwledgeSizeMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg) {
     auto using_data = rtmp_msg->get_using_data();
-    uint8_t * payload = (uint8_t*)using_data.data();
+    uint8_t* payload = (uint8_t*)using_data.data();
     int32_t len = using_data.size();
     if (len < 4) {
         return -1;

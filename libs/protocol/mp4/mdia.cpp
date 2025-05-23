@@ -1,18 +1,16 @@
 #include "mdia.h"
+
 #include "hdlr.h"
-#include "minf.h"
 #include "mdhd.h"
+#include "minf.h"
 #include "mp4_factory.h"
 
-using namespace mms;
 
-MdiaBox::MdiaBox() : Box(BOX_TYPE_MDIA) {
+using namespace cutesms;
 
-}
+MdiaBox::MdiaBox() : Box(BOX_TYPE_MDIA) {}
 
-MdiaBox::~MdiaBox() {
-
-}
+MdiaBox::~MdiaBox() {}
 
 int64_t MdiaBox::size() {
     int64_t total_bytes = Box::size();
@@ -30,7 +28,7 @@ int64_t MdiaBox::size() {
     return total_bytes;
 }
 
-int64_t MdiaBox::encode(NetBuffer & buf) {
+int64_t MdiaBox::encode(NetBuffer& buf) {
     update_size();
     auto start = buf.pos();
     Box::encode(buf);
@@ -48,7 +46,7 @@ int64_t MdiaBox::encode(NetBuffer & buf) {
     return buf.pos() - start;
 }
 
-int64_t MdiaBox::decode(NetBuffer & buf) {
+int64_t MdiaBox::decode(NetBuffer& buf) {
     auto start = buf.pos();
     Box::decode(buf);
     auto left_bytes = decoded_size() - (buf.pos() - start);

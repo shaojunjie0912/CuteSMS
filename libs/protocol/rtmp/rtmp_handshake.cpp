@@ -1,12 +1,12 @@
-#include <boost/array.hpp>
 #include "rtmp_handshake.hpp"
-using namespace mms;
 
-RtmpHandshake::RtmpHandshake(std::shared_ptr<SocketInterface> conn):conn_(conn) {
-}
+#include <boost/array.hpp>
 
-RtmpHandshake::~RtmpHandshake() {
-}
+using namespace cutesms;
+
+RtmpHandshake::RtmpHandshake(std::shared_ptr<SocketInterface> conn) : conn_(conn) {}
+
+RtmpHandshake::~RtmpHandshake() {}
 
 boost::asio::awaitable<bool> RtmpHandshake::do_server_handshake() {
     boost::array<uint8_t, 1537> c0c1;
@@ -56,13 +56,13 @@ boost::asio::awaitable<bool> RtmpHandshake::do_client_handshake() {
 }
 
 void RtmpHandshake::_genS0S1S2(uint8_t *c0c1, uint8_t *s0s1s2) {
-    //s0
+    // s0
     s0s1s2[0] = '\x03';
-    //s1
+    // s1
     memset(s0s1s2 + 1, 0, 8);
-    //s2
-    int32_t t = ntohl(*(int32_t*)(c0c1 + 1));
-    *(int32_t*)(s0s1s2 + 1537) = htonl(t);
-    *(int32_t*)(s0s1s2 + 1541) = 0;//htonl(time(NULL));
+    // s2
+    int32_t t = ntohl(*(int32_t *)(c0c1 + 1));
+    *(int32_t *)(s0s1s2 + 1537) = htonl(t);
+    *(int32_t *)(s0s1s2 + 1541) = 0;  // htonl(time(NULL));
     memcpy(s0s1s2 + 1545, c0c1 + 9, 1528);
 }

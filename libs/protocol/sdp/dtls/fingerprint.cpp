@@ -1,10 +1,13 @@
-#include <sstream>
-#include <boost/algorithm/string.hpp>
 #include "fingerprint.h"
-#include "base/utils/utils.h"
-using namespace mms;
-std::string FingerPrint::prefix = "a=fingerprint:";
-bool FingerPrint::parse(const std::string & line) {
+
+#include <base/utils/utils.h>
+
+#include <boost/algorithm/string.hpp>
+#include <sstream>
+
+namespace cutesms {
+
+bool FingerPrint::parse(const std::string& line) {
     std::string::size_type end_pos = line.rfind("\r");
     if (end_pos == std::string::npos) {
         end_pos = line.size() - 1;
@@ -26,3 +29,4 @@ std::string FingerPrint::to_string() const {
     oss << prefix << hash_name_ << " " << hash_val_ << std::endl;
     return oss.str();
 }
+}  // namespace cutesms

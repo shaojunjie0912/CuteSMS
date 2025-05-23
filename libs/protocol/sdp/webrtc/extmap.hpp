@@ -1,7 +1,7 @@
 #pragma once
 // @draft-ietf-rtcweb-sdp-14.html
-// rfc8285 中同一个 RTPStream 中允许 one-byte header extension 和 two-byte header extension 同时出现，需要 sdp中声明 ‘a=extmap-allow-mixed’
-// 在 SDP 信息中 ‘a=extmap’ 用来描述 RTP header extension。
+// rfc8285 中同一个 RTPStream 中允许 one-byte header extension 和 two-byte header extension 同时出现，需要
+// sdp中声明 ‘a=extmap-allow-mixed’ 在 SDP 信息中 ‘a=extmap’ 用来描述 RTP header extension。
 // a=extmap:<value>["/"<direction>] <URI> <extensionattributes>
 // a=extmap:1 http://example.com/082005/ext.htm#ttime
 // a=extmap:2/sendrecv http://example.com/082005/ext.htm#xmeta
@@ -52,7 +52,9 @@
 //       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //       |                          data                                 |
 //       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-// 首先"defined by profile"字段为0x1000，length为3，后面跟着3x4字节长度扩展，对于第一个header extension：L=0，数据长度为0，对于第二个header extension：L=1，data长度为1，接着是填充数据，对于第三个header extension：L=4，后面跟着4字节长度数据。
+// 首先"defined by profile"字段为0x1000，length为3，后面跟着3x4字节长度扩展，对于第一个header
+// extension：L=0，数据长度为0，对于第二个header extension：L=1，data长度为1，接着是填充数据，对于第三个header
+// extension：L=4，后面跟着4字节长度数据。
 
 // 由于WebRTC中默认都是One-Byte Header，所以就不抓包分析了，具体构造解析代码跟One-Byte Header位于同一地方。
 
@@ -60,15 +62,16 @@
 #include <string>
 #include <vector>
 
-namespace mms {
+namespace cutesms {
 struct Extmap {
 public:
     static std::string prefix;
-    virtual bool parse(const std::string & line);
+    virtual bool parse(const std::string& line);
+
 public:
     std::string value;
     std::string direction;
     std::string uri;
     std::vector<std::string> ext_attrs;
 };
-};
+};  // namespace cutesms

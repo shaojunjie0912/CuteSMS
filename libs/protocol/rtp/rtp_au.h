@@ -1,16 +1,25 @@
 #pragma once
 #include <stdint.h>
-namespace mms {
+namespace cutesms {
 struct AUConfig {
-    uint32_t constant_size;//constant_size和size_length不能同时出现, 一般都是size_length，目前先处理这种情况，constant_size应该是在某种编码模式固定长度的时候用
-    uint16_t size_length = 0;//The number of bits on which the AU-size field is encoded in the AU-header. 如果没有这个字段，则au-headers-length字段也不存在
-    uint16_t index_length = 0;//The number of bits on which the AU-Index is encoded in the first AU-header
-    uint16_t index_delta_length = 0;//The number of bits on which the AU-Index-delta field is encoded in any non-first AU-header.
-    uint16_t cts_delta_length;//The number of bits on which the CTS-delta field is encoded in the AU-header.
-    uint16_t dts_delta_length;//The number of bits on which the DTS-delta field is encoded in the AU-header.
-    uint8_t random_access_indication;//A decimal value of zero or one, indicating whether the RAP-flag is present in the AU-header.
-    uint8_t stream_state_indication;//The number of bits on which the Stream-state field is encoded in the AU-header.
-    uint16_t auxiliary_data_size_length;//The number of bits that is used to encode the auxiliary-data-size field.
+    uint32_t
+        constant_size;  // constant_size和size_length不能同时出现,
+                        // 一般都是size_length，目前先处理这种情况，constant_size应该是在某种编码模式固定长度的时候用
+    uint16_t size_length = 0;  // The number of bits on which the AU-size field is encoded in the AU-header.
+                               // 如果没有这个字段，则au-headers-length字段也不存在
+    uint16_t index_length = 0;  // The number of bits on which the AU-Index is encoded in the first AU-header
+    uint16_t index_delta_length =
+        0;  // The number of bits on which the AU-Index-delta field is encoded in any non-first AU-header.
+    uint16_t cts_delta_length;  // The number of bits on which the CTS-delta field is encoded in the
+                                // AU-header.
+    uint16_t dts_delta_length;  // The number of bits on which the DTS-delta field is encoded in the
+                                // AU-header.
+    uint8_t random_access_indication;  // A decimal value of zero or one, indicating whether the RAP-flag is
+                                       // present in the AU-header.
+    uint8_t stream_state_indication;  // The number of bits on which the Stream-state field is encoded in the
+                                      // AU-header.
+    uint16_t auxiliary_data_size_length;  // The number of bits that is used to encode the auxiliary-data-size
+                                          // field.
 };
 // 3.2.1.  The AU Header Section
 //    When present, the AU Header Section consists of the AU-headers-length
@@ -59,7 +68,7 @@ struct AUConfig {
 //       |     Stream-state                      |
 //       +---------------------------------------+
 struct AUHeader {
-    uint16_t AU_size;//au的大小,
+    uint16_t AU_size;  // au的大小,
     uint16_t AU_index;
     uint16_t AU_index_delta;
     uint8_t CTS_flag;
@@ -70,4 +79,4 @@ struct AUHeader {
     uint32_t stream_state;
 };
 
-};
+};  // namespace cutesms

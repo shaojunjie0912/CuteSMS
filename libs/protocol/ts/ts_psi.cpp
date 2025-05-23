@@ -4,7 +4,7 @@
  * @LastEditTime: 2023-09-16 12:06:47
  * @LastEditors: jbl19860422
  * @Description:
- * @FilePath: \mms\mms\protocol\ts\ts_psi.cpp
+ * @FilePath: \cutesms\cutesms\protocol\ts\ts_psi.cpp
  * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
  */
 #include "ts_psi.hpp"

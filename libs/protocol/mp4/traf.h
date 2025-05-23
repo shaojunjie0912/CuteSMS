@@ -1,6 +1,6 @@
 #pragma once
 #include "box.h"
-namespace mms {
+namespace cutesms {
 class TfhdBox;
 class TfdtBox;
 class TrunBox;
@@ -14,13 +14,15 @@ class TrafBox : public Box {
 public:
     TrafBox();
     virtual ~TrafBox();
+
 public:
     int64_t size() override;
-    int64_t encode(NetBuffer & buf) override;
-    int64_t decode(NetBuffer & buf) override;
+    int64_t encode(NetBuffer& buf) override;
+    int64_t decode(NetBuffer& buf) override;
+
 public:
     std::shared_ptr<TfhdBox> tfhd_;
     std::shared_ptr<TfdtBox> tfdt_;
     std::shared_ptr<TrunBox> trun_;
 };
-};
+};  // namespace cutesms

@@ -1,12 +1,10 @@
 #include "flv_tag.hpp"
+
 #include "spdlog/spdlog.h"
-using namespace mms;
 
+using namespace cutesms;
 
-
-bool AudioTagHeader::is_seq_header() {
-    return aac_packet_type == AACSequenceHeader;
-}
+bool AudioTagHeader::is_seq_header() { return aac_packet_type == AACSequenceHeader; }
 
 int32_t AudioTagHeader::decode(const uint8_t *data, size_t len) {
     const uint8_t *data_start = data;
@@ -25,7 +23,7 @@ int32_t AudioTagHeader::decode(const uint8_t *data, size_t len) {
         if (len < 1) {
             return -2;
         }
-        aac_packet_type = (AACPacketType)(*data); 
+        aac_packet_type = (AACPacketType)(*data);
         len--;
         data++;
     }
@@ -67,51 +65,52 @@ bool VideoTagHeader::is_seq_header() {
             return false;
         }
     }
-    
+
     return false;
 }
 
-int32_t VideoTagHeader::decode(const uint8_t *data, size_t len) { 
+int32_t VideoTagHeader::decode(const uint8_t *data, size_t len) {
     auto data_start = data;
     if (len < 1) {
         return 0;
     }
 
-    frame_type = (FrameType)((*data>>4)&0x0f);
-    if (frame_type & 0x08) { 
+    frame_type = (FrameType)((*data >> 4) & 0x0f);
+    if (frame_type & 0x08) {
         is_extheader = true;
     }
-    frame_type = (FrameType)((*data>>4)&0x07); 
-    
+    frame_type = (FrameType)((*data >> 4) & 0x07);
+
     if (is_extheader) {
-        ext_packet_type = (ExtPacketType)((*data)&0x0f);
+        ext_packet_type = (ExtPacketType)((*data) & 0x0f);
         data++;
         len--;
         if (len < 4) {
             return 0;
         }
 
-        fourcc = ntohl(*(uint32_t*)data);
+        fourcc = ntohl(*(uint32_t *)data);
         data += 4;
         len -= 4;
         if (fourcc == HEVC_FOURCC) {
             codec_id = HEVC;
             if (ext_packet_type == PacketTypeSequeneStart) {
                 avc_packet_type = AVCSequenceHeader;
-            } else if (ext_packet_type == PacketTypeCodedFrames || ext_packet_type == PacketTypeCodedFramesX) {
+            } else if (ext_packet_type == PacketTypeCodedFrames ||
+                       ext_packet_type == PacketTypeCodedFramesX) {
                 if (ext_packet_type == PacketTypeCodedFrames) {
                     if (len < 3) {
                         return 0;
                     }
                     composition_time = 0;
-                    uint8_t *p = (uint8_t*)&composition_time;
+                    uint8_t *p = (uint8_t *)&composition_time;
                     p[0] = data[2];
                     p[1] = data[1];
                     p[2] = data[0];
                     data += 3;
                     len -= 3;
                 }
-                
+
                 avc_packet_type = AVCNALU;
             } else if (ext_packet_type == PacketTypeSequenceEnd) {
                 avc_packet_type = AVCEofSequence;
@@ -120,7 +119,7 @@ int32_t VideoTagHeader::decode(const uint8_t *data, size_t len) {
             return -1;
         }
     } else {
-        codec_id = CodecID(((*data))&0x0f);
+        codec_id = CodecID(((*data)) & 0x0f);
         len--;
         data++;
 
@@ -133,7 +132,7 @@ int32_t VideoTagHeader::decode(const uint8_t *data, size_t len) {
             len--;
 
             composition_time = 0;
-            uint8_t *p = (uint8_t*)&composition_time;
+            uint8_t *p = (uint8_t *)&composition_time;
             p[0] = data[2];
             p[1] = data[1];
             p[2] = data[0];
@@ -143,7 +142,7 @@ int32_t VideoTagHeader::decode(const uint8_t *data, size_t len) {
             return -1;
         }
     }
-    
+
     size_ = data - data_start;
     return data - data_start;
 }
@@ -171,7 +170,7 @@ int32_t VideoTagHeader::encode(uint8_t *data, size_t len) {
             data++;
             len--;
 
-            uint8_t *p = (uint8_t*)&composition_time;
+            uint8_t *p = (uint8_t *)&composition_time;
             data[0] = p[2];
             data[1] = p[1];
             data[2] = p[0];
@@ -192,12 +191,12 @@ int32_t VideoTagHeader::encode(uint8_t *data, size_t len) {
             return 0;
         }
 
-        *(uint32_t*)data = htonl(fourcc);
+        *(uint32_t *)data = htonl(fourcc);
         data += 4;
         len -= 4;
         if (fourcc == HEVC_FOURCC) {
             if (ext_packet_type == PacketTypeCodedFrames) {
-                uint8_t *p = (uint8_t*)&composition_time;
+                uint8_t *p = (uint8_t *)&composition_time;
                 if (len < 3) {
                     return 0;
                 }
@@ -209,7 +208,7 @@ int32_t VideoTagHeader::encode(uint8_t *data, size_t len) {
             }
         }
     }
-    
+
     return data - data_start;
 }
 
@@ -237,8 +236,6 @@ int32_t VideoTagHeader::encode_enhance_header(uint8_t *data, size_t len) {
     return 0;
 }
 
-
-
 int32_t AUDIODATA::decode(const uint8_t *data, size_t len) {
     auto data_start = data;
     auto consumed = header.decode(data, len);
@@ -247,7 +244,7 @@ int32_t AUDIODATA::decode(const uint8_t *data, size_t len) {
     }
     data += consumed;
     len -= consumed;
-    payload = std::string_view((char*)data, len);
+    payload = std::string_view((char *)data, len);
     data += len;
     return data - data_start;
 }
@@ -264,33 +261,23 @@ int32_t AUDIODATA::encode(uint8_t *data, size_t len) {
         return -2;
     }
 
-    if (payload.data() == (const char*)data) {
+    if (payload.data() == (const char *)data) {
         data += payload.size();
         return data - data_start;
     }
     memcpy(data, payload.data(), payload.size());
-    payload = std::string_view((char*)data, payload.size());
+    payload = std::string_view((char *)data, payload.size());
     data += payload.size();
     return data - data_start;
 }
 
+uint32_t VIDEODATA::get_pts() { return pts; }
 
+uint32_t VIDEODATA::get_dts() { return dts; }
 
-uint32_t VIDEODATA::get_pts() {
-    return pts;
-}
+void VIDEODATA::set_pts(uint32_t v) { pts = v; }
 
-uint32_t VIDEODATA::get_dts() {
-    return dts;
-}
-
-void VIDEODATA::set_pts(uint32_t v) {
-    pts = v;
-}
-
-void VIDEODATA::set_dts(uint32_t v) {
-    dts = v;
-}
+void VIDEODATA::set_dts(uint32_t v) { dts = v; }
 
 int32_t VIDEODATA::decode(const uint8_t *data, size_t len) {
     auto data_start = data;
@@ -300,7 +287,7 @@ int32_t VIDEODATA::decode(const uint8_t *data, size_t len) {
     }
     data += consumed;
     len -= consumed;
-    payload = std::string_view((char*)data, len);
+    payload = std::string_view((char *)data, len);
     data += len;
     return data - data_start;
 }
@@ -311,63 +298,49 @@ int32_t VIDEODATA::encode(uint8_t *data, size_t len) {
     if (consumed < 0) {
         return -1;
     }
-    
+
     data += consumed;
     len -= consumed;
     if (len < payload.size()) {
         return -2;
     }
 
-    if (payload.data() == (const char*)data) {
+    if (payload.data() == (const char *)data) {
         data += payload.size();
         return data - data_start;
     }
 
     memcpy(data, payload.data(), payload.size());
-    payload = std::string_view((char*)data, payload.size());
+    payload = std::string_view((char *)data, payload.size());
     data += payload.size();
     return data - data_start;
 }
 
 int32_t SCRIPTDATA::decode(const uint8_t *data, size_t len) {
-    payload = std::string_view((char*)data, len);
+    payload = std::string_view((char *)data, len);
     return len;
 }
 
-bool SCRIPTDATA::is_seq_header() {
-    return false;
-}
+bool SCRIPTDATA::is_seq_header() { return false; }
 
 int32_t SCRIPTDATA::encode(uint8_t *data, size_t len) {
     if (len < payload.size()) {
         return -1;
     }
     memcpy(data, payload.data(), payload.size());
-    payload = std::string_view((char*)data, payload.size());
+    payload = std::string_view((char *)data, payload.size());
     return payload.size();
 }
 
+FlvTag::FlvTag() {}
 
+FlvTag::FlvTag(size_t s) : Packet(PACKET_FLV, s) {}
 
-FlvTag::FlvTag() {
+FlvTag::~FlvTag() { tag_data.reset(); }
 
-}
+FlvTagHeader &FlvTag::get_tag_header() { return tag_header; }
 
-FlvTag::FlvTag(size_t s) : Packet(PACKET_FLV, s) {
-
-}
-
-FlvTag::~FlvTag() {
-    tag_data.reset();
-}
-
-FlvTagHeader & FlvTag::get_tag_header() {
-    return tag_header;
-}  
-
-FlvTagHeader::TagType FlvTag::get_tag_type() {
-    return (FlvTagHeader::TagType)(tag_header.tag_type & 0x1f);
-}  
+FlvTagHeader::TagType FlvTag::get_tag_type() { return (FlvTagHeader::TagType)(tag_header.tag_type & 0x1f); }
 
 int32_t FlvTag::decode(const uint8_t *data, size_t len) {
     auto data_start = data;
@@ -493,7 +466,7 @@ int32_t FlvTag::encode() {
     if (consumed < 0) {
         return -2;
     }
-    
+
     data += consumed;
     inc_used_bytes(data - data_buf_);
     return data - data_buf_;

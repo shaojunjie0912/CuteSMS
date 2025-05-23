@@ -1,16 +1,18 @@
 #pragma once
 #include "full_box.h"
-namespace mms {
+namespace cutesms {
 class NetBuffer;
 class VmhdBox : public FullBox {
 public:
 public:
     VmhdBox();
     virtual ~VmhdBox();
+
 public:
     virtual int64_t size();
-    virtual int64_t encode(NetBuffer & buf);
-    virtual int64_t decode(NetBuffer & buf);
+    virtual int64_t encode(NetBuffer& buf);
+    virtual int64_t decode(NetBuffer& buf);
+
 public:
     // A composition mode for this video track, from the following enumerated set,
     // which may be extended by derived specifications:
@@ -20,4 +22,4 @@ public:
     uint16_t opcolor_[3] = {0};
 };
 
-};
+};  // namespace cutesms

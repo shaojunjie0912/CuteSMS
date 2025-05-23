@@ -1,13 +1,9 @@
 #include "vmhd.h"
-using namespace mms;
+using namespace cutesms;
 
-VmhdBox::VmhdBox() : FullBox(BOX_TYPE_VMHD, 0, 1) {
+VmhdBox::VmhdBox() : FullBox(BOX_TYPE_VMHD, 0, 1) {}
 
-}
-
-VmhdBox::~VmhdBox() {
-
-}
+VmhdBox::~VmhdBox() {}
 
 int64_t VmhdBox::size() {
     int64_t total_bytes = FullBox::size();
@@ -15,7 +11,7 @@ int64_t VmhdBox::size() {
     return total_bytes;
 }
 
-int64_t VmhdBox::encode(NetBuffer & buf) {
+int64_t VmhdBox::encode(NetBuffer& buf) {
     update_size();
     auto start = buf.pos();
     FullBox::encode(buf);
@@ -26,7 +22,7 @@ int64_t VmhdBox::encode(NetBuffer & buf) {
     return buf.pos() - start;
 }
 
-int64_t VmhdBox::decode(NetBuffer & buf) {
+int64_t VmhdBox::decode(NetBuffer& buf) {
     auto start = buf.pos();
     FullBox::decode(buf);
     graphicsmode_ = buf.read_2bytes();

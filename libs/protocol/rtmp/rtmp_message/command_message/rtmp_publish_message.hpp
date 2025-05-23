@@ -23,20 +23,24 @@ SOFTWARE.
 */
 #pragma once
 #include <string>
+
 #include "amf0/amf0_inc.hpp"
 #include "rtmp_define.hpp"
 
-namespace mms {
+
+namespace cutesms {
 class RtmpPublishMessage {
 public:
     RtmpPublishMessage();
-    RtmpPublishMessage(int32_t transaction_id, const std::string & stream_name, const std::string & pub_type);
+    RtmpPublishMessage(int32_t transaction_id, const std::string& stream_name, const std::string& pub_type);
     virtual ~RtmpPublishMessage();
+
 public:
     int32_t decode(std::shared_ptr<RtmpMessage> rtmp_msg);
     std::shared_ptr<RtmpMessage> encode() const;
     int32_t size() const;
-    const std::string & stream_name() const;
+    const std::string& stream_name() const;
+
 public:
     Amf0String command_name_;
     Amf0Number transaction_id_;
@@ -46,5 +50,4 @@ public:
     Amf0String publish_type_;
 };
 
-
-};
+};  // namespace cutesms

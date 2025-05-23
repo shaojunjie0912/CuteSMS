@@ -30,26 +30,21 @@
 //    characters.  The upper limit allows for buffer sizing in
 //    implementations.  Its large upper limit allows for increased amounts
 //    of randomness to be added over time.
-namespace mms {
+namespace cutesms {
 struct IcePwd {
 public:
-    static std::string prefix;
+    inline static std::string prefix{"a=ice-pwd:"};
     IcePwd() = default;
-    IcePwd(const std::string & pwd) : pwd_(pwd) {
+    IcePwd(const std::string& pwd) : pwd_(pwd) {}
+    bool parse(const std::string& line);
 
-    }
-    bool parse(const std::string & line);
+    const std::string& getPwd() const { return pwd_; }
 
-    const std::string & getPwd() const {
-        return pwd_;
-    }
+    void setPwd(const std::string& pwd) { pwd_ = pwd; }
 
-    void setPwd(const std::string & pwd) {
-        pwd_ = pwd;
-    }
-    
     std::string to_string() const;
+
 private:
     std::string pwd_;
 };
-};
+};  // namespace cutesms

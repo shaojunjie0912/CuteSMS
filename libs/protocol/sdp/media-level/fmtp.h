@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <string>
 #include <unordered_map>
 // a=fmtp:<format> <format specific parameters>
@@ -19,51 +20,48 @@
 
 // It is a media-level attribute, and it is not dependent on
 // charset.
-namespace mms
-{
-    struct Fmtp
-    {
-    public:
-        static std::string prefix;
-        static std::string empty_str;
-        static bool is_my_prefix(const std::string &line);
-        Fmtp() = default;
-        Fmtp(uint32_t pt, const std::unordered_map<std::string, std::string> & params) : pt_(pt), fmt_params_(params)
-        {
+
+namespace cutesms {
+struct Fmtp {
+public:
+    inline static std::string prefix{"a=fmtp:"};
+
+    inline static std::string empty_str{};
+
+    inline static bool is_my_prefix(const std::string &line) {
+        if (line.starts_with(prefix)) {
+            return true;
         }
+        return false;
+    }
 
-        bool parse(const std::string &line);
+    Fmtp() = default;
+    Fmtp(uint32_t pt, const std::unordered_map<std::string, std::string> &params)
+        : pt_(pt), fmt_params_(params) {}
 
-        uint32_t get_pt() const
-        {
-            return pt_;
+    bool parse(const std::string &line);
+
+    uint32_t get_pt() const { return pt_; }
+
+    void set_pt(uint32_t pt) { pt_ = pt; }
+
+    void add_param(const std::string &k, const std::string &v);
+    std::string to_string() const;
+
+    const std::unordered_map<std::string, std::string> &get_params() const { return fmt_params_; }
+
+    bool has_param(const std::string &k) { return fmt_params_.find(k) != fmt_params_.end(); }
+
+    const std::string &get_param(const std::string &k) const {
+        auto it = fmt_params_.find(k);
+        if (it == fmt_params_.end()) {
+            return empty_str;
         }
+        return it->second;
+    }
 
-        void set_pt(uint32_t pt)
-        {
-            pt_ = pt;
-        }
-
-        void add_param(const std::string &k, const std::string & v);
-        std::string to_string() const;
-
-        const std::unordered_map<std::string, std::string> & get_params() const {
-            return fmt_params_;
-        }
-
-         bool has_param(const std::string & k) {
-            return fmt_params_.find(k) != fmt_params_.end();
-         }
-
-         const std::string & get_param(const std::string & k) const {
-            auto it = fmt_params_.find(k);
-            if (it == fmt_params_.end()) {
-                return empty_str;
-            }
-            return it->second;
-         }
-    public:
-        uint32_t pt_; //-1代表所有pt，正值代表具体的pt
-        std::unordered_map<std::string, std::string> fmt_params_;
-    };
+public:
+    uint32_t pt_;  //-1代表所有pt，正值代表具体的pt
+    std::unordered_map<std::string, std::string> fmt_params_;
 };
+};  // namespace cutesms

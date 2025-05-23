@@ -1,12 +1,13 @@
-#include <sstream>
-#include <boost/algorithm/string.hpp>
-
-#include "base/utils/utils.h"
 #include "connection_info.hpp"
 
-using namespace mms;
+#include <boost/algorithm/string.hpp>
+#include <sstream>
+
+#include "base/utils/utils.h"
+
+namespace cutesms {
 std::string ConnectionInfo::prefix = "c=";
-bool ConnectionInfo::parse(const std::string & line) {
+bool ConnectionInfo::parse(const std::string& line) {
     std::string::size_type end_pos = line.rfind("\r");
     if (end_pos == std::string::npos) {
         end_pos = line.size() - 1;
@@ -22,7 +23,7 @@ bool ConnectionInfo::parse(const std::string & line) {
     nettype_ = vs[0];
     addrtype_ = vs[1];
     std::string conn_addr_info = vs[2];
-    
+
     boost::split(vs, conn_addr_info, boost::is_any_of("/"));
     connection_address_ = vs[0];
     if (vs.size() >= 2) {
@@ -32,7 +33,7 @@ bool ConnectionInfo::parse(const std::string & line) {
     if (vs.size() >= 3) {
         num_of_addr = std::atoi(vs[2].c_str());
     }
-    
+
     return true;
 }
 
@@ -45,3 +46,4 @@ std::string ConnectionInfo::to_string() const {
     oss << std::endl;
     return oss.str();
 }
+}  // namespace cutesms

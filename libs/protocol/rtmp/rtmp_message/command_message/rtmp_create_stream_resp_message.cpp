@@ -1,20 +1,18 @@
 #include "rtmp_create_stream_resp_message.hpp"
-using namespace mms;
+using namespace cutesms;
 
 RtmpCreateStreamRespMessage::RtmpCreateStreamRespMessage(int32_t transaction_id) {
     command_name_.set_value("_result");
     transaction_id_.set_value(transaction_id);
 }
 
-double RtmpCreateStreamRespMessage::get_stream_id() {
-    return stream_id_.get_value();
-}
+double RtmpCreateStreamRespMessage::get_stream_id() { return stream_id_.get_value(); }
 
 int32_t RtmpCreateStreamRespMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg) {
     auto using_data = rtmp_msg->get_using_data();
-    const uint8_t *payload = (const uint8_t*)using_data.data();
+    const uint8_t *payload = (const uint8_t *)using_data.data();
     const uint8_t *data_start = payload;
-    int32_t len = using_data.size();//rtmp_msg->payload_size_;
+    int32_t len = using_data.size();  // rtmp_msg->payload_size_;
     int32_t consumed = command_name_.decode(payload, len);
     if (consumed <= 0) {
         return -1;
@@ -59,7 +57,7 @@ std::shared_ptr<RtmpMessage> RtmpCreateStreamRespMessage::encode() const {
     rtmp_msg->message_stream_id_ = RTMP_MESSAGE_ID_PROTOCOL_CONTROL;
     // window ack_size
     auto unuse_data = rtmp_msg->get_unuse_data();
-    uint8_t * payload = (uint8_t*)unuse_data.data();
+    uint8_t *payload = (uint8_t *)unuse_data.data();
     int32_t len = s;
     int32_t consumed = command_name_.encode(payload, len);
     if (consumed < 0) {

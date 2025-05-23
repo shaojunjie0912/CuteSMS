@@ -72,9 +72,9 @@
 //    is important to ensure that the proxy is either trusted or unable to
 //    access the SDP.
 
-namespace mms {
+namespace cutesms {
 struct EncryptionKeys {
 public:
     std::string raw_string;
 };
-};
+};  // namespace cutesms

@@ -4,22 +4,22 @@ file(GLOB_RECURSE MMS_MP4_LIB_SOURCES    "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
                                         "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp" 
                                         "${CMAKE_CURRENT_SOURCE_DIR}/*.cc")
 
-add_library(mms-mp4 STATIC ${MMS_MP4_LIB_SOURCES})
-add_dependencies(mms-mp4 
+add_library(cutesms-mp4 STATIC ${MMS_MP4_LIB_SOURCES})
+add_dependencies(cutesms-mp4 
     libboost
     libjsoncpp
     libboringssl
-    mms-base
+    cutesms-base
 )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(mms-mp4
+target_include_directories(cutesms-mp4
                            PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../)
-target_include_directories(mms-mp4 
+target_include_directories(cutesms-mp4 
                            PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 
-target_link_libraries(mms-mp4
+target_link_libraries(cutesms-mp4
     boost_system.a
     boost_serialization.a
     boost_date_time.a
@@ -35,7 +35,7 @@ target_link_libraries(mms-mp4
     libyaml-cpp.a
     dl
     pthread
-    mms-base
+    cutesms-base
 )
 
-install(TARGETS mms-mp4 ARCHIVE DESTINATION lib)
+install(TARGETS cutesms-mp4 ARCHIVE DESTINATION lib)

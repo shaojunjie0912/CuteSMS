@@ -23,36 +23,33 @@ SOFTWARE.
 */
 #pragma once
 #include <string>
+
 #include "amf0/amf0_inc.hpp"
-#include "rtmp_define.hpp"
 #include "rtmp_create_stream_message.hpp"
-namespace mms {
+#include "rtmp_define.hpp"
+
+namespace cutesms {
 class RtmpCreateStreamRespMessage {
 public:
-    RtmpCreateStreamRespMessage(const RtmpCreateStreamMessage & rel_msg, const std::string & name) {
+    RtmpCreateStreamRespMessage(const RtmpCreateStreamMessage& rel_msg, const std::string& name) {
         command_name_.set_value(name);
         transaction_id_.set_value(rel_msg.transaction_id_.get_value());
         stream_id_.set_value(1);
     }
 
-    RtmpCreateStreamRespMessage() {
+    RtmpCreateStreamRespMessage() {}
 
-    }
-    
     RtmpCreateStreamRespMessage(int32_t transaction_id);
 
-    virtual ~RtmpCreateStreamRespMessage() {
-
-    }
+    virtual ~RtmpCreateStreamRespMessage() {}
 
     double get_stream_id();
+
 public:
     int32_t decode(std::shared_ptr<RtmpMessage> rtmp_msg);
     std::shared_ptr<RtmpMessage> encode() const;
 
-    Amf0Null & cmdObj() {
-        return command_obj_;
-    }
+    Amf0Null& cmdObj() { return command_obj_; }
 
 private:
     Amf0String command_name_;
@@ -60,4 +57,4 @@ private:
     Amf0Null command_obj_;
     Amf0Number stream_id_;
 };
-};
+};  // namespace cutesms

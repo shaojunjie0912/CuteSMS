@@ -23,21 +23,22 @@ SOFTWARE.
 */
 #pragma once
 #include <string>
+
 #include "amf0/amf0_inc.hpp"
 #include "rtmp_define.hpp"
-namespace mms {
+
+namespace cutesms {
 class RtmpFCPublishRespMessage {
 public:
-    RtmpFCPublishRespMessage(const RtmpFCPublishMessage & rel_msg, const std::string & name);
+    RtmpFCPublishRespMessage(const RtmpFCPublishMessage& rel_msg, const std::string& name);
     RtmpFCPublishRespMessage();
     virtual ~RtmpFCPublishRespMessage();
+
 public:
     int32_t decode(std::shared_ptr<RtmpMessage> rtmp_msg);
     std::shared_ptr<RtmpMessage> encode() const;
 
-    Amf0Null & cmdObj() {
-        return command_obj_;
-    }
+    Amf0Null& cmdObj() { return command_obj_; }
 
 private:
     Amf0String command_name_;
@@ -45,4 +46,4 @@ private:
     Amf0Null command_obj_;
     Amf0Undefined udef_;
 };
-};
+};  // namespace cutesms

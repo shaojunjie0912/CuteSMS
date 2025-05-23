@@ -1,26 +1,24 @@
 #include "traf.h"
-#include "tfhd.h"
-#include "tfdt.h"
-#include "trun.h"
+
 #include "mp4_factory.h"
 #include "spdlog/spdlog.h"
+#include "tfdt.h"
+#include "tfhd.h"
+#include "trun.h"
 
-using namespace mms;
 
-TrafBox::TrafBox() : Box(BOX_TYPE_TRAF) {
+using namespace cutesms;
 
-}
+TrafBox::TrafBox() : Box(BOX_TYPE_TRAF) {}
 
-TrafBox::~TrafBox() {
-
-}
+TrafBox::~TrafBox() {}
 
 int64_t TrafBox::size() {
     int64_t total_bytes = Box::size();
     if (tfhd_) {
         total_bytes += tfhd_->size();
     }
-    
+
     if (tfdt_) {
         total_bytes += tfdt_->size();
     }
@@ -32,7 +30,7 @@ int64_t TrafBox::size() {
     return total_bytes;
 }
 
-int64_t TrafBox::encode(NetBuffer & buf) {
+int64_t TrafBox::encode(NetBuffer& buf) {
     update_size();
     auto start = buf.pos();
     Box::encode(buf);
@@ -47,14 +45,14 @@ int64_t TrafBox::encode(NetBuffer & buf) {
     if (trun_) {
         trun_->encode(buf);
     }
-    
+
     return buf.pos() - start;
 }
 
-int64_t TrafBox::decode(NetBuffer & buf) {
+int64_t TrafBox::decode(NetBuffer& buf) {
     auto start = buf.pos();
     Box::decode(buf);
-    
+
     auto left_bytes = decoded_size() - (buf.pos() - start);
     while (left_bytes > 0) {
         auto [box, consumed] = MP4BoxFactory::decode_box(buf);

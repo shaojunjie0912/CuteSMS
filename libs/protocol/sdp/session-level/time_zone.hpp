@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
-namespace mms {
+namespace cutesms {
 struct TimeZone {
 public:
     std::string raw_string;
 };
-};
+};  // namespace cutesms

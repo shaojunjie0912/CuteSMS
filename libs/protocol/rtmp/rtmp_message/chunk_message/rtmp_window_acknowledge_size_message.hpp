@@ -23,16 +23,19 @@ SOFTWARE.
 */
 #pragma once
 #include <string>
+
 #include "rtmp_define.hpp"
 
-namespace mms {
+
+namespace cutesms {
 class RtmpWindowAcknwledgeSizeMessage {
 public:
     RtmpWindowAcknwledgeSizeMessage();
     RtmpWindowAcknwledgeSizeMessage(size_t s);
     int32_t decode(std::shared_ptr<RtmpMessage> rtmp_msg);
     std::shared_ptr<RtmpMessage> encode() const;
+
 public:
-    size_t acknowledge_windows_size_ = 5*1024*1024;
+    size_t acknowledge_windows_size_ = 5 * 1024 * 1024;
 };
-};
+};  // namespace cutesms

@@ -1,10 +1,14 @@
-#include <sstream>
-#include <iostream>
 #include "mid.h"
-#include "base/utils/utils.h"
-using namespace mms;
+
+#include <base/utils/utils.h>
+
+#include <iostream>
+#include <sstream>
+
+namespace cutesms {
+
 std::string MidAttr::prefix = "a=mid:";
-bool MidAttr::parse(const std::string & line) {
+bool MidAttr::parse(const std::string& line) {
     std::string::size_type end_pos = line.rfind("\r");
     if (end_pos == std::string::npos) {
         end_pos = line.size() - 1;
@@ -19,9 +23,7 @@ std::string MidAttr::to_string() const {
     return oss.str();
 }
 
-MidAttr::MidAttr(const std::string & mid) {
-    mid_ = mid;
-}
+MidAttr::MidAttr(const std::string& mid) { mid_ = mid; }
 
-MidAttr::MidAttr() {
-}
+MidAttr::MidAttr() {}
+}  // namespace cutesms

@@ -1,5 +1,5 @@
 #include "rtmp_access_sample_message.hpp"
-using namespace mms;
+using namespace cutesms;
 
 RtmpAccessSampleMessage::RtmpAccessSampleMessage(bool video, bool audio) {
     command_name_.set_value("|RtmpSampleAccess");
@@ -25,7 +25,7 @@ std::shared_ptr<RtmpMessage> RtmpAccessSampleMessage::encode() const {
     rtmp_msg->message_stream_id_ = RTMP_MESSAGE_ID_PROTOCOL_CONTROL;
     // window ack_size
     auto unuse_data = rtmp_msg->get_unuse_data();
-    uint8_t * payload = (uint8_t*)unuse_data.data();
+    uint8_t* payload = (uint8_t*)unuse_data.data();
 
     int32_t len = s;
     int32_t consumed = command_name_.encode(payload, len);

@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-namespace mms {
+namespace cutesms {
 // 5.6.  Email Address and Phone Number ("e=" and "p=")
 
 //       e=<email-address>
@@ -40,17 +40,14 @@ namespace mms {
 struct Phone {
 public:
     static std::string prefix;
-    bool parse(const std::string & line);
-    inline const std::string & get_phone() const {
-        return phone;
-    }
+    bool parse(const std::string& line);
+    inline const std::string& get_phone() const { return phone; }
 
-    inline void set_phone(const std::string & p) {
-        phone = p;
-    }
-    
+    inline void set_phone(const std::string& p) { phone = p; }
+
     std::string to_string() const;
+
 public:
     std::string phone;
 };
-};
+};  // namespace cutesms

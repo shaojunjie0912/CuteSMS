@@ -1,12 +1,8 @@
 #include "rtmp_define.hpp"
-using namespace mms;
+using namespace cutesms;
 
-RtmpMessage::RtmpMessage(int32_t payload_size) : Packet(PACKET_RTMP, payload_size) {
-}
+RtmpMessage::RtmpMessage(int32_t payload_size) : Packet(PACKET_RTMP, payload_size) {}
 
-RtmpMessage::~RtmpMessage() {
-}
+RtmpMessage::~RtmpMessage() {}
 
-uint8_t RtmpMessage::get_message_type() {
-    return message_type_id_;
-}
+uint8_t RtmpMessage::get_message_type() { return message_type_id_; }

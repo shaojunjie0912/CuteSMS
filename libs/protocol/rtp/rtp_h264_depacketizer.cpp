@@ -1,14 +1,19 @@
-#include "spdlog/spdlog.h"
 #include "rtp_h264_depacketizer.h"
-#include <string_view>
-using namespace mms;
 
-std::shared_ptr<RtpH264NALU> RtpH264Depacketizer::on_packet(std::shared_ptr<RtpPacket> pkt)
-{
+#include <string_view>
+
+#include "spdlog/spdlog.h"
+
+using namespace cutesms;
+
+std::shared_ptr<RtpH264NALU> RtpH264Depacketizer::on_packet(std::shared_ptr<RtpPacket> pkt) {
     H264RtpPktInfo pkt_info;
     pkt_info.parse(pkt->get_payload().data(), pkt->get_payload().size());
-    // printf("h264 rtp type:%02x, nalu type:%02x, stap:%d, seqno:%d, timestamp:%u, marker:%d, single:%d, start:%d, end:%d\n", pkt_info.get_type(), pkt_info.get_nalu_type(), pkt_info.is_stap_a(), pkt->get_seq_num(), pkt->get_timestamp(), (uint32_t)pkt->get_header().marker, pkt_info.is_single_nalu(), pkt_info.is_start_fu(), pkt_info.is_end_fu());
-    // if (pkt_info.is_single_nalu())
+    // printf("h264 rtp type:%02x, nalu type:%02x, stap:%d, seqno:%d, timestamp:%u, marker:%d, single:%d,
+    // start:%d, end:%d\n", pkt_info.get_type(), pkt_info.get_nalu_type(), pkt_info.is_stap_a(),
+    // pkt->get_seq_num(), pkt->get_timestamp(), (uint32_t)pkt->get_header().marker,
+    // pkt_info.is_single_nalu(), pkt_info.is_start_fu(), pkt_info.is_end_fu()); if
+    // (pkt_info.is_single_nalu())
     // {// todo extrace h264 single nalu
     //     std::map<uint16_t, std::shared_ptr<RtpPacket>> m;
     //     m.insert(std::pair(pkt->get_seq_num(), pkt));
@@ -24,7 +29,7 @@ std::shared_ptr<RtpH264NALU> RtpH264Depacketizer::on_packet(std::shared_ptr<RtpP
     //     return out_pkt;
     // }
 
-    auto & pkts_map = time_rtp_pkts_buf_[pkt->get_timestamp()];
+    auto& pkts_map = time_rtp_pkts_buf_[pkt->get_timestamp()];
     pkts_map.insert(std::pair(pkt->get_seq_num(), pkt));
     if (pkt->get_header().marker == 1) {
         std::shared_ptr<RtpH264NALU> out_pkt = std::make_shared<RtpH264NALU>();
@@ -51,7 +56,7 @@ std::shared_ptr<RtpH264NALU> RtpH264Depacketizer::on_packet(std::shared_ptr<RtpP
     //     {
     //         return nullptr;
     //     }
-        
+
     //     pkt_info.parse(it->second->get_payload().data(), it->second->get_payload().size());
     //     if (pkt_info.is_end_fu())
     //     {

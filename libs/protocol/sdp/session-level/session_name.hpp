@@ -2,26 +2,21 @@
 #include <string>
 // 5.3.  Session Name ("s=")
 // s=<session name>
-namespace mms {
+namespace cutesms {
 struct SessionName {
 public:
     static std::string prefix;
     SessionName() = default;
-    SessionName(const std::string session_name) {
-        session_name_ = session_name;
-    }
-    
-    bool parse(const std::string & line);
+    SessionName(const std::string session_name) { session_name_ = session_name; }
 
-    const std::string & get_session_name() const {
-        return session_name_;
-    }
+    bool parse(const std::string& line);
 
-    void set_session_name(const std::string & val) {
-        session_name_ = val;
-    }
+    const std::string& get_session_name() const { return session_name_; }
+
+    void set_session_name(const std::string& val) { session_name_ = val; }
 
     std::string to_string() const;
+
 public:
     //    The "s=" field is the textual session name.  There MUST be one and
     //    only one "s=" field per session description.  The "s=" field MUST NOT
@@ -31,4 +26,4 @@ public:
     //    name).
     std::string session_name_;
 };
-};
+};  // namespace cutesms

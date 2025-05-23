@@ -1,37 +1,36 @@
+#include "visual_sample_entry.h"
+
 #include <string.h>
+
 #include <cassert>
 
-#include "visual_sample_entry.h"
-#include "base/net_buffer.h"
-#include "mp4_factory.h"
 #include "avcc.h"
+#include "base/net_buffer.h"
 #include "hvcc.h"
+#include "mp4_factory.h"
 
-using namespace mms;
 
-VisualSampleEntry::VisualSampleEntry(Box::Type type) : SampleEntry(type) {
-    
-}
+using namespace cutesms;
 
-VisualSampleEntry::~VisualSampleEntry() {
+VisualSampleEntry::VisualSampleEntry(Box::Type type) : SampleEntry(type) {}
 
-}
+VisualSampleEntry::~VisualSampleEntry() {}
 
 int64_t VisualSampleEntry::size() {
     int64_t total_bytes = SampleEntry::size();
     // total_bytes += 74;
-    total_bytes += 2;//predefined1
-    total_bytes += 2;// reserved1
-    total_bytes += 3*4;// pre_defined
-    total_bytes += 2;//width
-    total_bytes += 2;//height
-    total_bytes += 4;//hor
-    total_bytes += 4;//ver
-    total_bytes += 4;//reserved;
-    total_bytes += 2;//frame_count
-    total_bytes += 32;//compare
-    total_bytes += 2;//depth
-    total_bytes += 2;//predefined
+    total_bytes += 2;      // predefined1
+    total_bytes += 2;      // reserved1
+    total_bytes += 3 * 4;  // pre_defined
+    total_bytes += 2;      // width
+    total_bytes += 2;      // height
+    total_bytes += 4;      // hor
+    total_bytes += 4;      // ver
+    total_bytes += 4;      // reserved;
+    total_bytes += 2;      // frame_count
+    total_bytes += 32;     // compare
+    total_bytes += 2;      // depth
+    total_bytes += 2;      // predefined
 
     if (avcc_) {
         total_bytes += avcc_->size();
@@ -57,7 +56,7 @@ int64_t VisualSampleEntry::encode(NetBuffer& buf) {
     buf.write_4bytes(vertresolution_);
     buf.write_4bytes(reserved2_);
     buf.write_2bytes(frame_count_);
-    buf.write_string(std::string_view(compressorname_, 32)); // 固定32字节
+    buf.write_string(std::string_view(compressorname_, 32));  // 固定32字节
     buf.write_2bytes(depth_);
     buf.write_2bytes(pre_defined3_);
 
@@ -105,8 +104,7 @@ int64_t VisualSampleEntry::decode(NetBuffer& buf) {
 
         if (box->type() == BOX_TYPE_AVCC) {
             avcc_ = std::static_pointer_cast<AvccBox>(box);
-        } 
-        else if (box->type() == BOX_TYPE_HVCC) {
+        } else if (box->type() == BOX_TYPE_HVCC) {
             hvcc_ = std::static_pointer_cast<HvccBox>(box);
         }
     }

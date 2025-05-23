@@ -1,13 +1,16 @@
 #pragma once
-#include "box.h"
-#include <vector>
 #include <string_view>
-namespace mms {
+#include <vector>
+
+#include "box.h"
+
+namespace cutesms {
 class MdatBox : public Box {
 public:
     MdatBox();
     virtual ~MdatBox();
+
 public:
     std::vector<std::string_view> datas_;
 };
-};
+};  // namespace cutesms

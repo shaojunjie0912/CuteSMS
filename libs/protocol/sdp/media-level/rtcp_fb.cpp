@@ -1,17 +1,17 @@
+#include "rtcp_fb.h"
+
+#include <base/utils/utils.h>
+
+#include <boost/algorithm/string.hpp>
 #include <sstream>
 #include <vector>
 
-#include <boost/algorithm/string.hpp>
-#include "base/utils/utils.h"
-#include "rtcp_fb.h"
-using namespace mms;
+namespace cutesms {
 
 std::string RtcpFb::prefix = "a=rtcp-fb:";
-bool RtcpFb::is_my_prefix(const std::string & line) {
-    return boost::starts_with(line, prefix);
-}
+bool RtcpFb::is_my_prefix(const std::string& line) { return boost::starts_with(line, prefix); }
 
-bool RtcpFb::parse(const std::string & line) {
+bool RtcpFb::parse(const std::string& line) {
     std::string::size_type end_pos = line.rfind("\r");
     if (end_pos == std::string::npos) {
         end_pos = line.size() - 1;
@@ -52,3 +52,4 @@ std::string RtcpFb::to_string() const {
     oss << std::endl;
     return oss.str();
 }
+}  // namespace cutesms

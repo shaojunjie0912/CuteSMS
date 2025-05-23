@@ -1,24 +1,23 @@
 #include "rtmp_connect_resp_message.hpp"
+
 #include "rtmp_connect_command_message.hpp"
 
-using namespace mms;
 
-RtmpConnectRespMessage::RtmpConnectRespMessage(const RtmpConnectCommandMessage & conn_msg, const std::string & name) {
+using namespace cutesms;
+
+RtmpConnectRespMessage::RtmpConnectRespMessage(const RtmpConnectCommandMessage &conn_msg,
+                                               const std::string &name) {
     command_name_.set_value(name);
     transaction_id_.set_value(conn_msg.transaction_id_.get_value());
 }
 
-RtmpConnectRespMessage::RtmpConnectRespMessage() {
-        
-}
+RtmpConnectRespMessage::RtmpConnectRespMessage() {}
 
-RtmpConnectRespMessage::~RtmpConnectRespMessage() {
-
-}
+RtmpConnectRespMessage::~RtmpConnectRespMessage() {}
 
 int32_t RtmpConnectRespMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg) {
     auto using_data = rtmp_msg->get_using_data();
-    const uint8_t *payload = (const uint8_t*)using_data.data();
+    const uint8_t *payload = (const uint8_t *)using_data.data();
     const uint8_t *data_start = payload;
     int32_t len = using_data.size();
     int32_t consumed = command_name_.decode(payload, len);
@@ -64,7 +63,7 @@ std::shared_ptr<RtmpMessage> RtmpConnectRespMessage::encode() const {
     rtmp_msg->message_type_id_ = RTMP_MESSAGE_TYPE_AMF0_COMMAND;
     rtmp_msg->message_stream_id_ = RTMP_MESSAGE_ID_PROTOCOL_CONTROL;
     auto unuse_data = rtmp_msg->get_unuse_data();
-    uint8_t * payload = (uint8_t*)unuse_data.data();
+    uint8_t *payload = (uint8_t *)unuse_data.data();
     int32_t len = s;
     int32_t consumed = command_name_.encode(payload, len);
     if (consumed < 0) {

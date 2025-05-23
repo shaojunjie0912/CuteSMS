@@ -1,6 +1,6 @@
 #pragma once
 #include "box.h"
-namespace mms {
+namespace cutesms {
 class TrexBox;
 // 8.8.1 Movie Extends Box (mvex)
 // ISO_IEC_14496-12-base-format-2012.pdf, page 64
@@ -11,19 +11,18 @@ class MvexBox : public Box {
 public:
     MvexBox();
     virtual ~MvexBox();
+
 public:
     int64_t size() override;
-    int64_t encode(NetBuffer & buf) override;
-    int64_t decode(NetBuffer & buf) override;
-public:
-    void set_trex(std::shared_ptr<TrexBox> trex) {
-        trex_ = trex;
-    }
+    int64_t encode(NetBuffer& buf) override;
+    int64_t decode(NetBuffer& buf) override;
 
-    std::shared_ptr<TrexBox> get_trex() {
-        return trex_;
-    }
+public:
+    void set_trex(std::shared_ptr<TrexBox> trex) { trex_ = trex; }
+
+    std::shared_ptr<TrexBox> get_trex() { return trex_; }
+
 public:
     std::shared_ptr<TrexBox> trex_;
 };
-};
+};  // namespace cutesms

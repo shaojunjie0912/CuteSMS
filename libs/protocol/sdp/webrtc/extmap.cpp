@@ -1,11 +1,13 @@
 #include "extmap.hpp"
-#include <iostream>
-#include <boost/algorithm/string.hpp>
 
-#include "base/utils/utils.h"
-using namespace mms;
+#include <base/utils/utils.h>
+
+#include <boost/algorithm/string.hpp>
+#include <iostream>
+
+namespace cutesms {
 std::string Extmap::prefix = "a=extmap:";
-bool Extmap::parse(const std::string & line) {
+bool Extmap::parse(const std::string& line) {
     std::string::size_type end_pos = line.rfind("\r");
     if (end_pos == std::string::npos) {
         end_pos = line.size() - 1;
@@ -24,6 +26,7 @@ bool Extmap::parse(const std::string & line) {
         direction = vtmp[1];
     }
     uri = vs[1];
-    
+
     return true;
 }
+}  // namespace cutesms

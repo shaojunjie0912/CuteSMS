@@ -1,15 +1,14 @@
 #include "url.h"
+
 #include <string.h>
+
 #include "base/net_buffer.h"
-using namespace mms;
 
-UrlBox::UrlBox() : FullBox(BOX_TYPE_URL, 0, 0) {
+using namespace cutesms;
 
-}
+UrlBox::UrlBox() : FullBox(BOX_TYPE_URL, 0, 0) {}
 
-UrlBox::~UrlBox() {
-
-}
+UrlBox::~UrlBox() {}
 
 int64_t UrlBox::size() {
     int64_t total_bytes = FullBox::size();
@@ -17,7 +16,7 @@ int64_t UrlBox::size() {
     return total_bytes;
 }
 
-int64_t UrlBox::encode(NetBuffer & buf) {
+int64_t UrlBox::encode(NetBuffer& buf) {
     auto start = buf.pos();
     if (location_.empty()) {
         flags_ = 0x01;
@@ -29,7 +28,7 @@ int64_t UrlBox::encode(NetBuffer & buf) {
     return buf.pos() - start;
 }
 
-int64_t UrlBox::decode(NetBuffer & buf) {
+int64_t UrlBox::decode(NetBuffer& buf) {
     auto start = buf.pos();
     FullBox::decode(buf);
     int64_t left_bytes = decoded_size() - (buf.pos() - start);

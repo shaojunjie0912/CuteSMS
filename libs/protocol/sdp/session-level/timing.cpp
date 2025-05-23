@@ -1,14 +1,15 @@
-#include <sstream>
-#include <vector>
-#include <string>
-#include <sstream>
-#include <boost/algorithm/string.hpp>
-#include "base/utils/utils.h"
 #include "timing.hpp"
 
-using namespace mms;
+#include <boost/algorithm/string.hpp>
+#include <sstream>
+#include <string>
+#include <vector>
+
+#include "base/utils/utils.h"
+
+namespace cutesms {
 std::string Timing::prefix = "t=";
-bool Timing::parse(const std::string & line) {
+bool Timing::parse(const std::string& line) {
     std::string::size_type end_pos = line.rfind("\r");
     if (end_pos == std::string::npos) {
         end_pos = line.size() - 1;
@@ -24,7 +25,7 @@ bool Timing::parse(const std::string & line) {
     try {
         start_time_ = std::atoll(vs[0].c_str());
         stop_time_ = std::atoll(vs[1].c_str());
-    } catch(std::exception & e) {
+    } catch (std::exception& e) {
         return false;
     }
     return true;
@@ -35,3 +36,4 @@ std::string Timing::to_string() const {
     oss << prefix << start_time_ << " " << stop_time_ << std::endl;
     return oss.str();
 }
+}  // namespace cutesms

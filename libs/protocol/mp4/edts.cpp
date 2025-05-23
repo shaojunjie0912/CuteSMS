@@ -1,23 +1,17 @@
 #include "edts.h"
+
 #include "base/net_buffer.h"
 #include "elst.h"
-using namespace mms;
 
-EdtsBox::EdtsBox() : Box(BOX_TYPE_EDTS) {
+using namespace cutesms;
 
-}
+EdtsBox::EdtsBox() : Box(BOX_TYPE_EDTS) {}
 
-EdtsBox::~EdtsBox() {
+EdtsBox::~EdtsBox() {}
 
-}
+void EdtsBox::set_elst(std::shared_ptr<ElstBox> elst) { elst_ = elst; }
 
-void EdtsBox::set_elst(std::shared_ptr<ElstBox> elst) {
-    elst_ = elst;
-}
-
-std::shared_ptr<ElstBox> EdtsBox::get_elst() {
-    return elst_;
-}
+std::shared_ptr<ElstBox> EdtsBox::get_elst() { return elst_; }
 
 int64_t EdtsBox::size() {
     int64_t total_bytes = Box::size();
@@ -27,7 +21,7 @@ int64_t EdtsBox::size() {
     return total_bytes;
 }
 
-int64_t EdtsBox::encode(NetBuffer & buf) {
+int64_t EdtsBox::encode(NetBuffer& buf) {
     update_size();
     auto start = buf.pos();
     Box::encode(buf);
@@ -37,7 +31,7 @@ int64_t EdtsBox::encode(NetBuffer & buf) {
     return buf.pos() - start;
 }
 
-int64_t EdtsBox::decode(NetBuffer & buf) {
+int64_t EdtsBox::decode(NetBuffer& buf) {
     auto start = buf.pos();
     Box::decode(buf);
     auto left_bytes = decoded_size() - (buf.pos() - start);

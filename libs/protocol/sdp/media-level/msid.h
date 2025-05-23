@@ -1,4 +1,2 @@
 #pragma once
-namespace mms {
-
-};
+namespace cutesms {};

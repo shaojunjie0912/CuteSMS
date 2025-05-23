@@ -1,16 +1,14 @@
 #include "mp4_builder.h"
+
 #include "ftyp.h"
 #include "moov.h"
 
-using namespace mms;
 
-Mp4Builder::Mp4Builder() {
+using namespace cutesms;
 
-}
+Mp4Builder::Mp4Builder() {}
 
-Mp4Builder::~Mp4Builder() {
-
-}
+Mp4Builder::~Mp4Builder() {}
 
 // 开始一个 Box
 void Mp4Builder::begin_box(Box::Type type) {
@@ -37,10 +35,6 @@ void Mp4Builder::end_box() {
 }
 
 // 添加 ftyp Box
-FtypBuilder Mp4Builder::add_ftyp() {
-    return FtypBuilder(*this);
-}
+FtypBuilder Mp4Builder::add_ftyp() { return FtypBuilder(*this); }
 
-MoovBuilder Mp4Builder::add_moov() {
-    return MoovBuilder(*this);
-}
+MoovBuilder Mp4Builder::add_moov() { return MoovBuilder(*this); }

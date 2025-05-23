@@ -1,5 +1,5 @@
 #include "rtp_h264_nalu.h"
-using namespace mms;
+using namespace cutesms;
 bool RtpH264NALU::is_last_nalu() {
     auto it = rtp_pkts_.cbegin();
     if (it != rtp_pkts_.cend()) {

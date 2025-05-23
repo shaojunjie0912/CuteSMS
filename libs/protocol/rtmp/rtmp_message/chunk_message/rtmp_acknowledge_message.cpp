@@ -1,18 +1,16 @@
-#include <netinet/in.h>
 #include "rtmp_acknowledge_message.hpp"
-using namespace mms;
 
-RtmpAcknwledgeMessage::RtmpAcknwledgeMessage(size_t s) : acknowledge_(s) {
+#include <netinet/in.h>
 
-}
+using namespace cutesms;
 
-RtmpAcknwledgeMessage::RtmpAcknwledgeMessage() {
+RtmpAcknwledgeMessage::RtmpAcknwledgeMessage(size_t s) : acknowledge_(s) {}
 
-}
+RtmpAcknwledgeMessage::RtmpAcknwledgeMessage() {}
 
 int32_t RtmpAcknwledgeMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg) {
     auto using_data = rtmp_msg->get_using_data();
-    uint8_t * payload = (uint8_t*)using_data.data();
+    uint8_t* payload = (uint8_t*)using_data.data();
     int32_t len = using_data.size();
     if (len < 4) {
         return -1;

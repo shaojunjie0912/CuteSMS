@@ -1,10 +1,6 @@
 #include "mdat.h"
-using namespace mms;
+using namespace cutesms;
 
-MdatBox::MdatBox() : Box(BOX_TYPE_MDAT) {
+MdatBox::MdatBox() : Box(BOX_TYPE_MDAT) {}
 
-}
-
-MdatBox::~MdatBox() {
-
-}
+MdatBox::~MdatBox() {}

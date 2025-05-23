@@ -1,16 +1,18 @@
-#include <sstream>
-#include <boost/algorithm/string.hpp>
-
 #include "ssrc.h"
-#include "base/utils/utils.h"
-using namespace mms;
+
+#include <base/utils/utils.h>
+
+#include <boost/algorithm/string.hpp>
+#include <sstream>
+
+namespace cutesms {
 std::string Ssrc::prefix = "a=ssrc:";
-bool Ssrc::parse(const std::string & line) {
+bool Ssrc::parse(const std::string& line) {
     std::string::size_type end_pos = line.rfind("\r");
     if (end_pos == std::string::npos) {
         end_pos = line.size() - 1;
     }
-    
+
     std::string valid_string = line.substr(prefix.size(), end_pos - prefix.size());
     std::vector<std::string> vs;
     boost::split(vs, valid_string, boost::is_any_of(" "));
@@ -37,12 +39,12 @@ bool Ssrc::parse(const std::string & line) {
     return true;
 }
 
-uint32_t Ssrc::parse_id_only(const std::string & line) {
+uint32_t Ssrc::parse_id_only(const std::string& line) {
     std::string::size_type end_pos = line.rfind("\r");
     if (end_pos == std::string::npos) {
         end_pos = line.size() - 1;
     }
-    
+
     std::string valid_string = line.substr(prefix.size(), end_pos - prefix.size());
     std::vector<std::string> vs;
     boost::split(vs, valid_string, boost::is_any_of(" "));
@@ -62,3 +64,4 @@ std::string Ssrc::to_string() const {
     oss << prefix << id_ << " label:" << label_ << std::endl;
     return oss.str();
 }
+}  // namespace cutesms

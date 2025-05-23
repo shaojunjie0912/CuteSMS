@@ -1,6 +1,6 @@
 #pragma once
 #include "amf0_def.hpp"
-namespace mms {
+namespace cutesms {
 class Amf0Boolean : public Amf0Data {
 public:
     using value_type = bool;
@@ -9,7 +9,7 @@ public:
     virtual ~Amf0Boolean() {}
     int32_t decode(const uint8_t *data, size_t len) {
         int pos = 0;
-        if(len < 1) {
+        if (len < 1) {
             return -1;
         }
 
@@ -25,7 +25,7 @@ public:
         if (len < 1) {
             return -3;
         }
-        
+
         if (data[0] > 0) {
             value_ = true;
         } else {
@@ -54,18 +54,13 @@ public:
         return data - buf;
     }
 
-    const bool & get_value() {
-        return value_;
-    }
+    const bool &get_value() { return value_; }
 
-    void set_value(bool v) {
-        value_ = v;
-    }
-    
-    size_t size() const {
-        return 2;
-    }
+    void set_value(bool v) { value_ = v; }
+
+    size_t size() const { return 2; }
+
 private:
     bool value_;
 };
-};
+};  // namespace cutesms

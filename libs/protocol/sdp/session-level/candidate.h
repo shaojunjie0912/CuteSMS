@@ -126,7 +126,7 @@ RFC 5245                           ICE                        April 2010
    understand.
 
 */
-namespace mms {
+namespace cutesms {
 class Candidate {
 public:
     enum CANDIDATE_TYPE {
@@ -139,12 +139,24 @@ public:
     static std::string prefix;
 
     Candidate() = default;
-    Candidate(const std::string & foundation, uint32_t component_id, const std::string & transport, uint32_t priority, const std::string & address, uint16_t port, CANDIDATE_TYPE cand_type, const std::string & rel_addr, uint16_t rel_port, const std::unordered_map<std::string, std::string> & ext): foundation_(foundation), component_id_(component_id), transport_(transport), priority_(priority), address_(address), port_(port), cand_type_(cand_type), rel_addr_(rel_addr), rel_port_(rel_port), exts_(ext) {
+    Candidate(const std::string& foundation, uint32_t component_id, const std::string& transport,
+              uint32_t priority, const std::string& address, uint16_t port, CANDIDATE_TYPE cand_type,
+              const std::string& rel_addr, uint16_t rel_port,
+              const std::unordered_map<std::string, std::string>& ext)
+        : foundation_(foundation),
+          component_id_(component_id),
+          transport_(transport),
+          priority_(priority),
+          address_(address),
+          port_(port),
+          cand_type_(cand_type),
+          rel_addr_(rel_addr),
+          rel_port_(rel_port),
+          exts_(ext) {}
 
-    }
-
-    bool parse(const std::string & line);
+    bool parse(const std::string& line);
     std::string to_string() const;
+
 private:
     std::string foundation_;
     uint32_t component_id_;
@@ -159,4 +171,4 @@ private:
     uint16_t rel_port_;
     std::unordered_map<std::string, std::string> exts_;
 };
-};
+};  // namespace cutesms

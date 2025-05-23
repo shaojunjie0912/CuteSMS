@@ -1,15 +1,16 @@
 #pragma once
 #include "full_box.h"
-namespace mms {
+namespace cutesms {
 class NetBuffer;
 // 8.4.2 Media Header Box (mdhd)
 // ISO_IEC_14496-12-base-format-2012.pdf, page 36
-// The media declaration container contains all the objects that declare information about the media data within a
-// track.
+// The media declaration container contains all the objects that declare information about the media data
+// within a track.
 class MdhdBox : public FullBox {
 public:
     MdhdBox();
     virtual ~MdhdBox();
+
 public:
     // The language code for this media. See ISO 639-2/T for the set of three character
     // codes. Each character is packed as the difference between its ASCII value and 0x60. Since the code
@@ -23,10 +24,12 @@ public:
     // @param v The ASCII, for example, 'd'.
     char language2();
     void set_language2(char v);
+
 public:
     int64_t size() override;
-    int64_t encode(NetBuffer & buf) override;
-    int64_t decode(NetBuffer & buf) override;
+    int64_t encode(NetBuffer& buf) override;
+    int64_t decode(NetBuffer& buf) override;
+
 public:
     // An integer that declares the creation time of the presentation (in seconds since
     // midnight, Jan. 1, 1904, in UTC time)
@@ -48,4 +51,4 @@ public:
     uint16_t language_;
     uint16_t pre_defined_;
 };
-};
+};  // namespace cutesms

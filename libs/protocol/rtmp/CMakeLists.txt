@@ -4,23 +4,23 @@ file(GLOB_RECURSE MMS_RTMP_LIB_SOURCES  "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
                                         "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp" 
                                         "${CMAKE_CURRENT_SOURCE_DIR}/*.cc")
 
-add_library(mms-rtmp STATIC ${MMS_RTMP_LIB_SOURCES})
-add_dependencies(mms-rtmp 
+add_library(cutesms-rtmp STATIC ${MMS_RTMP_LIB_SOURCES})
+add_dependencies(cutesms-rtmp 
     libboost
     libjsoncpp
     libboringssl
-    mms-base
+    cutesms-base
 )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(mms-rtmp 
+target_include_directories(cutesms-rtmp 
                            PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../)
-target_include_directories(mms-rtmp 
+target_include_directories(cutesms-rtmp 
                            PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 message(STATUS "RTMP Protocol CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
 
-target_link_libraries(mms-rtmp
+target_link_libraries(cutesms-rtmp
     boost_system.a
     boost_serialization.a
     boost_date_time.a
@@ -36,7 +36,7 @@ target_link_libraries(mms-rtmp
     libyaml-cpp.a
     dl
     pthread
-    mms-base
+    cutesms-base
 )
 
-install(TARGETS mms-rtmp ARCHIVE DESTINATION lib)
+install(TARGETS cutesms-rtmp ARCHIVE DESTINATION lib)

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "amf0_def.hpp"
-namespace mms {
+namespace cutesms {
 class Amf0Number : public Amf0Data {
 public:
     using value_type = double;
@@ -9,10 +9,11 @@ public:
 
     Amf0Number() : Amf0Data(NUMBER_MARKER) {}
     virtual ~Amf0Number() {}
+
 public:
-    int32_t decode(const uint8_t *data, size_t len){
+    int32_t decode(const uint8_t *data, size_t len) {
         int pos = 0;
-        if(len < 1) {
+        if (len < 1) {
             return -1;
         }
 
@@ -27,9 +28,9 @@ public:
         if (len < 8) {
             return -3;
         }
-        
+
         const uint8_t *d = data + pos;
-        uint8_t *p = (uint8_t*)&value_;
+        uint8_t *p = (uint8_t *)&value_;
         // value_ = double(be64toh(*(uint64_t*)d));
         p[0] = d[7];
         p[1] = d[6];
@@ -39,9 +40,9 @@ public:
         p[5] = d[2];
         p[6] = d[1];
         p[7] = d[0];
-        
+
         pos += 8;
-        len --;
+        len--;
         return pos;
     }
 
@@ -73,18 +74,12 @@ public:
         return data - buf;
     }
 
-    double get_value() const {
-        return value_;
-    }
+    double get_value() const { return value_; }
 
-    void set_value(double d) {
-        value_ = d;
-    }
+    void set_value(double d) { value_ = d; }
 
-    size_t size() const {
-        return 9;
-    }
+    size_t size() const { return 9; }
 
     double value_;
 };
-};
+};  // namespace cutesms

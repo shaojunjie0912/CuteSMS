@@ -1,34 +1,31 @@
 #pragma once
-#include <string>
-#include <vector>
 #include <memory>
+#include <string>
 #include <string_view>
+#include <vector>
 
-#define BOX_TYPE(c1, c2, c3, c4)       \
-   (((static_cast<uint32_t>(c1))<<24) |  \
-    ((static_cast<uint32_t>(c2))<<16) |  \
-    ((static_cast<uint32_t>(c3))<< 8) |  \
-    ((static_cast<uint32_t>(c4))))
 
-namespace mms {
+#define BOX_TYPE(c1, c2, c3, c4)                                                 \
+    (((static_cast<uint32_t>(c1)) << 24) | ((static_cast<uint32_t>(c2)) << 16) | \
+     ((static_cast<uint32_t>(c3)) << 8) | ((static_cast<uint32_t>(c4))))
+
+namespace cutesms {
 class NetBuffer;
 class Box {
 public:
     typedef uint32_t Type;
-public:
-    Box(Type t) : type_(t) {
 
-    }
+public:
+    Box(Type t) : type_(t) {}
     virtual ~Box() = default;
 
     virtual int64_t size();
     int64_t decoded_size();
     virtual void update_size();
-    virtual int64_t encode(NetBuffer & buf);
-    virtual int64_t decode(NetBuffer & buf);
-    Type type() {
-        return type_;
-    }
+    virtual int64_t encode(NetBuffer& buf);
+    virtual int64_t decode(NetBuffer& buf);
+    Type type() { return type_; }
+
 protected:
     size_t size_;
     Type type_;
@@ -37,8 +34,8 @@ protected:
 };
 
 const Box::Type BOX_TYPE_UDTA = BOX_TYPE('u', 'd', 't', 'a');
-const Box::Type BOX_TYPE_URL =  BOX_TYPE('u', 'r', 'l', ' ');
-const Box::Type BOX_TYPE_URN =  BOX_TYPE('u', 'r', 'n', ' ');
+const Box::Type BOX_TYPE_URL = BOX_TYPE('u', 'r', 'l', ' ');
+const Box::Type BOX_TYPE_URN = BOX_TYPE('u', 'r', 'n', ' ');
 const Box::Type BOX_TYPE_TRAK = BOX_TYPE('t', 'r', 'a', 'k');
 const Box::Type BOX_TYPE_TRAF = BOX_TYPE('t', 'r', 'a', 'f');
 const Box::Type BOX_TYPE_TKHD = BOX_TYPE('t', 'k', 'h', 'd');
@@ -113,4 +110,4 @@ const Box::Type BOX_TYPE_TRUN = BOX_TYPE('t', 'r', 'u', 'n');
 const Box::Type BOX_TYPE_STYP = BOX_TYPE('s', 't', 'y', 'p');
 const Box::Type BOX_TYPE_TREX = BOX_TYPE('t', 'r', 'e', 'x');
 const Box::Type BOX_TYPE_TFDT = BOX_TYPE('t', 'f', 'd', 't');
-};
+};  // namespace cutesms

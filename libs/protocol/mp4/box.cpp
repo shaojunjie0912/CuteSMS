@@ -1,8 +1,11 @@
-#include <string.h>
 #include "box.h"
+
+#include <string.h>
+
 #include "base/net_buffer.h"
 #include "spdlog/spdlog.h"
-using namespace mms;
+
+using namespace cutesms;
 
 int64_t Box::size() {
     int64_t total_bytes = 8;
@@ -33,11 +36,11 @@ void Box::update_size() {
     }
 }
 
-int64_t Box::encode(NetBuffer & buf) {
+int64_t Box::encode(NetBuffer& buf) {
     auto start = buf.pos();
     buf.write_4bytes(size_);
     buf.write_4bytes(type_);
-    
+
     if (size_ == 1) {
         buf.write_8bytes(large_size_);
     }
@@ -49,7 +52,7 @@ int64_t Box::encode(NetBuffer & buf) {
     return end - start;
 }
 
-int64_t Box::decode(NetBuffer & buf) {
+int64_t Box::decode(NetBuffer& buf) {
     auto start = buf.pos();
     size_ = buf.read_4bytes();
     type_ = buf.read_4bytes();

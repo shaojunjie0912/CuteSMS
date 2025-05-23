@@ -1,21 +1,19 @@
-#include <string.h>
 #include "hdlr.h"
 
-using namespace mms;
-HdlrBox::HdlrBox() : FullBox(BOX_TYPE_HDLR, 0, 0) {
+#include <string.h>
 
-}
 
-HdlrBox::~HdlrBox() {
+using namespace cutesms;
+HdlrBox::HdlrBox() : FullBox(BOX_TYPE_HDLR, 0, 0) {}
 
-}
+HdlrBox::~HdlrBox() {}
 
 int64_t HdlrBox::size() {
     int64_t total_bytes = FullBox::size();
     return total_bytes + 20 + name_.size() + 1;
 }
 
-int64_t HdlrBox::decode(NetBuffer & buf) {
+int64_t HdlrBox::decode(NetBuffer& buf) {
     auto start = buf.pos();
     FullBox::decode(buf);
     pre_defined_ = buf.read_4bytes();
@@ -31,7 +29,7 @@ int64_t HdlrBox::decode(NetBuffer & buf) {
     return buf.pos() - start;
 }
 
-int64_t HdlrBox::encode(NetBuffer & buf) {
+int64_t HdlrBox::encode(NetBuffer& buf) {
     update_size();
     auto start = buf.pos();
     FullBox::encode(buf);

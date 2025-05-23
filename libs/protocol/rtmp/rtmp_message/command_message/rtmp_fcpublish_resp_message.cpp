@@ -1,26 +1,25 @@
-#include "rtmp_fcpublish_message.hpp"
 #include "rtmp_fcpublish_resp_message.hpp"
 
-using namespace mms;
+#include "rtmp_fcpublish_message.hpp"
 
-RtmpFCPublishRespMessage::RtmpFCPublishRespMessage(const RtmpFCPublishMessage & rel_msg, const std::string & name) {
+
+using namespace cutesms;
+
+RtmpFCPublishRespMessage::RtmpFCPublishRespMessage(const RtmpFCPublishMessage &rel_msg,
+                                                   const std::string &name) {
     command_name_.set_value(name);
     transaction_id_.set_value(rel_msg.transaction_id_.get_value());
 }
 
-RtmpFCPublishRespMessage::RtmpFCPublishRespMessage() {
-    
-}
+RtmpFCPublishRespMessage::RtmpFCPublishRespMessage() {}
 
-RtmpFCPublishRespMessage::~RtmpFCPublishRespMessage() {
-
-}
+RtmpFCPublishRespMessage::~RtmpFCPublishRespMessage() {}
 
 int32_t RtmpFCPublishRespMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg) {
     int32_t consumed = 0;
     int32_t pos = 0;
     auto using_data = rtmp_msg->get_using_data();
-    const uint8_t *payload = (const uint8_t*)using_data.data();
+    const uint8_t *payload = (const uint8_t *)using_data.data();
     int32_t len = using_data.size();
     consumed = command_name_.decode(payload, len);
     if (consumed < 0) {
@@ -31,7 +30,7 @@ int32_t RtmpFCPublishRespMessage::decode(std::shared_ptr<RtmpMessage> rtmp_msg) 
     len -= consumed;
 
     consumed = transaction_id_.decode(payload, len);
-    if(consumed < 0) {
+    if (consumed < 0) {
         return -2;
     }
     pos += consumed;
@@ -70,7 +69,7 @@ std::shared_ptr<RtmpMessage> RtmpFCPublishRespMessage::encode() const {
     rtmp_msg->message_stream_id_ = RTMP_MESSAGE_ID_PROTOCOL_CONTROL;
     // window ack_size
     auto unuse_data = rtmp_msg->get_unuse_data();
-    uint8_t * payload = (uint8_t*)unuse_data.data();
+    uint8_t *payload = (uint8_t *)unuse_data.data();
     int32_t len = s;
     int32_t consumed = command_name_.encode(payload, len);
     if (consumed < 0) {

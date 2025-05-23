@@ -14,12 +14,9 @@
 //    RTCP feedback attribute applies to all payload types.  If several
 //    types of feedback are supported and/or the same feedback shall be
 
-
-
 // Ott, et al.                 Standards Track                    [Page 23]
 
 // RFC 4585                        RTP/AVPF                       July 2006
-
 
 //    specified for a subset of the payload types, several "a=rtcp-fb"
 //    lines MUST be used.
@@ -68,14 +65,9 @@
 //    (In the following ABNF, fmt, SP, and CRLF are used as defined in
 //    [3].)
 
-
-
-
-
 // Ott, et al.                 Standards Track                    [Page 24]
 
 // RFC 4585                        RTP/AVPF                       July 2006
-
 
 //       rtcp-fb-syntax = "a=rtcp-fb:" rtcp-fb-pt SP rtcp-fb-val CRLF
 
@@ -121,17 +113,9 @@
 //       The parameter "rpsi" indicates the use of Reference Picture
 //       Selection Indication feedback as defined in Section 6.3.3.
 
-
-
-
-
-
-
-
 // Ott, et al.                 Standards Track                    [Page 25]
 
 // RFC 4585                        RTP/AVPF                       July 2006
-
 
 //       If the parameter "app" is specified, this indicates the use of
 //       application layer feedback.  In this case, additional parameters
@@ -177,17 +161,9 @@
 //       new name, its semantics, packet formats (if necessary), and rules
 //       for its operation MUST be specified.
 
-
-
-
-
-
-
-
 // Ott, et al.                 Standards Track                    [Page 26]
 
 // RFC 4585                        RTP/AVPF                       July 2006
-
 
 //    Regular RTCP minimum interval "trr-int":
 
@@ -212,45 +188,33 @@
 #include <string>
 #include <unordered_map>
 
-namespace mms {
+namespace cutesms {
 struct RtcpFb {
 public:
     static std::string prefix;
-    static bool is_my_prefix(const std::string & line);
+    static bool is_my_prefix(const std::string& line);
     RtcpFb() = default;
-    RtcpFb(int pt, const std::string & fb_val, const std::string & fb_param = "") : pt_(pt), fb_val_(fb_val), fb_param_(fb_param) {
+    RtcpFb(int pt, const std::string& fb_val, const std::string& fb_param = "")
+        : pt_(pt), fb_val_(fb_val), fb_param_(fb_param) {}
 
-    }
+    bool parse(const std::string& line);
+    int get_pt() const { return pt_; }
 
-    bool parse(const std::string & line);
-    int get_pt() const {
-        return pt_;
-    }
+    void set_pt(int pt) { pt_ = pt; }
 
-    void set_pt(int pt) {
-        pt_ = pt;
-    }
+    const std::string& get_fb_val() const { return fb_val_; }
 
-    const std::string & get_fb_val() const {
-        return fb_val_;
-    }
+    void set_fb_val(const std::string& val) { fb_val_ = val; }
 
-    void set_fb_val(const std::string & val) {
-        fb_val_ = val;
-    }
+    const std::string& get_fb_param() const { return fb_param_; }
 
-    const std::string & get_fb_param() const {
-        return fb_param_;
-    }
-
-    void set_fb_param(const std::string & val) {
-        fb_param_ = val;
-    }
+    void set_fb_param(const std::string& val) { fb_param_ = val; }
 
     std::string to_string() const;
+
 public:
-    int pt_;//-1代表所有pt，正值代表具体的pt
+    int pt_;  //-1代表所有pt，正值代表具体的pt
     std::string fb_val_;
     std::string fb_param_;
 };
-};
+};  // namespace cutesms

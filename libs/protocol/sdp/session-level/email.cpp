@@ -1,9 +1,12 @@
-#include <sstream>
 #include "email.hpp"
+
+#include <sstream>
+
 #include "base/utils/utils.h"
-using namespace mms;
+
+namespace cutesms {
 std::string EmailAddress::prefix = "e=";
-bool EmailAddress::parse(const std::string & line) {
+bool EmailAddress::parse(const std::string& line) {
     std::string::size_type end_pos = line.rfind("\r");
     if (end_pos == std::string::npos) {
         end_pos = line.size() - 1;
@@ -17,3 +20,4 @@ std::string EmailAddress::to_string() const {
     oss << prefix << address << std::endl;
     return oss.str();
 }
+}  // namespace cutesms

@@ -23,48 +23,38 @@ SOFTWARE.
 */
 #pragma once
 #include <string>
+
 #include "amf0/amf0_inc.hpp"
-#include "rtmp_define.hpp"
 #include "flv/flv_define.hpp"
 #include "flv/flv_tag.hpp"
+#include "rtmp_define.hpp"
 
-namespace mms {
+
+namespace cutesms {
 class RtmpMetaDataMessage {
 public:
     RtmpMetaDataMessage();
     virtual ~RtmpMetaDataMessage();
+
 public:
     int32_t decode(std::shared_ptr<RtmpMessage> rtmp_msg);
     int32_t decode(std::shared_ptr<FlvTag> rtmp_msg);
     int32_t encode(uint8_t *data, int32_t len);
 
-    bool has_video() {
-        return has_video_;
-    }
+    bool has_video() { return has_video_; }
 
-    bool has_audio() {
-        return has_audio_;
-    }   
+    bool has_audio() { return has_audio_; }
 
-    std::shared_ptr<RtmpMessage> msg() {
-        return cache_msg_;
-    }
+    std::shared_ptr<RtmpMessage> msg() { return cache_msg_; }
 
-    std::shared_ptr<FlvTag> get_flv_tag() {
-        return cache_flv_tag_;
-    }
+    std::shared_ptr<FlvTag> get_flv_tag() { return cache_flv_tag_; }
 
-    AudioTagHeader::SoundFormat get_audio_codec_id() {
-        return audio_codec_id_;
-    }
+    AudioTagHeader::SoundFormat get_audio_codec_id() { return audio_codec_id_; }
 
-    VideoTagHeader::CodecID get_video_codec_id() {
-        return video_codec_id_;
-    }
+    VideoTagHeader::CodecID get_video_codec_id() { return video_codec_id_; }
 
-    std::shared_ptr<Amf0Data> get_amf0_data() {
-        return amf0_metadata_;
-    }
+    std::shared_ptr<Amf0Data> get_amf0_data() { return amf0_metadata_; }
+
 private:
     std::shared_ptr<RtmpMessage> cache_msg_;
     std::shared_ptr<FlvTag> cache_flv_tag_;
@@ -92,5 +82,4 @@ private:
     std::shared_ptr<Amf0Data> amf0_metadata_;
 };
 
-
-};
+};  // namespace cutesms

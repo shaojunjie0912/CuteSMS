@@ -1,19 +1,23 @@
 #include "tkhd.h"
-#include "mp4_factory.h"
+
 #include <string.h>
 
-using namespace mms;
+#include "mp4_factory.h"
+
+
+using namespace cutesms;
 int64_t TkhdBox::size() {
     int64_t total_bytes = FullBox::size();
     if (version_ == 1) {
-        total_bytes += 32;//creation_time(8) + modification_time(8) + track_ID(4) + reverved(4) + duration(8)
+        total_bytes +=
+            32;  // creation_time(8) + modification_time(8) + track_ID(4) + reverved(4) + duration(8)
     } else {
-        total_bytes += 20;//4*5
+        total_bytes += 20;  // 4*5
     }
-    total_bytes += 8;//reverved(8)
-    total_bytes += 8;//layer(2)+alternate_group(2)+volume(2)+reserved(2)
-    total_bytes += 4*9;//matrix[9]
-    total_bytes += 8;//width(4)+height(4)
+    total_bytes += 8;      // reverved(8)
+    total_bytes += 8;      // layer(2)+alternate_group(2)+volume(2)+reserved(2)
+    total_bytes += 4 * 9;  // matrix[9]
+    total_bytes += 8;      // width(4)+height(4)
     return total_bytes;
 }
 
@@ -33,7 +37,7 @@ int64_t TkhdBox::encode(NetBuffer& buf) {
 
     // track元信息
     buf.write_4bytes(track_ID_);
-    buf.write_4bytes(0); // reserved1
+    buf.write_4bytes(0);  // reserved1
 
     // 持续时间
     if (version_ == 1) {
@@ -43,13 +47,13 @@ int64_t TkhdBox::encode(NetBuffer& buf) {
     }
 
     // 保留字段
-    buf.write_8bytes(0); // reserved2
+    buf.write_8bytes(0);  // reserved2
 
     // 轨道参数
     buf.write_2bytes(layer_);
     buf.write_2bytes(alternate_group_);
     buf.write_2bytes(volume_);
-    buf.write_2bytes(0); // reserved3
+    buf.write_2bytes(0);  // reserved3
 
     // 矩阵写入
     for (int i = 0; i < 9; ++i) {

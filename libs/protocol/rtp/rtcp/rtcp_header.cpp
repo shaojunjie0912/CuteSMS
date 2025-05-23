@@ -1,29 +1,28 @@
-#include <iostream>
-#include <arpa/inet.h>
 #include "rtcp_header.h"
-using namespace mms;
+
+#include <arpa/inet.h>
+
+#include <iostream>
+
+using namespace cutesms;
 RtcpHeader::RtcpHeader() {
     version = 2;
     padding = 0;
 }
 
-bool RtcpHeader::is_rtcp_packet(uint8_t *data, size_t len)
-{
-    if (len < 2)
-    {
+bool RtcpHeader::is_rtcp_packet(uint8_t *data, size_t len) {
+    if (len < 2) {
         return false;
     }
     bool is_rtp_or_rtcp = (len >= 12 && ((data[0] & 0xC0) == 0x80));
-    bool is_rtcp_pt     = (data[1] >= 192 && data[1] <= 223);
-    
+    bool is_rtcp_pt = (data[1] >= 192 && data[1] <= 223);
+
     return is_rtp_or_rtcp && is_rtcp_pt;
 }
 
-int32_t RtcpHeader::decode(uint8_t *data, size_t len)
-{
+int32_t RtcpHeader::decode(uint8_t *data, size_t len) {
     uint8_t *data_start = data;
-    if (len < 1)
-    {
+    if (len < 1) {
         return -1;
     }
 
@@ -34,8 +33,7 @@ int32_t RtcpHeader::decode(uint8_t *data, size_t len)
 
     data++;
     len--;
-    if (len < 1)
-    {
+    if (len < 1) {
         return -2;
     }
 
@@ -43,32 +41,28 @@ int32_t RtcpHeader::decode(uint8_t *data, size_t len)
     data++;
     len--;
     // length
-    if (len < 2)
-    {
+    if (len < 2) {
         return -3;
     }
 
-    length = ntohs(*(uint16_t*)data);
+    length = ntohs(*(uint16_t *)data);
     data += 2;
     len -= 2;
     // ssrc
-    if (len < 4)
-    {
+    if (len < 4) {
         return -4;
     }
 
-    sender_ssrc = ntohl(*(uint32_t*)data);
+    sender_ssrc = ntohl(*(uint32_t *)data);
     data += 4;
     len -= 4;
 
     return data - data_start;
 }
 
-int32_t RtcpHeader::encode(uint8_t *data, size_t len)
-{
+int32_t RtcpHeader::encode(uint8_t *data, size_t len) {
     uint8_t *data_start = data;
-    if (len < 1)
-    {
+    if (len < 1) {
         return -1;
     }
 
@@ -76,8 +70,7 @@ int32_t RtcpHeader::encode(uint8_t *data, size_t len)
     *data = tmpv1;
     data++;
     len--;
-    if (len < 1)
-    {
+    if (len < 1) {
         return -2;
     }
 
@@ -85,29 +78,26 @@ int32_t RtcpHeader::encode(uint8_t *data, size_t len)
     data++;
     len--;
     // length
-    if (len < 2)
-    {
+    if (len < 2) {
         return -3;
     }
 
-    *(uint16_t*)data = htons(length);
+    *(uint16_t *)data = htons(length);
     data += 2;
     len -= 2;
     // ssrc
-    if (len < 4)
-    {
+    if (len < 4) {
         return -4;
     }
 
-    *(uint32_t*)data = htonl(sender_ssrc);
+    *(uint32_t *)data = htonl(sender_ssrc);
     data += 4;
     len -= 4;
 
     return data - data_start;
 }
 
-uint8_t RtcpHeader::parse_pt(uint8_t *data, size_t len)
-{
+uint8_t RtcpHeader::parse_pt(uint8_t *data, size_t len) {
     ((void)len);
     return data[1];
 }

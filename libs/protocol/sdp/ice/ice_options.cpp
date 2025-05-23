@@ -1,9 +1,12 @@
-#include <sstream>
 #include "ice_options.h"
-#include "base/utils/utils.h"
-using namespace mms;
-std::string IceOption::prefix = "a=ice-options:";
-bool IceOption::parse(const std::string & line) {
+
+#include <base/utils/utils.h>
+
+#include <sstream>
+
+namespace cutesms {
+
+bool IceOption::parse(const std::string& line) {
     std::string::size_type end_pos = line.rfind("\r");
     if (end_pos == std::string::npos) {
         end_pos = line.size() - 1;
@@ -17,3 +20,4 @@ std::string IceOption::to_string() const {
     oss << prefix << option << std::endl;
     return oss.str();
 }
+}  // namespace cutesms

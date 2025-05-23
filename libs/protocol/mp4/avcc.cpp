@@ -1,13 +1,14 @@
 #include "avcc.h"
-#include "mp4_factory.h"
-#include "base/net_buffer.h"
+
 #include <string.h>
 
-using namespace mms;
+#include "base/net_buffer.h"
+#include "mp4_factory.h"
 
-AvccBox::AvccBox() : Box(BOX_TYPE_AVCC) {
 
-}
+using namespace cutesms;
+
+AvccBox::AvccBox() : Box(BOX_TYPE_AVCC) {}
 
 int64_t AvccBox::size() {
     int64_t total_bytes = Box::size();
@@ -15,7 +16,7 @@ int64_t AvccBox::size() {
     return total_bytes;
 }
 
-int64_t AvccBox::encode(NetBuffer & buf) {
+int64_t AvccBox::encode(NetBuffer& buf) {
     update_size();
     auto start = buf.pos();
     Box::encode(buf);
@@ -23,7 +24,7 @@ int64_t AvccBox::encode(NetBuffer & buf) {
     return buf.pos() - start;
 }
 
-int64_t AvccBox::decode(NetBuffer & buf) {
+int64_t AvccBox::decode(NetBuffer& buf) {
     auto start = buf.pos();
     Box::decode(buf);
     auto left_bytes = Box::decoded_size() - (buf.pos() - start);

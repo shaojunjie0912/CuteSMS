@@ -1,10 +1,12 @@
+#include "ice_ufrag.h"
+
 #include <sstream>
 
-#include "ice_ufrag.h"
 #include "base/utils/utils.h"
-using namespace mms;
-std::string IceUfrag::prefix = "a=ice-ufrag:";
-bool IceUfrag::parse(const std::string & line) {
+
+namespace cutesms {
+
+bool IceUfrag::parse(const std::string& line) {
     std::string::size_type end_pos = line.rfind("\r");
     if (end_pos == std::string::npos) {
         end_pos = line.size() - 1;
@@ -18,3 +20,4 @@ std::string IceUfrag::to_string() const {
     oss << prefix << ufrag_ << std::endl;
     return oss.str();
 }
+}  // namespace cutesms

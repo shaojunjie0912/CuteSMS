@@ -3,31 +3,22 @@
  * @Date: 2022-12-16 22:53:04
  * @LastEditTime: 2023-09-16 12:06:29
  * @LastEditors: jbl19860422
- * @Description: 
- * @FilePath: \mms\mms\protocol\sdp\media-level\fmtp.cpp
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved. 
+ * @Description:
+ * @FilePath: \cutesms\cutesms\protocol\sdp\media-level\fmtp.cpp
+ * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
  */
-#include <sstream>
-#include <iostream>
+#include "fmtp.h"
+
+#include <base/utils/utils.h>
+
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/join.hpp>
-#include "base/utils/utils.h"
+#include <iostream>
+#include <sstream>
 
-#include "fmtp.h"
-using namespace mms;
-std::string Fmtp::prefix = "a=fmtp:";
-std::string Fmtp::empty_str = "";
+namespace cutesms {
 
-bool Fmtp::is_my_prefix(const std::string & line)
-{
-    if (boost::starts_with(line, prefix)) {
-        return true;
-    } 
-    return false;
-}
-
-bool Fmtp::parse(const std::string & line)
-{
+bool Fmtp::parse(const std::string &line) {
     std::string::size_type end_pos = line.rfind("\r");
     if (end_pos == std::string::npos) {
         end_pos = line.size() - 1;
@@ -39,7 +30,7 @@ bool Fmtp::parse(const std::string & line)
     if (space_pos == std::string::npos) {
         return false;
     }
-    
+
     std::string pt_str = valid_string.substr(0, space_pos);
     pt_ = std::atoi(pt_str.data());
 
@@ -65,11 +56,10 @@ bool Fmtp::parse(const std::string & line)
     return true;
 }
 
-std::string Fmtp::to_string() const
-{
+std::string Fmtp::to_string() const {
     std::ostringstream oss;
     std::vector<std::string> params;
-    for (auto & kv : fmt_params_) {
+    for (auto &kv : fmt_params_) {
         params.push_back(kv.first + "=" + kv.second);
     }
 
@@ -77,6 +67,5 @@ std::string Fmtp::to_string() const
     return oss.str();
 }
 
-void Fmtp::add_param(const std::string &k, const std::string & v) {
-    fmt_params_[k] = v;
-}
+void Fmtp::add_param(const std::string &k, const std::string &v) { fmt_params_[k] = v; }
+}  // namespace cutesms

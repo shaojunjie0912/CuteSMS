@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
-#include <string>
-namespace mms {
+
+namespace cutesms {
 // 5.4.  Session Information ("i=")
 //     i=<session description>
 // The "i=" field provides textual information about the session.  There
@@ -24,17 +24,14 @@ namespace mms {
 struct SessionInformation {
 public:
     static std::string prefix;
-    bool parse(const std::string & line);
-    const std::string & get_session_information() const {
-        return session_information;
-    }
+    bool parse(const std::string& line);
+    const std::string& get_session_information() const { return session_information; }
 
-    void set_session_information(const std::string & val) {
-        session_information = val;
-    }
+    void set_session_information(const std::string& val) { session_information = val; }
 
     std::string to_string() const;
+
 public:
     std::string session_information;
 };
-};
+};  // namespace cutesms

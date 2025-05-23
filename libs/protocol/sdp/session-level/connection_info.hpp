@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-namespace mms {
+namespace cutesms {
 // 5.7.  Connection Data ("c=")
 //    c=<nettype> <addrtype> <connection-address>
 //    The "c=" field contains connection data.
@@ -94,53 +94,33 @@ struct ConnectionInfo {
 public:
     static std::string prefix;
     ConnectionInfo() = default;
-    ConnectionInfo(const std::string &nettype, const std::string & addrtype, const std::string & conn_addr) : nettype_(nettype), addrtype_(addrtype), connection_address_(conn_addr) {
+    ConnectionInfo(const std::string &nettype, const std::string &addrtype, const std::string &conn_addr)
+        : nettype_(nettype), addrtype_(addrtype), connection_address_(conn_addr) {}
 
-    }
-    
-    bool parse(const std::string & line);
+    bool parse(const std::string &line);
 
-    const std::string & get_net_type() {
-        return nettype_;
-    }
+    const std::string &get_net_type() { return nettype_; }
 
-    void set_net_type(const std::string & nt) {
-        nettype_ = nt;
-    }
+    void set_net_type(const std::string &nt) { nettype_ = nt; }
 
-    const std::string & get_addr_type() {
-        return addrtype_;
-    }
+    const std::string &get_addr_type() { return addrtype_; }
 
-    void set_addr_type(const std::string & at) {
-        addrtype_ = at;
-    }
+    void set_addr_type(const std::string &at) { addrtype_ = at; }
 
-    const std::string & get_connection_address() {
-        return connection_address_;
-    }
+    const std::string &get_connection_address() { return connection_address_; }
 
-    void set_connection_address(const std::string & ca) {
-        connection_address_ = ca;
-    }
+    void set_connection_address(const std::string &ca) { connection_address_ = ca; }
 
-    int32_t get_ttl() {
-        return ttl;
-    }
+    int32_t get_ttl() { return ttl; }
 
-    void set_ttl(int32_t t) {
-        ttl = t;
-    }
+    void set_ttl(int32_t t) { ttl = t; }
 
-    int32_t get_num_of_addr() {
-        return num_of_addr;
-    }
+    int32_t get_num_of_addr() { return num_of_addr; }
 
-    void set_num_of_addr(int32_t val) {
-        num_of_addr = val;
-    }
+    void set_num_of_addr(int32_t val) { num_of_addr = val; }
 
     std::string to_string() const;
+
 public:
     //    The first sub-field ("<nettype>") is the network type, which is a
     //    text string giving the type of network.  Initially, "IN" is defined
@@ -160,4 +140,4 @@ public:
     int32_t ttl = 0;
     int32_t num_of_addr = 1;
 };
-};
+};  // namespace cutesms
