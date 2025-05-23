@@ -24,4 +24,3 @@ add_requires("hiredis")
 add_requires("redis-plus-plus")
 
 includes("libs")
--- includes("tests")

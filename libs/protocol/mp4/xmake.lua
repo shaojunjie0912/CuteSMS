@@ -1,6 +1,7 @@
-target("protocol-mp4", function () 
+target("protocol_mp4", function () 
     set_kind("static")
-    add_files("**.cpp")
+    add_files("src/**.cpp")
+    add_includedirs("include", { public = true })
     add_deps("base")
 end)
 

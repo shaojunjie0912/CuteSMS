@@ -1,5 +1,6 @@
-target("protocol-http", function () 
+target("protocol_http", function () 
     set_kind("static")
-    add_files("**.cpp")
+    add_files("src/**.cpp")
+    add_includedirs("include", { public = true })
     add_deps("base")
 end)

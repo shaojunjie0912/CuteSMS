@@ -1,4 +1,4 @@
-target("protocol-sdp", function () 
+target("protocol_sdp", function () 
     set_kind("static")
     add_files("**.cpp")
     add_deps("base")

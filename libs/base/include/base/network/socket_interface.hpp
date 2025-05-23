@@ -1,19 +1,12 @@
-/*
- * @Author: jbl19860422
- * @Date: 2023-12-06 20:52:18
- * @LastEditTime: 2023-12-06 21:36:10
- * @LastEditors: jbl19860422
- * @Description:
- * @FilePath: \cutesms\cutesms\base\network\socket_interface.hpp
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
- */
 #pragma once
+
 #include <atomic>
 #include <boost/asio/awaitable.hpp>
 #include <boost/asio/buffer.hpp>
 #include <memory>
 
 namespace cutesms {
+
 class ThreadWorker;
 class Session;
 class SocketInterface;
