@@ -1,7 +1,7 @@
 #pragma once
-#include <stdint.h>
 
 #include <boost/asio/buffer.hpp>
+#include <cstdint>
 #include <list>
 
 #include "chunk.h"

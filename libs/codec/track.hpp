@@ -3,7 +3,9 @@
 #include <memory>
 
 namespace cutesms {
+
 class Codec;
+
 class Track {
 public:
     enum TrackType { Video, Audio, Subtitle };

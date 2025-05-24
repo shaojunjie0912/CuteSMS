@@ -1,6 +1,7 @@
 #pragma once
-#include <stdint.h>
 
+#include <cstddef>
+#include <cstdint>
 #include <memory>
 #include <string_view>
 

@@ -2,9 +2,7 @@
 
 #include <atomic>
 #include <boost/serialization/singleton.hpp>
-#include <functional>
-#include <memory>
-#include <thread>
+#include <vector>
 
 #include "thread_worker.hpp"
 

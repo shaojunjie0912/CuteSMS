@@ -1,14 +1,13 @@
-
 #pragma once
+
 #include <boost/asio/awaitable.hpp>
 #include <functional>
 #include <list>
 #include <memory>
 #include <mutex>
 
-#include "spdlog/spdlog.h"
-
 namespace cutesms {
+
 template <typename T>
 class ConnPool {
 public:
@@ -80,4 +79,5 @@ private:
     std::list<std::shared_ptr<T>> free_conns_;
     std::list<std::shared_ptr<T>> using_conns_;
 };
+
 }  // namespace cutesms

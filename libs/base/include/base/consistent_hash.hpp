@@ -1,18 +1,13 @@
 #pragma once
 
-#include <math.h>
 #include <openssl/md5.h>
-#include <stdint.h>
-#include <stdlib.h>
 
-#include <algorithm>
 #include <boost/lexical_cast.hpp>
-#include <cmath>
-#include <iostream>
+#include <functional>
 #include <map>
-#include <set>
 #include <string>
 #include <vector>
+
 
 namespace cutesms {
 

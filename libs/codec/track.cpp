@@ -1,4 +1,5 @@
 #include "track.hpp"
+
 namespace cutesms {
 
 VideoTrack::VideoTrack(int track_id, std::shared_ptr<Codec> codec)
@@ -10,4 +11,5 @@ AudioTrack::AudioTrack(int track_id, std::shared_ptr<Codec> codec)
     : Track(Track::Audio, track_id), codec_(codec) {}
 
 AudioTrack::~AudioTrack() {}
+
 }  // namespace cutesms

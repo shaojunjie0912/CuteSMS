@@ -1,10 +1,11 @@
 #pragma once
+
 #include <atomic>
 #include <boost/asio/experimental/awaitable_operators.hpp>
 #include <boost/asio/steady_timer.hpp>
-#include <memory>
 
 namespace cutesms {
+
 class ThreadWorker;
 
 class WaitGroup {
@@ -22,4 +23,5 @@ private:
     ThreadWorker *worker_;
     boost::asio::steady_timer timer_;
 };
+
 }  // namespace cutesms

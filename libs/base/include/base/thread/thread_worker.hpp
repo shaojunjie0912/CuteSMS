@@ -8,11 +8,14 @@
 #include <functional>
 #include <thread>
 
+#include "boost/asio/steady_timer.hpp"
+
 namespace cutesms {
 
 class ThreadWorker {
 public:
-    using Task = std::function<void()>;
+    class Event;
+    using TaskType = std::function<void(Event *ev)>;
 
     ThreadWorker();
 
@@ -38,7 +41,7 @@ public:
 
     class Event {
     public:
-        Event(ThreadWorker *worker, const std::function<void(Event *ev)> &f);
+        Event(ThreadWorker *worker, const TaskType &f);
 
         ~Event();
 
@@ -50,13 +53,13 @@ public:
         ThreadWorker *get_worker();
 
     private:
-        ThreadWorker *worker_;               // 事件所属的工作线程
-        std::function<void(Event *ev)> f_;   // 事件回调
-        boost::asio::deadline_timer timer_;  // 定时器
+        ThreadWorker *worker_;             // 事件所属的工作线程
+        TaskType f_;                       // 事件回调
+        boost::asio::steady_timer timer_;  // 定时器 (允许延迟执行)
     };
 
     // 创建事件
-    Event *create_event(const std::function<void(Event *ev)> &f);
+    Event *create_event(const TaskType &f);
 
     // 移除事件
     void remove_event(Event *ev);
