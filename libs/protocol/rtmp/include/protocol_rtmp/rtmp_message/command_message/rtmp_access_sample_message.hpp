@@ -1,7 +1,9 @@
 #pragma once
 
-#include "../amf0/amf0_inc.hpp"
-#include "rtmp_define.hpp"
+#include <protocol_rtmp/rtmp_define.hpp>
+
+#include "../../amf0/amf0_inc.hpp"
+
 
 namespace cutesms {
 class RtmpAccessSampleMessage {

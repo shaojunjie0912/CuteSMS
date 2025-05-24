@@ -1,19 +1,10 @@
-/*
- * @Author: jbl19860422
- * @Date: 2023-09-16 11:45:26
- * @LastEditTime: 2023-09-16 12:08:09
- * @LastEditors: jbl19860422
- * @Description:
- * @FilePath: \cutesms\cutesms\protocol\sdp\attribute\common\rtpmap.cpp
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
- */
-#include "rtpmap.h"
-
 #include <base/utils/utils.h>
+#include <protocol_sdp/attribute/common/rtpmap.h>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/join.hpp>
 #include <sstream>
+
 
 namespace cutesms {
 // a=rtpmap:<payload type> <encoding name>/<clock rate> [/<encoding

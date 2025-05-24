@@ -1,8 +1,8 @@
-#include "session_name.hpp"
+#include <base/utils/utils.h>
 
+#include <protocol_sdp/session-level/session_name.hpp>
 #include <sstream>
 
-#include "base/utils/utils.h"
 
 namespace cutesms {
 std::string SessionName::prefix = "s=";

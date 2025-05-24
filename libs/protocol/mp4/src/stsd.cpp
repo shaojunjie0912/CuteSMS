@@ -1,12 +1,7 @@
-#include "stsd.h"
-
-#include <string.h>
-
-#include "audio_sample_entry.h"
-#include "base/net_buffer.h"
-#include "mp4_factory.h"
-#include "sample_entry.h"
-#include "visual_sample_entry.h"
+#include <base/net_buffer.h>
+#include <protocol_mp4/mp4_factory.h>
+#include <protocol_mp4/sample_entry.h>
+#include <protocol_mp4/stsd.h>
 
 namespace cutesms {
 

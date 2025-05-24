@@ -1,4 +1,5 @@
-#include "rtmp_connect_command_message.hpp"
+#include <protocol_rtmp/rtmp_message/command_message/rtmp_connect_command_message.hpp>
+
 namespace cutesms {
 RtmpConnectCommandMessage::RtmpConnectCommandMessage() {}
 

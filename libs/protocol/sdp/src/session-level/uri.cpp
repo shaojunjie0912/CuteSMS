@@ -1,8 +1,8 @@
-#include "uri.hpp"
+#include <base/utils/utils.h>
 
+#include <protocol_sdp/session-level/uri.hpp>
 #include <sstream>
 
-#include "base/utils/utils.h"
 
 namespace cutesms {
 std::string Uri::prefix = "u=";

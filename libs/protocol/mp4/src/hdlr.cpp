@@ -1,6 +1,5 @@
-#include "hdlr.h"
-
-#include <string.h>
+#include <base/net_buffer.h>
+#include <protocol_mp4/hdlr.h>
 
 namespace cutesms {
 HdlrBox::HdlrBox() : FullBox(BOX_TYPE_HDLR, 0, 0) {}

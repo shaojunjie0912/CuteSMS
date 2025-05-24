@@ -1,9 +1,8 @@
-#include "extmap.hpp"
-
 #include <base/utils/utils.h>
 
 #include <boost/algorithm/string.hpp>
 #include <iostream>
+#include <protocol_sdp/webrtc/extmap.hpp>
 
 namespace cutesms {
 std::string Extmap::prefix = "a=extmap:";

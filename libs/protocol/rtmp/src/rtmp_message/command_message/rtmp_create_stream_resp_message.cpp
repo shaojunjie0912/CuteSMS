@@ -1,4 +1,5 @@
-#include "rtmp_create_stream_resp_message.hpp"
+#include <protocol_rtmp/rtmp_message/command_message/rtmp_create_stream_resp_message.hpp>
+
 namespace cutesms {
 
 RtmpCreateStreamRespMessage::RtmpCreateStreamRespMessage(int32_t transaction_id) {

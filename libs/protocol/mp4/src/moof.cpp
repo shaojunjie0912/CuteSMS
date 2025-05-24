@@ -1,11 +1,9 @@
-#include "moof.h"
-
-#include "base/net_buffer.h"
-#include "mdhd.h"
-#include "mfhd.h"
-#include "mp4_factory.h"
-#include "spdlog/spdlog.h"
-#include "traf.h"
+#include <base/net_buffer.h>
+#include <protocol_mp4/mdhd.h>
+#include <protocol_mp4/mfhd.h>
+#include <protocol_mp4/moof.h>
+#include <protocol_mp4/mp4_factory.h>
+#include <protocol_mp4/traf.h>
 
 namespace cutesms {
 

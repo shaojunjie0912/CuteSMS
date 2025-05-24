@@ -1,5 +1,5 @@
 #pragma once
-#include "rtmp_define.hpp"
+#include <protocol_rtmp/rtmp_define.hpp>
 
 namespace cutesms {
 class RtmpUserCtrlMessage {

@@ -1,12 +1,3 @@
-/*
- * @Author: jbl19860422
- * @Date: 2023-12-28 23:56:13
- * @LastEditTime: 2023-12-29 13:40:40
- * @LastEditors: jbl19860422
- * @Description:
- * @FilePath: \cutesms\cutesms\protocol\rtp\rtp_packer.h
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
- */
 #pragma once
 // c
 #include <stdint.h>

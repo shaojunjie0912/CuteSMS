@@ -1,9 +1,9 @@
-#include "connection_info.hpp"
+#include <base/utils/utils.h>
 
 #include <boost/algorithm/string.hpp>
+#include <protocol_sdp/session-level/connection_info.hpp>
 #include <sstream>
 
-#include "base/utils/utils.h"
 
 namespace cutesms {
 std::string ConnectionInfo::prefix = "c=";

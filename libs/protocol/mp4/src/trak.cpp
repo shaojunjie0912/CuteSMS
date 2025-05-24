@@ -1,10 +1,7 @@
-#include "trak.h"
-
-#include <string.h>
-
-#include "mdia.h"
-#include "mp4_factory.h"
-#include "tkhd.h"
+#include <protocol_mp4/mdia.h>
+#include <protocol_mp4/mp4_factory.h>
+#include <protocol_mp4/tkhd.h>
+#include <protocol_mp4/trak.h>
 
 namespace cutesms {
 

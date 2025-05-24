@@ -1,6 +1,5 @@
-#include "amf0_ecma_array.hpp"
-
-#include "amf0_object.hpp"
+#include <protocol_rtmp/amf0/amf0_ecma_array.hpp>
+#include <protocol_rtmp/amf0/amf0_object.hpp>
 
 namespace cutesms {
 
@@ -25,7 +24,7 @@ Json::Value Amf0EcmaArray::to_json() {
                 break;
             }
             case NULL_MARKER: {
-                root[p.first] = nullptr;
+                root[p.first] = Json::Value::null;  // NOTE: Json::Value::null is not nullptr
                 break;
             }
             case UNDEFINED_MARKER: {

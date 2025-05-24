@@ -1,12 +1,13 @@
-#include "origin.hpp"
+#include <base/utils/utils.h>
 
 #include <boost/algorithm/string.hpp>
 #include <exception>
+#include <protocol_sdp/session-level/origin.hpp>
 #include <sstream>
 
-#include "base/utils/utils.h"
 
 namespace cutesms {
+
 std::string Origin::prefix = "o=";
 bool Origin::parse(const std::string& line) {
     std::string::size_type end_pos = line.rfind("\r");

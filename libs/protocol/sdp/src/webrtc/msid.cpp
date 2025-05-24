@@ -1,10 +1,7 @@
-#include "msid.hpp"
-
 #include <base/utils/utils.h>
 
 #include <boost/algorithm/string.hpp>
-#include <iostream>
-#include <sstream>
+#include <protocol_sdp/webrtc/msid.hpp>
 
 namespace cutesms {
 std::string Msid::prefix = "a=msid:";

@@ -1,10 +1,10 @@
-#include "dref.h"
+#include <base/net_buffer.h>
+#include <protocol_mp4/dref.h>
+#include <protocol_mp4/mp4_factory.h>
+#include <protocol_mp4/url.h>
+#include <protocol_mp4/urn.h>
 
-#include <string.h>
-
-#include "mp4_factory.h"
-#include "url.h"
-#include "urn.h"
+#include <cassert>
 
 namespace cutesms {
 DrefBox::DrefBox() : FullBox(BOX_TYPE_DREF, 0, 0) {}

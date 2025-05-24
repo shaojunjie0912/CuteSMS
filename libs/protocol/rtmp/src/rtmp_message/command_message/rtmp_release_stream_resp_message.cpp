@@ -1,6 +1,6 @@
-#include "rtmp_release_stream_resp_message.hpp"
+#include <protocol_rtmp/rtmp_message/command_message/rtmp_release_stream_message.hpp>
+#include <protocol_rtmp/rtmp_message/command_message/rtmp_release_stream_resp_message.hpp>
 
-#include "rtmp_release_stream_message.hpp"
 
 namespace cutesms {
 

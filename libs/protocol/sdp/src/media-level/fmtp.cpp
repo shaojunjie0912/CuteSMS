@@ -1,15 +1,5 @@
-/*
- * @Author: jbl19860422
- * @Date: 2022-12-16 22:53:04
- * @LastEditTime: 2023-09-16 12:06:29
- * @LastEditors: jbl19860422
- * @Description:
- * @FilePath: \cutesms\cutesms\protocol\sdp\media-level\fmtp.cpp
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
- */
-#include "fmtp.h"
-
 #include <base/utils/utils.h>
+#include <protocol_sdp/media-level/fmtp.h>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/join.hpp>

@@ -1,6 +1,9 @@
 #pragma once
+
+#include <cstdint>
 #include <string>
 #include <unordered_map>
+
 /*
 15.1.  "candidate" Attribute
 

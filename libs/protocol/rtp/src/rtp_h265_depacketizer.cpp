@@ -1,9 +1,8 @@
-#include "rtp_h265_depacketizer.h"
+#include <protocol_rtp/h265_rtp_pkt_info.h>
+#include <protocol_rtp/rtp_h265_depacketizer.h>
 
 #include <string_view>
 
-#include "h265_rtp_pkt_info.h"
-#include "spdlog/spdlog.h"
 
 namespace cutesms {
 

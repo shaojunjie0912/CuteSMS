@@ -1,4 +1,5 @@
-#include "rtmp_access_sample_message.hpp"
+#include <protocol_rtmp/rtmp_message/command_message/rtmp_access_sample_message.hpp>
+
 namespace cutesms {
 
 RtmpAccessSampleMessage::RtmpAccessSampleMessage(bool video, bool audio) {

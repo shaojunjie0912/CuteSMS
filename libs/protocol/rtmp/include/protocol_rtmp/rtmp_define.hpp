@@ -22,12 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 #pragma once
+#include <base/packet.h>
 #include <string.h>
 
 #include <memory>
 #include <vector>
-
-#include "base/packet.h"
 
 namespace cutesms {
 #define RTMP_CHUNK_FMT_TYPE0 0

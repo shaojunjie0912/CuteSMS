@@ -1,9 +1,8 @@
-
-#include "http_define.h"
+#include <protocol_http/http_define.h>
 
 namespace cutesms {
 
-std::unordered_map<std::string, std::string> cutesms::http_content_type_map = {
+std::unordered_map<std::string, std::string> http_content_type_map = {
     {".tif", "image/tiff"},
     {".au", "audio/basic"},
     {".avi", "video/avi"},

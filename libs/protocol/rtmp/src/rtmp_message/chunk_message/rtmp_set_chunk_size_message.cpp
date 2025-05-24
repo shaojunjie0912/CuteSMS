@@ -1,8 +1,8 @@
-#include "rtmp_set_chunk_size_message.hpp"
-
 #include <arpa/inet.h>
 
-#include "rtmp_define.hpp"
+#include <protocol_rtmp/rtmp_define.hpp>
+#include <protocol_rtmp/rtmp_message/chunk_message/rtmp_set_chunk_size_message.hpp>
+
 
 namespace cutesms {
 

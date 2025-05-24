@@ -1,9 +1,8 @@
-#include "audio_sample_entry.h"
+#include <base/net_buffer.h>
+#include <protocol_mp4/audio_sample_entry.h>
+#include <protocol_mp4/esds.h>
+#include <spdlog/spdlog.h>
 
-#include <string.h>
-
-#include "base/net_buffer.h"
-#include "esds.h"
 
 namespace cutesms {
 
@@ -20,7 +19,6 @@ int64_t AudioSampleEntry::size() {
     return total_bytes;
 }
 
-#include "spdlog/spdlog.h"
 int64_t AudioSampleEntry::encode(NetBuffer& buf) {
     auto start = buf.pos();
     SampleEntry::encode(buf);

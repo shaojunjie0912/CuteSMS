@@ -1,4 +1,5 @@
-#include "rtmp_play_message.hpp"
+#include <protocol_rtmp/rtmp_message/command_message/rtmp_play_message.hpp>
+
 namespace cutesms {
 RtmpPlayMessage::RtmpPlayMessage() {}
 

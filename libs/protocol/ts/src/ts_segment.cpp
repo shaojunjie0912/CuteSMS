@@ -1,12 +1,8 @@
-#include "ts_segment.hpp"
-
-#include <spdlog/spdlog.h>
-
 #include <cstring>
 #include <memory>
+#include <protocol_ts/ts_segment.hpp>
 #include <string>
 #include <string_view>
-
 
 namespace cutesms {
 

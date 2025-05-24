@@ -1,12 +1,3 @@
-/*
- * @Author: jbl19860422
- * @Date: 2023-10-03 12:24:22
- * @LastEditTime: 2023-10-07 20:13:05
- * @LastEditors: jbl19860422
- * @Description:
- * @FilePath: \cutesms\cutesms\server\http\websocket\websocket_packet.hpp
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
- */
 #pragma once
 #include <memory>
 namespace cutesms {

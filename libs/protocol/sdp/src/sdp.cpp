@@ -1,11 +1,8 @@
-#include "sdp.hpp"
+#include <base/utils/utils.h>
 
 #include <boost/algorithm/string.hpp>
-#include <iostream>
+#include <protocol_sdp/sdp.hpp>
 #include <sstream>
-
-#include "base/utils/utils.h"
-#include "spdlog/spdlog.h"
 
 namespace cutesms {
 

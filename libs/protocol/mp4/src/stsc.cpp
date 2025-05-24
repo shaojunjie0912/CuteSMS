@@ -1,8 +1,6 @@
-#include "stsc.h"
-
-#include <string.h>
-
-#include "mp4_factory.h"
+#include <base/net_buffer.h>
+#include <protocol_mp4/mp4_factory.h>
+#include <protocol_mp4/stsc.h>
 
 namespace cutesms {
 

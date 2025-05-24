@@ -1,9 +1,6 @@
-#include "mvhd.h"
-
-#include <string.h>
-
-#include "base/net_buffer.h"
-#include "mp4_builder.h"
+#include <base/net_buffer.h>
+#include <protocol_mp4/mp4_builder.h>
+#include <protocol_mp4/mvhd.h>
 
 namespace cutesms {
 

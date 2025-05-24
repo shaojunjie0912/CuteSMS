@@ -1,7 +1,8 @@
 #pragma once
-#include <stdint.h>
+#include <cstdint>
+#include <memory>
+#include <protocol_rtmp/rtmp_define.hpp>
 
-#include "rtmp_define.hpp"
 
 namespace cutesms {
 class RtmpWindowAckSizeMessage {

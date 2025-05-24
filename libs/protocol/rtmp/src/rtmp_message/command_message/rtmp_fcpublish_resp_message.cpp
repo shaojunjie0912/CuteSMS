@@ -1,6 +1,4 @@
-#include "rtmp_fcpublish_resp_message.hpp"
-
-#include "rtmp_fcpublish_message.hpp"
+#include <protocol_rtmp/rtmp_message/command_message/rtmp_fcpublish_resp_message.hpp>
 
 namespace cutesms {
 

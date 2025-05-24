@@ -1,9 +1,9 @@
-#include "mdia.h"
+#include <protocol_mp4/hdlr.h>
+#include <protocol_mp4/mdhd.h>
+#include <protocol_mp4/mdia.h>
+#include <protocol_mp4/minf.h>
+#include <protocol_mp4/mp4_factory.h>
 
-#include "hdlr.h"
-#include "mdhd.h"
-#include "minf.h"
-#include "mp4_factory.h"
 
 namespace cutesms {
 

@@ -1,5 +1,9 @@
 #pragma once
+
+#include <memory>
+
 #include "rtmp_user_ctrl_message.hpp"
+
 
 namespace cutesms {
 class RtmpStreamBeginMessage : public RtmpUserCtrlMessage {

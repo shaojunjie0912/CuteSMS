@@ -1,7 +1,8 @@
-#include "stream_begin_message.hpp"
-
 #include <netinet/in.h>
 #include <stdint.h>
+
+#include <protocol_rtmp/rtmp_message/command_message/user_ctrl_message/stream_begin_message.hpp>
+
 
 namespace cutesms {
 

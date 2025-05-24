@@ -1,10 +1,8 @@
-#include "http_response.hpp"
-
 #include <spdlog/spdlog.h>
 
 #include <base/network/socket_interface.hpp>
+#include <protocol_http/http_response.hpp>
 #include <sstream>
-
 
 namespace cutesms {
 

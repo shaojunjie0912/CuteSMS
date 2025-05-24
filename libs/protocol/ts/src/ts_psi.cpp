@@ -1,13 +1,4 @@
-/*
- * @Author: jbl19860422
- * @Date: 2023-09-16 10:32:17
- * @LastEditTime: 2023-09-16 12:06:47
- * @LastEditors: jbl19860422
- * @Description:
- * @FilePath: \cutesms\cutesms\protocol\ts\ts_psi.cpp
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
- */
-#include "ts_psi.hpp"
+#include <protocol_ts/ts_psi.hpp>
 
 namespace cutesms {
 int32_t TsPayloadPSI::encode(uint8_t *data, int32_t len) {

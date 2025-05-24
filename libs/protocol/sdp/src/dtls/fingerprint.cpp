@@ -1,6 +1,5 @@
-#include "fingerprint.h"
-
 #include <base/utils/utils.h>
+#include <protocol_sdp/dtls/fingerprint.h>
 
 #include <boost/algorithm/string.hpp>
 #include <sstream>

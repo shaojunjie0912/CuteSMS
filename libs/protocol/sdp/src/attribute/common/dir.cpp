@@ -1,7 +1,7 @@
-#include "dir.hpp"
-
 #include <boost/algorithm/string.hpp>
+#include <protocol_sdp/attribute/common/dir.hpp>
 #include <sstream>
+
 
 namespace cutesms {
 

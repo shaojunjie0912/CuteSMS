@@ -1,11 +1,10 @@
-#include "timing.hpp"
+#include <base/utils/utils.h>
 
 #include <boost/algorithm/string.hpp>
+#include <protocol_sdp/session-level/timing.hpp>
 #include <sstream>
 #include <string>
 #include <vector>
-
-#include "base/utils/utils.h"
 
 namespace cutesms {
 std::string Timing::prefix = "t=";

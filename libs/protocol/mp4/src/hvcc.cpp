@@ -1,9 +1,6 @@
-#include "hvcc.h"
-
-#include <string.h>
-
-#include "base/net_buffer.h"
-#include "mp4_factory.h"
+#include <base/net_buffer.h>
+#include <protocol_mp4/hvcc.h>
+#include <protocol_mp4/mp4_factory.h>
 
 namespace cutesms {
 

@@ -1,12 +1,3 @@
-/*
- * @Author: jbl19860422
- * @Date: 2022-12-24 21:46:54
- * @LastEditTime: 2023-09-16 14:09:37
- * @LastEditors: jbl19860422
- * @Description:
- * @FilePath: \cutesms\cutesms\server\rtmp\amf0\amf0_string.hpp
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
- */
 #pragma once
 #include <netinet/in.h>
 #include <string.h>

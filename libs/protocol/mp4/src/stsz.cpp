@@ -1,8 +1,4 @@
-#include "stsz.h"
-
-#include <string.h>
-
-#include "mp4_factory.h"
+#include <protocol_mp4/stsz.h>
 
 namespace cutesms {
 

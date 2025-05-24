@@ -37,7 +37,6 @@ SOFTWARE.
 #include "rtmp_message/chunk_message/rtmp_abort_message.hpp"
 #include "rtmp_message/chunk_message/rtmp_set_chunk_size_message.hpp"
 
-
 namespace cutesms {
 class SocketInterface;
 class RtmpMessage;

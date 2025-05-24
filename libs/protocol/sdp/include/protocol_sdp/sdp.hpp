@@ -7,9 +7,9 @@
 #include <vector>
 
 #include "attribute/common/dir.hpp"
+#include "ice/ice_pwd.h"
+#include "ice/ice_ufrag.h"
 #include "media-level/media_sdp.hpp"
-#include "protocol/sdp/ice/ice_pwd.h"
-#include "protocol/sdp/ice/ice_ufrag.h"
 #include "session-level/bundle.hpp"
 #include "session-level/connection_info.hpp"
 #include "session-level/email.hpp"

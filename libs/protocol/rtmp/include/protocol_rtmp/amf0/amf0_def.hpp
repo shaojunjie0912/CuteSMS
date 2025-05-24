@@ -1,7 +1,10 @@
 #pragma once
+
+#include <json/json.h>
 #include <stdint.h>
 
-#include "json/json.h"
+#include <cstddef>
+
 
 namespace cutesms {
 enum AMF0_MARKER_TYPE {

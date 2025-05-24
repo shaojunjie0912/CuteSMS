@@ -1,5 +1,8 @@
 #pragma once
+
+#include <cstdint>
 #include <string>
+
 namespace cutesms {
 struct Timing {
 public:

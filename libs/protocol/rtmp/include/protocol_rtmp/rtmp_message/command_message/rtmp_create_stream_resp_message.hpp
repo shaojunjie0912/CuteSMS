@@ -22,11 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 #pragma once
+#include <protocol_rtmp/rtmp_define.hpp>
 #include <string>
 
-#include "amf0/amf0_inc.hpp"
+#include "../../amf0/amf0_inc.hpp"
 #include "rtmp_create_stream_message.hpp"
-#include "rtmp_define.hpp"
+
 
 namespace cutesms {
 class RtmpCreateStreamRespMessage {

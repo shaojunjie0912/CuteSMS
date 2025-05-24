@@ -1,4 +1,5 @@
-#include "vmhd.h"
+#include <protocol_mp4/vmhd.h>
+
 namespace cutesms {
 
 VmhdBox::VmhdBox() : FullBox(BOX_TYPE_VMHD, 0, 1) {}

@@ -1,12 +1,7 @@
-//
-// Created by hijiang on 2019/8/8.
-//
-#include "rtp_packer.h"
-
 #include <assert.h>
+#include <protocol_rtp/rtp_packer.h>
 
 #include "codec/hevc/hevc_define.hpp"
-#include "spdlog/spdlog.h"
 
 namespace cutesms {
 #define NAL_RTP_PACKET_SIZE 1400

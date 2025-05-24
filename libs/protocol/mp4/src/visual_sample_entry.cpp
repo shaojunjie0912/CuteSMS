@@ -1,13 +1,10 @@
-#include "visual_sample_entry.h"
-
-#include <string.h>
+#include <base/net_buffer.h>
+#include <protocol_mp4/avcc.h>
+#include <protocol_mp4/hvcc.h>
+#include <protocol_mp4/mp4_factory.h>
+#include <protocol_mp4/visual_sample_entry.h>
 
 #include <cassert>
-
-#include "avcc.h"
-#include "base/net_buffer.h"
-#include "hvcc.h"
-#include "mp4_factory.h"
 
 namespace cutesms {
 

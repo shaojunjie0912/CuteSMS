@@ -1,10 +1,5 @@
-#include "rtp_header.h"
-
 #include <arpa/inet.h>
-
-#include <iostream>
-
-#include "spdlog/spdlog.h"
+#include <protocol_rtp/rtp_header.h>
 
 namespace cutesms {
 bool RtpHeader::is_rtcp_packet(uint8_t *data, size_t len) {

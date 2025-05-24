@@ -1,13 +1,13 @@
-#include "amf0_strict_array.hpp"
+#include <protocol_rtmp/amf0/amf0_boolean.hpp>
+#include <protocol_rtmp/amf0/amf0_def.hpp>
+#include <protocol_rtmp/amf0/amf0_null.hpp>
+#include <protocol_rtmp/amf0/amf0_number.hpp>
+#include <protocol_rtmp/amf0/amf0_object.hpp>
+#include <protocol_rtmp/amf0/amf0_reference.hpp>
+#include <protocol_rtmp/amf0/amf0_strict_array.hpp>
+#include <protocol_rtmp/amf0/amf0_string.hpp>
+#include <protocol_rtmp/amf0/amf0_undefined.hpp>
 
-#include "amf0_boolean.hpp"
-#include "amf0_def.hpp"
-#include "amf0_null.hpp"
-#include "amf0_number.hpp"
-#include "amf0_object.hpp"
-#include "amf0_reference.hpp"
-#include "amf0_string.hpp"
-#include "amf0_undefined.hpp"
 
 namespace cutesms {
 

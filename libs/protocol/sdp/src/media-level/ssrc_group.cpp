@@ -1,16 +1,5 @@
-/*
- * @Author: jbl19860422
- * @Date: 2023-09-16 10:32:44
- * @LastEditTime: 2023-09-16 12:04:40
- * @LastEditors: jbl19860422
- * @Description:
- * @FilePath: \cutesms\cutesms\protocol\sdp\media-level\ssrc_group.cpp
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
- */
-#include "ssrc_group.h"
-
 #include <base/utils/utils.h>
-#include <spdlog/spdlog.h>
+#include <protocol_sdp/media-level/ssrc_group.h>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/join.hpp>

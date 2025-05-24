@@ -1,4 +1,4 @@
-#include "rtmp_metadata_message.hpp"
+#include <protocol_rtmp/rtmp_message/data_message/rtmp_metadata_message.hpp>
 
 namespace cutesms {
 RtmpMetaDataMessage::RtmpMetaDataMessage() {}

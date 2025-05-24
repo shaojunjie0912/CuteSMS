@@ -27,9 +27,8 @@ SOFTWARE.
 
 #include <list>
 #include <memory>
+#include <protocol_rtmp/rtmp_define.hpp>
 #include <vector>
-
-#include "rtmp_define.hpp"
 
 namespace cutesms {
 #define FLV_IDENTIFIER "FLV"

@@ -1,6 +1,6 @@
-#include "rtmp_window_ack_size_message.hpp"
-
 #include <netinet/in.h>
+
+#include <protocol_rtmp/rtmp_message/command_message/rtmp_window_ack_size_message.hpp>
 
 namespace cutesms {
 

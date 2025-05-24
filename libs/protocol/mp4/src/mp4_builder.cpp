@@ -1,7 +1,7 @@
-#include "mp4_builder.h"
+#include <protocol_mp4/ftyp.h>
+#include <protocol_mp4/moov.h>
+#include <protocol_mp4/mp4_builder.h>
 
-#include "ftyp.h"
-#include "moov.h"
 
 namespace cutesms {
 

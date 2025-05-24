@@ -1,8 +1,7 @@
-#include "rtmp_set_peer_bandwidth_message.hpp"
-
 #include <arpa/inet.h>
 
-#include "rtmp_define.hpp"
+#include <protocol_rtmp/rtmp_define.hpp>
+#include <protocol_rtmp/rtmp_message/command_message/rtmp_set_peer_bandwidth_message.hpp>
 
 namespace cutesms {
 

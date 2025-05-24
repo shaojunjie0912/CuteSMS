@@ -3,7 +3,6 @@
 
 #include "sample_entry.h"
 
-
 namespace cutesms {
 class NetBuffer;
 class EsdsBox;

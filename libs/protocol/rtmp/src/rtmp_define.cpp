@@ -1,4 +1,5 @@
-#include "rtmp_define.hpp"
+#include <protocol_rtmp/rtmp_define.hpp>
+
 namespace cutesms {
 
 RtmpMessage::RtmpMessage(int32_t payload_size) : Packet(PACKET_RTMP, payload_size) {}

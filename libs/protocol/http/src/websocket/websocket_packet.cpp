@@ -1,16 +1,7 @@
-/*
- * @Author: jbl19860422
- * @Date: 2023-10-03 12:24:28
- * @LastEditTime: 2023-10-07 20:40:59
- * @LastEditors: jbl19860422
- * @Description:
- * @FilePath: \cutesms\cutesms\server\http\websocket\websocket_packet.cpp
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
- */
-#include "websocket_packet.hpp"
-
 #include <arpa/inet.h>
 #include <string.h>
+
+#include <protocol_http/websocket/websocket_packet.hpp>
 
 namespace cutesms {
 WebSocketPacket::WebSocketPacket() {}

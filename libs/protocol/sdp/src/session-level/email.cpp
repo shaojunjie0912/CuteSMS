@@ -1,8 +1,8 @@
-#include "email.hpp"
+#include <base/utils/utils.h>
 
+#include <protocol_sdp/session-level/email.hpp>
 #include <sstream>
 
-#include "base/utils/utils.h"
 
 namespace cutesms {
 std::string EmailAddress::prefix = "e=";

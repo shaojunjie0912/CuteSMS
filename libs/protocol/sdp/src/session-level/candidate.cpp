@@ -1,11 +1,10 @@
-#include "candidate.h"
+#include <base/utils/utils.h>
+#include <protocol_sdp/session-level/candidate.h>
 
 #include <boost/algorithm/string.hpp>
 #include <sstream>
 #include <string>
 #include <vector>
-
-#include "base/utils/utils.h"
 
 namespace cutesms {
 std::string Candidate::prefix = "a=candidate:";
