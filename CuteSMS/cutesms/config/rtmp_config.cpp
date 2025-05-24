@@ -1,7 +1,5 @@
 #include "rtmp_config.h"
 
-#include <boost/algorithm/string.hpp>
-
 #include "log/log.h"
 
 using namespace cutesms;

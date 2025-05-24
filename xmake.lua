@@ -23,6 +23,5 @@ add_requires("srtp")
 add_requires("hiredis")
 add_requires("redis-plus-plus")
 
-includes("libs")
-includes("live-server")
+includes("CuteSMS")
 includes("tests")

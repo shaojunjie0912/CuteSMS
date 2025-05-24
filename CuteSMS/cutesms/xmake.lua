@@ -1,7 +1,7 @@
-target("live-server", function () 
+target("cutesms", function () 
     set_kind("binary")
     add_files("**.cpp")
-    add_includedirs("$(projectdir)/live-server", { public = true })
+    add_includedirs("$(projectdir)/CuteSMS/cutesms", { public = true })
     -- base
     add_deps("base")
     -- protocol
@@ -16,14 +16,7 @@ target("live-server", function ()
     )
     -- codec
     add_deps(
-        "codec"-- TODO: 这里 track?
-        -- "codec_aac",
-        -- "codec_av1",
-        -- "codec_g711",
-        -- "codec_h264",
-        -- "codec_hevc",
-        -- "codec_mp3",
-        -- "codec_opus",
+        "codec"
     )
     -- sdk
     add_deps(

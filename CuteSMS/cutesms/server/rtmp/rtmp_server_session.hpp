@@ -8,6 +8,7 @@
  * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
  */
 #pragma once
+#include <base/thread/thread_worker.hpp>
 #include <boost/asio/awaitable.hpp>
 #include <boost/asio/co_spawn.hpp>
 #include <boost/asio/detached.hpp>

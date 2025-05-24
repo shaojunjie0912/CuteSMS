@@ -1,20 +1,14 @@
 #include "config.h"
 
 #include <filesystem>
-#include <iostream>
 #include <mutex>
 #include <shared_mutex>
 
 #include "app/app_manager.h"
-#include "base/utils/utils.h"
 #include "log/log.h"
-#include "service/conn/http_conn_pools.h"
-#include "service/dns/dns_service.hpp"
-#include "spdlog/spdlog.h"
-#include "yaml-cpp/yaml.h"
-
 
 using namespace cutesms;
+
 std::atomic<std::shared_ptr<Config>> Config::instance_;
 
 Config::Config() : cert_manager_(*this) {}
@@ -28,10 +22,10 @@ std::shared_ptr<Config> Config::get_instance() {
     return inst;
 }
 
-bool Config::load_config(const std::string &config_path) {
+bool Config::load_config(const std::string &config_dir) {
     YAML::Node config;
     try {
-        config = YAML::LoadFile(config_path + "/cutesms.yaml");
+        config = YAML::LoadFile(config_dir + "/cutesms.yaml");
     } catch (YAML::ParserException &ex) {
         return false;
     } catch (YAML::BadFile &ex) {
@@ -162,7 +156,7 @@ bool Config::load_config(const std::string &config_path) {
         domains_exist_map[domain] = false;
     }
 
-    for (const auto &file_entry : std::filesystem::directory_iterator(config_path + "/publish")) {
+    for (const auto &file_entry : std::filesystem::directory_iterator(config_dir + "/publish")) {
         if (!file_entry.is_regular_file() || file_entry.path().extension() != ".yaml") {
             continue;
         }
@@ -178,7 +172,7 @@ bool Config::load_config(const std::string &config_path) {
         domains_exist_map[domain] = true;
     }
 
-    for (const auto &file_entry : std::filesystem::directory_iterator(config_path + "/play")) {
+    for (const auto &file_entry : std::filesystem::directory_iterator(config_dir + "/play")) {
         if (!file_entry.is_regular_file() || file_entry.path().extension() != ".yaml") {
             continue;
         }

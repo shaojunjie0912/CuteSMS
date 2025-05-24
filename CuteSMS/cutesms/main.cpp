@@ -8,7 +8,6 @@
 #include <iostream>
 
 #include "base/thread/thread_pool.hpp"
-#include "base/utils/utils.h"
 #include "config/config.h"
 #include "log/log.h"
 #include "server/http/http_api_server.hpp"
@@ -74,8 +73,8 @@ int main(int argc, char *argv[]) {
 
         boost::program_options::store(boost::program_options::parse_command_line(argc, argv, opts), vm);
         boost::program_options::notify(vm);
-    } catch (std::exception &exp) {
-        spdlog::error("{}", exp.what());
+    } catch (std::exception &e) {
+        spdlog::error("{}", e.what());
         return -1;
     }
 

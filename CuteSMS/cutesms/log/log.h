@@ -1,12 +1,3 @@
-/*
- * @Author: jbl19860422
- * @Date: 2022-11-04 21:17:47
- * @LastEditTime: 2023-07-22 18:11:09
- * @LastEditors: jbl19860422
- * @Description:
- * @FilePath: \cutesms\cutesms\log\log.h
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
- */
 #pragma once
 #include "spdlog/spdlog.h"
 namespace cutesms {

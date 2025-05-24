@@ -12,8 +12,8 @@
 #include "rtsp_config.h"
 #include "webrtc/webrtc_config.h"
 
-
 namespace cutesms {
+
 class Config {
 public:
     Config();
@@ -95,4 +95,5 @@ private:
     CertManager cert_manager_;
     static std::atomic<std::shared_ptr<Config>> instance_;
 };
+
 };  // namespace cutesms

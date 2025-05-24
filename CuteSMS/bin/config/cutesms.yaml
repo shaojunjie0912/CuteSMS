@@ -3,10 +3,10 @@ log_level: debug
 record_root_path: /data/record
 socket_timeout: 10s #socket没有数据收发的话，超时关闭
 
-rtmp: 
-  enabled: true               # 使能
-  port: 1935                # 监听的端口
-  out_chunk_size: 40960    # 输出给对端的chunk size
+rtmp:
+  enabled: true # 使能
+  port: 1935 # 监听的端口
+  out_chunk_size: 40960 # 输出给对端的chunk size
 rtmps:
   enabled: true
   port: 1936
@@ -40,4 +40,3 @@ webrtc:
   udp_port: 8878
   ip: 192.168.108.211
   internal_ip: 192.168.108.211
-
