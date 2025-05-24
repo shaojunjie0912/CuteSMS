@@ -1,22 +1,23 @@
 #pragma once
-#include <array>
+#include <openssl/bio.h>
+#include <openssl/ssl.h>
+
+#include <base/network/tcp_socket.hpp>
+#include <base/thread/thread_worker.hpp>
 #include <boost/array.hpp>
 #include <boost/asio/experimental/channel.hpp>
 #include <boost/asio/experimental/concurrent_channel.hpp>
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/shared_ptr.hpp>
 #include <memory>
-#include <unordered_map>
 #include <vector>
 
-#include "base/network/tcp_socket.hpp"
-#include "base/thread/thread_worker.hpp"
-#include "openssl/bio.h"
-#include "openssl/ssl.h"
 #include "tcp_socket.hpp"
 
 namespace cutesms {
+
 #define TLS_MAX_RECV_BUF (1024 * 1024)
+
 class TlsSocket;
 class TlsSession;
 

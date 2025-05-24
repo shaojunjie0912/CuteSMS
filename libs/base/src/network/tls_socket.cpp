@@ -1,3 +1,8 @@
+// #include <server_tls/tls_session.h>
+
+#include <spdlog/spdlog.h>
+
+#include <base/network/tls_socket.hpp>
 #include <boost/asio/awaitable.hpp>
 #include <boost/asio/co_spawn.hpp>
 #include <boost/asio/detached.hpp>
@@ -6,9 +11,8 @@
 #include <boost/asio/redirect_error.hpp>
 #include <boost/asio/use_awaitable.hpp>
 #include <boost/asio/write.hpp>
-#include <variant>
+#include <memory>
 
-#include "server/tls/tls_session.h"
 
 namespace cutesms {
 

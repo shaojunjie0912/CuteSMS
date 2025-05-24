@@ -1,3 +1,5 @@
 includes("base")
 includes("protocol")
 includes("codec")
+includes("sdk")
+includes("server")

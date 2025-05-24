@@ -1,0 +1,7 @@
+target("sdk_http", function () 
+    set_kind("static")
+    add_files("src/**.cpp")
+    add_includedirs("include", { public = true })
+    add_deps("base", "protocol_http")
+    add_packages("spdlog")
+end)

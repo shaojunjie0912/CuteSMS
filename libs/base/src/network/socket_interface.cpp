@@ -5,6 +5,7 @@
 namespace cutesms {
 
 std::atomic<uint64_t> SocketInterface::socket_id_ = {0};
+
 SocketInterface::SocketInterface(SocketInterfaceHandler *handler) : handler_(handler) { id_ = socket_id_++; }
 
 SocketInterface::~SocketInterface() { spdlog::info("destroy SocketInterface"); }

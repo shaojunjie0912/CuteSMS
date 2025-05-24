@@ -1,0 +1,7 @@
+target("server_tls", function () 
+    set_kind("static")
+    add_files("src/**.cpp")
+    add_includedirs("include", { public = true })
+    add_deps("base", "server_tcp")
+    add_packages("spdlog", "boringssl")
+end)

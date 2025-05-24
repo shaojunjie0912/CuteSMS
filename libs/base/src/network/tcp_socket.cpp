@@ -2,6 +2,7 @@
 #include <spdlog/spdlog.h>
 
 #include <base/network/tcp_socket.hpp>
+#include <base/thread/thread_worker.hpp>
 #include <boost/asio/co_spawn.hpp>
 #include <boost/asio/detached.hpp>
 #include <boost/asio/experimental/awaitable_operators.hpp>
@@ -12,6 +13,7 @@
 #include <variant>
 
 using namespace boost::asio::experimental::awaitable_operators;
+
 namespace cutesms {
 TcpSocket::TcpSocket(SocketInterfaceHandler *handler, boost::asio::ip::tcp::socket sock, ThreadWorker *worker)
     : SocketInterface(handler),
@@ -46,8 +48,7 @@ void TcpSocket::open() {
         [this, self]() -> boost::asio::awaitable<void> {
             active_time_ = Utils::get_current_ms();
             while (1) {
-                active_timeout_timer_.expires_from_now(
-                    std::chrono::milliseconds(socket_inactive_timeout_ms_));
+                active_timeout_timer_.expires_after(std::chrono::milliseconds(socket_inactive_timeout_ms_));
                 boost::system::error_code ec;
                 co_await active_timeout_timer_.async_wait(
                     boost::asio::redirect_error(boost::asio::use_awaitable, ec));
@@ -82,10 +83,10 @@ void TcpSocket::close() {
 }
 
 boost::asio::awaitable<bool> TcpSocket::connect(const std::string &ip, uint16_t port, int32_t timeout_ms) {
-    boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::address::from_string(ip), port);
+    boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::make_address(ip), port);
     boost::system::error_code ec;
     if (timeout_ms > 0) {
-        active_timeout_timer_.expires_from_now(std::chrono::milliseconds(timeout_ms));
+        active_timeout_timer_.expires_after(std::chrono::milliseconds(timeout_ms));
         auto results = co_await (
             socket_.async_connect(endpoint, boost::asio::redirect_error(boost::asio::use_awaitable, ec)) ||
             connect_timeout_timer_.async_wait(boost::asio::use_awaitable));
@@ -107,7 +108,7 @@ boost::asio::awaitable<bool> TcpSocket::connect(const std::string &ip, uint16_t 
 boost::asio::awaitable<bool> TcpSocket::send(const uint8_t *data, size_t len, int32_t timeout_ms) {
     int32_t send_bytes = 0;
     if (timeout_ms > 0) {
-        send_timeout_timer_.expires_from_now(std::chrono::milliseconds(timeout_ms));
+        send_timeout_timer_.expires_after(std::chrono::milliseconds(timeout_ms));
         std::variant<bool, std::monostate> results;
         results = co_await ([data, len, &send_bytes, this]() -> boost::asio::awaitable<bool> {
             boost::system::error_code ec;
@@ -182,7 +183,7 @@ boost::asio::awaitable<bool> TcpSocket::send(std::vector<boost::asio::const_buff
 
 boost::asio::awaitable<bool> TcpSocket::recv(uint8_t *data, size_t len, int32_t timeout_ms) {
     if (timeout_ms > 0) {
-        recv_timeout_timer_.expires_from_now(std::chrono::milliseconds(timeout_ms));
+        recv_timeout_timer_.expires_after(std::chrono::milliseconds(timeout_ms));
         std::variant<bool, std::monostate> results;
         results = co_await ([data, len, this]() -> boost::asio::awaitable<bool> {
             boost::system::error_code ec;
@@ -219,7 +220,7 @@ boost::asio::awaitable<int32_t> TcpSocket::recv_some(uint8_t *data, size_t len, 
     boost::system::error_code ec;
     std::size_t s;
     if (timeout_ms > 0) {
-        recv_timeout_timer_.expires_from_now(std::chrono::milliseconds(timeout_ms));
+        recv_timeout_timer_.expires_after(std::chrono::milliseconds(timeout_ms));
         std::variant<std::size_t, std::monostate> results =
             co_await (socket_.async_read_some(boost::asio::buffer(data, len),
                                               boost::asio::redirect_error(boost::asio::use_awaitable, ec)) ||

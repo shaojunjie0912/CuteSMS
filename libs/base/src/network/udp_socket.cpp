@@ -30,7 +30,7 @@ boost::asio::awaitable<int32_t> UdpSocket::recv_from(uint8_t *data, size_t len,
 }
 
 bool UdpSocket::bind(const std::string &ip, uint16_t port) {
-    boost::asio::ip::udp::endpoint local_ep(boost::asio::ip::address::from_string(ip), port);
+    boost::asio::ip::udp::endpoint local_ep(boost::asio::ip::make_address(ip), port);
     sock_->open(boost::asio::ip::udp::v4());
     sock_->set_option(boost::asio::ip::udp::socket::reuse_address(true));
     boost::system::error_code ec;

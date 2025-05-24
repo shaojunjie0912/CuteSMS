@@ -1,24 +1,13 @@
-/*
- * @Author: jbl19860422
- * @Date: 2023-12-06 20:51:29
- * @LastEditTime: 2023-12-27 20:48:02
- * @LastEditors: jbl19860422
- * @Description:
- * @FilePath: \cutesms\cutesms\base\network\tcp_socket.hpp
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
- */
 #pragma once
-#include <atomic>
+
 #include <boost/asio/awaitable.hpp>
 #include <boost/asio/ip/tcp.hpp>
-#include <boost/asio/spawn.hpp>
 #include <boost/asio/steady_timer.hpp>
-#include <memory>
 
-#include "base/thread/thread_pool.hpp"
 #include "socket_interface.hpp"
 
 namespace cutesms {
+
 class TcpSocket;
 class Session;
 
@@ -43,7 +32,7 @@ public:
     virtual void open() override;
     virtual void close() override;
 
-    inline ThreadWorker *get_worker() { return worker_; }
+    ThreadWorker *get_worker() override { return worker_; }
 
     bool is_open() { return socket_.is_open(); }
 
