@@ -5,13 +5,17 @@
     ],
     "xmake.debugConfigType": "codelldb",
     "xmake.debuggingTargetsArguments": {
-        "player": [
-            "${workspaceFolder}/data/k-on.mp4"
+        "cutesms": [
+            "-c",
+            "${workspaceFolder}/CuteSMS/bin/config",
+            "-d"
         ]
     },
     "xmake.runningTargetsArguments": {
-        "player": [
-            "${workspaceFolder}/data/k-on.mp4"
+        "cutesms": [
+            "-c",
+            "${workspaceFolder}/CuteSMS/bin/config",
+            "-d"
         ]
     }
 }

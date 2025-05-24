@@ -38,7 +38,7 @@ bool UdpServer::start_listen(const std::string& ip, uint16_t port) {
                 sock->open(boost::asio::ip::udp::v4());
                 int opt = 1;
                 setsockopt(sock->native_handle(), SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt));
-                sock->bind(local_endpoint, ec);
+                auto rt{sock->bind(local_endpoint, ec)};
                 if (ec) {
                     spdlog::error("bind udp socket failed");
                 } else {
