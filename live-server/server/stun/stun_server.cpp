@@ -9,9 +9,9 @@
  */
 #include "stun_server.hpp"
 
-#include "protocol_stun_binding_error_response_msg.hpp"
-#include "protocol_stun_binding_response_msg.hpp"
-#include "protocol_stun_mapped_address_attr.h"
+#include "protocol/stun_binding_error_response_msg.hpp"
+#include "protocol/stun_binding_response_msg.hpp"
+#include "protocol/stun_mapped_address_attr.h"
 #include "spdlog/spdlog.h"
 
 using namespace cutesms;

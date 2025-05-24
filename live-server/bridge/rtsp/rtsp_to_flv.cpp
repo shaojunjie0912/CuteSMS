@@ -17,7 +17,6 @@
 #include "core/rtp_media_sink.hpp"
 #include "protocol_rtp/h265_rtp_pkt_info.h"
 
-
 using namespace cutesms;
 
 RtspToFlv::RtspToFlv(ThreadWorker *worker, std::shared_ptr<PublishApp> app,
@@ -47,7 +46,7 @@ bool RtspToFlv::init() {
             boost::system::error_code ec;
             auto app_conf = publish_app_->get_conf();
             while (1) {
-                check_closable_timer_.expires_from_now(std::chrono::milliseconds(
+                check_closable_timer_.expires_after(std::chrono::milliseconds(
                     app_conf->bridge_config().no_players_timeout_ms() / 2));  // 30s检查一次
                 co_await check_closable_timer_.async_wait(
                     boost::asio::redirect_error(boost::asio::use_awaitable, ec));

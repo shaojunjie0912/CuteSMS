@@ -1,9 +1,10 @@
 #pragma once
+
 #include <mutex>
+#include <string>
 
 #include "../dtls/define.h"
 #include "srtp2/srtp.h"
-
 
 #define SRTP_MAX_BUFFER_SIZE 65535
 namespace cutesms {

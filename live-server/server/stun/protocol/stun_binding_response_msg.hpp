@@ -2,6 +2,8 @@
 #include <memory>
 
 #include "stun_define.hpp"
+#include "stun_msg.h"
+
 namespace cutesms {
 struct StunBindingResponseMsg : public StunMsg {
 public:

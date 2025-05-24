@@ -14,7 +14,6 @@
 #include "http_server_session.hpp"
 #include "log/log.h"
 
-
 using namespace cutesms;
 HttpFlvServerSession::HttpFlvServerSession(std::shared_ptr<HttpRequest> http_req,
                                            std::shared_ptr<HttpResponse> http_resp)
@@ -68,7 +67,7 @@ void HttpFlvServerSession::start_alive_checker() {
         [this, self]() -> boost::asio::awaitable<void> {
             boost::system::error_code ec;
             while (1) {
-                alive_timeout_timer_.expires_from_now(std::chrono::seconds(5));
+                alive_timeout_timer_.expires_after(std::chrono::seconds(5));
                 co_await alive_timeout_timer_.async_wait(
                     boost::asio::redirect_error(boost::asio::use_awaitable, ec));
                 if (ec) {

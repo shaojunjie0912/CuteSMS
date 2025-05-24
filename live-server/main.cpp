@@ -24,7 +24,6 @@
 #include "service/dns/dns_service.hpp"
 #include "version.h"
 
-
 using namespace cutesms;
 
 void wait_exit() {
@@ -38,7 +37,7 @@ void wait_exit() {
     });
 
     boost::system::error_code ec;
-    io.run(ec);
+    io.run();
     while (1) {
         if (exit) {
             break;

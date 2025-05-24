@@ -22,7 +22,6 @@
 #include "core/ts_media_sink.hpp"
 #include "log/log.h"
 
-
 using namespace cutesms;
 TsToHls::TsToHls(ThreadWorker *worker, std::shared_ptr<PublishApp> app,
                  std::weak_ptr<MediaSource> origin_source, const std::string &domain_name,
@@ -49,7 +48,7 @@ bool TsToHls::init() {
             boost::system::error_code ec;
             auto app_conf = publish_app_->get_conf();
             while (1) {
-                check_closable_timer_.expires_from_now(std::chrono::milliseconds(
+                check_closable_timer_.expires_after(std::chrono::milliseconds(
                     app_conf->bridge_config().no_players_timeout_ms() / 2));  // 30s检查一次
                 co_await check_closable_timer_.async_wait(
                     boost::asio::redirect_error(boost::asio::use_awaitable, ec));

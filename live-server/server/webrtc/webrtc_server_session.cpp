@@ -69,7 +69,7 @@ void WebRtcServerSession::start_alive_checker() {
         [this, self]() -> boost::asio::awaitable<void> {
             boost::system::error_code ec;
             while (1) {
-                alive_timeout_timer_.expires_from_now(std::chrono::seconds(5));
+                alive_timeout_timer_.expires_after(std::chrono::seconds(5));
                 co_await alive_timeout_timer_.async_wait(
                     boost::asio::redirect_error(boost::asio::use_awaitable, ec));
                 if (ec) {
@@ -194,7 +194,7 @@ void WebRtcServerSession::start_pli_sender() {
         [this, self]() -> boost::asio::awaitable<void> {
             boost::system::error_code ec;
             while (1) {
-                send_pli_timer_.expires_from_now(std::chrono::milliseconds(2000));  // 2s发一次
+                send_pli_timer_.expires_after(std::chrono::milliseconds(2000));  // 2s发一次
                 co_await send_pli_timer_.async_wait(
                     boost::asio::redirect_error(boost::asio::use_awaitable, ec));
                 if (boost::asio::error::operation_aborted == ec) {
@@ -553,7 +553,7 @@ boost::asio::awaitable<bool> WebRtcServerSession::process_whep_req(std::shared_p
         }
 
         boost::system::error_code ec;
-        play_sdp_timeout_timer_.expires_from_now(std::chrono::milliseconds(10));
+        play_sdp_timeout_timer_.expires_after(std::chrono::milliseconds(10));
         co_await play_sdp_timeout_timer_.async_wait(
             boost::asio::redirect_error(boost::asio::use_awaitable, ec));
         if (ec) {

@@ -20,7 +20,6 @@ using namespace boost::asio::experimental::awaitable_operators;
 #include "dtls_cert.h"
 #include "spdlog/spdlog.h"
 
-
 using namespace cutesms;
 #define TLS_MAX_RECV_BUF 1024 * 1024
 
@@ -238,7 +237,7 @@ boost::asio::awaitable<int32_t> DtlsBoringSSLSession::do_handshake(mode m,
                 struct timeval dtls_timeout;
                 int r = DTLSv1_get_timeout(ssl_, &dtls_timeout);  // NOLINT
                 if (r != 1) {
-                    timeout_timer_.expires_from_now(std::chrono::milliseconds(5));
+                    timeout_timer_.expires_after(std::chrono::milliseconds(5));
                     co_await timeout_timer_.async_wait(
                         boost::asio::redirect_error(boost::asio::use_awaitable, ec));
                     if (ec) {

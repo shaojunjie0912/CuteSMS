@@ -102,7 +102,7 @@ void RtmpPlayClientSession::service() {
             boost::system::error_code ec;
             auto publish_app = std::static_pointer_cast<PublishApp>(app_);
             while (1) {
-                check_closable_timer_.expires_from_now(
+                check_closable_timer_.expires_after(
                     std::chrono::milliseconds(pull_config_->no_players_timeout_ms() / 2));  // 10s检查一次
                 co_await check_closable_timer_.async_wait(
                     boost::asio::redirect_error(boost::asio::use_awaitable, ec));

@@ -1,12 +1,18 @@
 #pragma once
 
+#include <base/network/socket_interface.hpp>
+#include <base/thread/thread_worker.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/asio/experimental/channel.hpp>
+#include <boost/asio/redirect_error.hpp>
+#include <core/stream_session.hpp>
 #include <memory>
+#include <protocol_rtmp/rtmp_chunk_protocol.hpp>
+#include <protocol_rtmp/rtmp_define.hpp>
+#include <protocol_rtmp/rtmp_handshake.hpp>
 
 #include "base/utils/utils.h"
 #include "base/wait_group.h"
-
 
 namespace cutesms {
 class EdgePushConfig;

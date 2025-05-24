@@ -18,8 +18,8 @@
 #include "base/wait_group.h"
 #include "core/mp4_media_source.hpp"
 #include "core/rtmp_media_sink.hpp"
-#include "mp4/mp4_builder.h"
-#include "mp4/mp4_segment.h"
+#include "protocol_mp4/mp4_builder.h"
+#include "protocol_mp4/mp4_segment.h"
 #include "protocol_rtmp/rtmp_define.hpp"
 #include "protocol_ts/ts_pat_pmt.hpp"
 

@@ -16,8 +16,7 @@
 
 #include "base/network/socket_interface.hpp"
 #include "base/thread/thread_worker.hpp"
-#include "websocket/websocket_packet.hpp"
-
+#include "protocol_http/websocket/websocket_packet.hpp"
 
 using namespace cutesms;
 WebSocketServerSession::WebSocketServerSession(std::shared_ptr<SocketInterface> sock)

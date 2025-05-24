@@ -9,13 +9,13 @@
  */
 #include "dns_service.hpp"
 
+#include <base/thread/thread_worker.hpp>
 #include <boost/asio.hpp>
 #include <boost/asio/experimental/awaitable_operators.hpp>
 #include <boost/asio/spawn.hpp>
 #include <boost/lexical_cast.hpp>
 
 #include "log/log.h"
-
 
 using namespace cutesms;
 DnsService DnsService::instance_;
@@ -27,13 +27,13 @@ DnsService::~DnsService() {}
 
 void DnsService::start() {
     worker_.start();
-    refresh_timer_ = std::make_unique<boost::asio::deadline_timer>(worker_.get_io_context());
+    refresh_timer_ = std::make_unique<boost::asio::steady_timer>(worker_.get_io_context());
     boost::asio::co_spawn(
         worker_.get_io_context(),
         [this]() -> boost::asio::awaitable<void> {
             boost::system::error_code ec;
             while (1) {
-                refresh_timer_->expires_from_now(boost::posix_time::milliseconds(resolve_interval_ms_));
+                refresh_timer_->expires_after(std::chrono::milliseconds(resolve_interval_ms_));
                 co_await refresh_timer_->async_wait(
                     boost::asio::redirect_error(boost::asio::use_awaitable, ec));
                 if (boost::asio::error::operation_aborted == ec) {
@@ -109,15 +109,13 @@ void DnsService::refresh(const std::string& domain) {
         [this, domain]() -> boost::asio::awaitable<void> {
             boost::system::error_code ec;
             boost::asio::ip::tcp::resolver slv(worker_.get_io_context());
-            boost::asio::ip::tcp::resolver::query qry(domain, boost::lexical_cast<std::string>(0));
-            auto it =
-                co_await slv.async_resolve(qry, boost::asio::redirect_error(boost::asio::use_awaitable, ec));
+            auto results = co_await slv.async_resolve(
+                domain, "0", boost::asio::redirect_error(boost::asio::use_awaitable, ec));
             if (ec) {
                 co_return;
             }
 
-            boost::asio::ip::tcp::resolver::iterator end;
-            if (it == end) {  // 直接为空，则不去更新
+            if (results.empty()) {  // 直接为空，则不去更新
                 co_return;
             }
 
@@ -130,8 +128,8 @@ void DnsService::refresh(const std::string& domain) {
 
                 auto& ips = it_domain->second;
                 ips.clear();
-                for (; it != end; it++) {
-                    ips.push_back((*it).endpoint().address().to_string());
+                for (const auto& result : results) {
+                    ips.push_back(result.endpoint().address().to_string());
                 }
             }
             co_return;
@@ -142,11 +140,9 @@ void DnsService::refresh(const std::string& domain) {
 std::optional<std::string> DnsService::resolve_domain_now(const std::string& domain) {
     boost::asio::io_context io_context;
     boost::asio::ip::tcp::resolver rslv(io_context);
-    boost::asio::ip::tcp::resolver::query qry(domain, boost::lexical_cast<std::string>(0));
-    boost::asio::ip::tcp::resolver::iterator iter = rslv.resolve(qry);
-    boost::asio::ip::tcp::resolver::iterator end;
-    if (iter == end) {
+    auto results = rslv.resolve(domain, "0");
+    if (results.empty()) {
         return std::nullopt;
     }
-    return (*iter).endpoint().address().to_string();
+    return (*results.begin()).endpoint().address().to_string();
 }

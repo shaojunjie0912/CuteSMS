@@ -127,7 +127,7 @@ void HttpMpdServerSession::service() {
                         try_count++;
                         boost::system::error_code ec;
                         boost::asio::steady_timer timer(worker_->get_io_context());
-                        timer.expires_from_now(std::chrono::milliseconds(100));
+                        timer.expires_after(std::chrono::milliseconds(100));
                         co_await timer.async_wait(
                             boost::asio::redirect_error(boost::asio::use_awaitable, ec));
                         continue;

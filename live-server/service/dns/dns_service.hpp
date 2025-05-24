@@ -7,7 +7,6 @@
 
 #include "base/thread/thread_worker.hpp"
 
-
 namespace cutesms {
 class DnsService {
 public:
@@ -28,7 +27,7 @@ public:
 
 private:
     void refresh(const std::string& domain);
-    std::unique_ptr<boost::asio::deadline_timer> refresh_timer_;
+    std::unique_ptr<boost::asio::steady_timer> refresh_timer_;
     std::recursive_mutex lock_;
     std::unordered_map<std::string, std::vector<std::string>> domain_ips_;
     ThreadWorker worker_;

@@ -17,12 +17,12 @@
 #include "core/media_event.hpp"
 #include "core/rtmp_media_source.hpp"
 #include "core/source_manager.hpp"
-#include "http_client.hpp"
 #include "log/log.h"
 #include "protocol_http/http_request.hpp"
 #include "protocol_http/http_response.hpp"
 #include "protocol_rtmp/flv/flv_define.hpp"
 #include "protocol_rtmp/flv/flv_tag.hpp"
+#include "sdk_http/http_client.hpp"
 #include "service/dns/dns_service.hpp"
 
 
@@ -80,7 +80,7 @@ void HttpFlvClientSession::service() {
         [this, self]() -> boost::asio::awaitable<void> {
             boost::system::error_code ec;
             while (1) {
-                check_closable_timer_.expires_from_now(
+                check_closable_timer_.expires_after(
                     std::chrono::milliseconds(pull_config_->no_players_timeout_ms() / 2));  // 10s检查一次
                 co_await check_closable_timer_.async_wait(
                     boost::asio::redirect_error(boost::asio::use_awaitable, ec));

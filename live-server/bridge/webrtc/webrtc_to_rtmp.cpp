@@ -1,5 +1,7 @@
 #include "webrtc_to_rtmp.hpp"
 
+#include <spdlog/spdlog.h>
+
 #include <boost/asio/co_spawn.hpp>
 #include <boost/asio/detached.hpp>
 #include <boost/asio/redirect_error.hpp>
@@ -13,7 +15,6 @@
 #include "codec_opus/opus_codec.hpp"
 #include "core/rtmp_media_source.hpp"
 #include "core/rtp_media_sink.hpp"
-
 
 using namespace cutesms;
 
@@ -49,7 +50,7 @@ bool WebRtcToRtmp::init() {
         [this, self]() -> boost::asio::awaitable<void> {
             boost::system::error_code ec;
             while (1) {
-                check_closable_timer_.expires_from_now(std::chrono::milliseconds(30000));  // 30s检查一次
+                check_closable_timer_.expires_after(std::chrono::milliseconds(30000));  // 30s检查一次
                 co_await check_closable_timer_.async_wait(
                     boost::asio::redirect_error(boost::asio::use_awaitable, ec));
                 if (boost::asio::error::operation_aborted == ec) {

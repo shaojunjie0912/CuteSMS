@@ -67,7 +67,7 @@ bool WebRtcToTs::init() {
         [this, self]() -> boost::asio::awaitable<void> {
             boost::system::error_code ec;
             while (1) {
-                check_closable_timer_.expires_from_now(std::chrono::milliseconds(30000));  // 30s检查一次
+                check_closable_timer_.expires_after(std::chrono::milliseconds(30000));  // 30s检查一次
                 co_await check_closable_timer_.async_wait(
                     boost::asio::redirect_error(boost::asio::use_awaitable, ec));
                 if (boost::asio::error::operation_aborted == ec) {

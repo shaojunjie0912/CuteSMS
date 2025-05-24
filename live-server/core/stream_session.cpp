@@ -12,7 +12,6 @@
 #include "core/media_source.hpp"
 #include "log/log.h"
 
-
 using namespace cutesms;
 
 StreamSession::StreamSession(ThreadWorker *worker)
@@ -65,7 +64,7 @@ void StreamSession::start_delayed_source_check_and_delete(uint32_t delay_sec,
     boost::asio::co_spawn(
         worker_->get_io_context(),
         [this, self, delay_sec, media_source]() -> boost::asio::awaitable<void> {
-            cleanup_timer_.expires_from_now(std::chrono::milliseconds(delay_sec * 1000));
+            cleanup_timer_.expires_after(std::chrono::milliseconds(delay_sec * 1000));
             boost::system::error_code ec;
             co_await cleanup_timer_.async_wait(boost::asio::redirect_error(boost::asio::use_awaitable, ec));
             if (ec) {

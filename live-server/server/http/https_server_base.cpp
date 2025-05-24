@@ -19,7 +19,7 @@
 #include "config/config.h"
 #include "http_server_session.hpp"
 #include "log/log.h"
-#include "ws_conn.hpp"
+#include "protocol_http/ws_conn.hpp"
 
 using namespace cutesms;
 

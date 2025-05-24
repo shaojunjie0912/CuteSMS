@@ -29,7 +29,6 @@
 #include "webrtc/webrtc_to_rtmp.hpp"
 #include "webrtc/webrtc_to_ts.hpp"
 
-
 using namespace cutesms;
 std::shared_ptr<MediaBridge> BridgeFactory::create_bridge(ThreadWorker *worker, const std::string &id,
                                                           std::shared_ptr<PublishApp> app,

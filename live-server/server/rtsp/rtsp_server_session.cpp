@@ -570,7 +570,7 @@ boost::asio::awaitable<bool> RtspServerSession::process_describe_req(std::shared
         }
 
         boost::system::error_code ec;
-        play_sdp_timeout_timer_.expires_from_now(std::chrono::milliseconds(10));
+        play_sdp_timeout_timer_.expires_after(std::chrono::milliseconds(10));
         co_await play_sdp_timeout_timer_.async_wait(
             boost::asio::redirect_error(boost::asio::use_awaitable, ec));
         if (ec) {

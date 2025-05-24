@@ -41,7 +41,7 @@ bool FlvToRtmp::init() {
             boost::system::error_code ec;
             auto app_conf = publish_app_->get_conf();
             while (1) {
-                check_closable_timer_.expires_from_now(std::chrono::milliseconds(
+                check_closable_timer_.expires_after(std::chrono::milliseconds(
                     app_conf->bridge_config().no_players_timeout_ms() / 2));  // 10s检查一次
                 co_await check_closable_timer_.async_wait(
                     boost::asio::redirect_error(boost::asio::use_awaitable, ec));
