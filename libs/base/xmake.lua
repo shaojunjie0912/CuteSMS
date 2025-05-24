@@ -1,6 +1,6 @@
 target("base", function () 
     set_kind("static")
     add_files("src/**.cpp")
-    add_includedirs("include", {public = true})
+    add_includedirs("include", { public = true })
     add_packages("boost", "jsoncpp", "boringssl", "spdlog", { public = true })
 end)
