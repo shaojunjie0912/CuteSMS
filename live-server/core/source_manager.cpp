@@ -3,22 +3,21 @@
  * @Date: 2023-12-24 14:04:09
  * @LastEditTime: 2023-12-29 18:04:05
  * @LastEditors: jbl19860422
- * @Description: 
- * @FilePath: \mms\mms\core\media_manager.cpp
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved. 
+ * @Description:
+ * @FilePath: \cutesms\cutesms\core\media_manager.cpp
+ * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
  */
 #include "source_manager.hpp"
 
+#include "app/publish_app.h"
 #include "core/media_source.hpp"
 #include "spdlog/spdlog.h"
-#include "app/publish_app.h"
 
-using namespace mms;
+
+using namespace cutesms;
 SourceManager SourceManager::instance_;
-bool SourceManager::add_source(const std::string & domain, 
-                               const std::string & app_name,
-                               const std::string & stream_name, 
-                               std::shared_ptr<MediaSource> source) {
+bool SourceManager::add_source(const std::string& domain, const std::string& app_name,
+                               const std::string& stream_name, std::shared_ptr<MediaSource> source) {
     std::lock_guard<std::mutex> lck(sources_mtx_);
     auto it = sources_[domain][app_name].find(stream_name);
     if (it != sources_[domain][app_name].end()) {
@@ -30,9 +29,8 @@ bool SourceManager::add_source(const std::string & domain,
     return true;
 }
 
-bool SourceManager::remove_source(const std::string & domain,
-                                  const std::string & app_name,
-                                  const std::string & stream_name) {
+bool SourceManager::remove_source(const std::string& domain, const std::string& app_name,
+                                  const std::string& stream_name) {
     std::lock_guard<std::mutex> lck(sources_mtx_);
     auto it = sources_[domain][app_name].find(stream_name);
     if (it == sources_[domain][app_name].end()) {
@@ -44,9 +42,8 @@ bool SourceManager::remove_source(const std::string & domain,
     return true;
 }
 
-std::shared_ptr<MediaSource> SourceManager::get_source(const std::string & domain,
-                                                       const std::string & app_name,
-                                                       const std::string & stream_name) {
+std::shared_ptr<MediaSource> SourceManager::get_source(const std::string& domain, const std::string& app_name,
+                                                       const std::string& stream_name) {
     std::lock_guard<std::mutex> lck(sources_mtx_);
     auto it = sources_[domain][app_name].find(stream_name);
     if (it == sources_[domain][app_name].end()) {
@@ -55,24 +52,24 @@ std::shared_ptr<MediaSource> SourceManager::get_source(const std::string & domai
     return it->second;
 }
 
-std::unordered_map<std::string,
-                   std::unordered_map<std::string,
-                   std::unordered_map<std::string, 
-                   std::shared_ptr<MediaSource>>>> SourceManager::get_sources() {
+std::unordered_map<
+    std::string,
+    std::unordered_map<std::string, std::unordered_map<std::string, std::shared_ptr<MediaSource>>>>
+SourceManager::get_sources() {
     std::lock_guard<std::mutex> lck(sources_mtx_);
     return sources_;
 }
 
-std::unordered_map<std::string,
-                   std::unordered_map<std::string, 
-                   std::shared_ptr<MediaSource>>> SourceManager::get_sources(const std::string & domain) {
+std::unordered_map<std::string, std::unordered_map<std::string, std::shared_ptr<MediaSource>>>
+SourceManager::get_sources(const std::string& domain) {
     std::lock_guard<std::mutex> lck(sources_mtx_);
     return sources_[domain];
 }
 
-std::unordered_map<std::string,std::shared_ptr<MediaSource>> SourceManager::get_sources(const std::string & domain,
-                                                                                        const std::string & app_name) {
-    std::lock_guard<std::mutex> lck(sources_mtx_);;
+std::unordered_map<std::string, std::shared_ptr<MediaSource>> SourceManager::get_sources(
+    const std::string& domain, const std::string& app_name) {
+    std::lock_guard<std::mutex> lck(sources_mtx_);
+    ;
     return sources_[domain][app_name];
 }
 

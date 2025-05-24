@@ -3,25 +3,24 @@
  * @Date: 2023-12-26 22:24:34
  * @LastEditTime: 2023-12-30 11:38:38
  * @LastEditors: jbl19860422
- * @Description: 
- * @FilePath: \mms\mms\server\rtsp\rtsp_server_session.hpp
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved. 
+ * @Description:
+ * @FilePath: \cutesms\cutesms\server\rtsp\rtsp_server_session.hpp
+ * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
  */
 #pragma once
-#include <memory>
-#include <atomic>
 #include <array>
-
+#include <atomic>
 #include <boost/asio/awaitable.hpp>
 #include <boost/asio/experimental/channel.hpp>
 #include <boost/asio/experimental/concurrent_channel.hpp>
 #include <boost/asio/steady_timer.hpp>
+#include <memory>
 
-#include "protocol/rtsp/rtsp_define.hpp"
-#include "core/stream_session.hpp"
 #include "base/wait_group.h"
+#include "core/stream_session.hpp"
+#include "protocol_rtsp/rtsp_define.hpp"
 
-namespace mms {
+namespace cutesms {
 class SocketInterface;
 class RtspRequest;
 class RtspResponse;
@@ -47,10 +46,12 @@ public:
     boost::asio::awaitable<bool> process_record_req(std::shared_ptr<RtspRequest> req);
     boost::asio::awaitable<bool> process_play_req(std::shared_ptr<RtspRequest> req);
     boost::asio::awaitable<bool> process_teardown_req(std::shared_ptr<RtspRequest> req);
+
 private:
     void start_recv_coroutine();
     boost::asio::awaitable<bool> send_rtsp_resp(std::shared_ptr<RtspResponse> resp);
     boost::asio::awaitable<bool> send_rtp_over_tcp_pkts(std::vector<std::shared_ptr<RtpPacket>> pkts);
+
 private:
     size_t recv_buf_size_ = 0;
     std::unique_ptr<char[]> recv_buf_;
@@ -74,10 +75,12 @@ private:
     uint64_t session_id_;
     bool is_publisher_ = false;
     bool is_player_ = false;
-    
-    boost::asio::experimental::channel<void(boost::system::error_code, std::function<boost::asio::awaitable<bool>()>)> send_funcs_channel_;
+
+    boost::asio::experimental::channel<void(boost::system::error_code,
+                                            std::function<boost::asio::awaitable<bool>()>)>
+        send_funcs_channel_;
     boost::asio::steady_timer play_sdp_timeout_timer_;
     WaitGroup wg_;
 };
 
-};
+};  // namespace cutesms

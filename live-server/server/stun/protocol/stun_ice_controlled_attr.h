@@ -5,15 +5,13 @@
 //    breaking of role conflicts.
 #pragma once
 #include <stdint.h>
+
 #include "stun_define.hpp"
 
-namespace mms {
-struct StunIceControlledAttr : public StunMsgAttr
-{
-    StunIceControlledAttr(uint32_t rand) : StunMsgAttr(STUN_ICE_ATTR_ICE_CONTROLLED), tie_breaker_(rand)
-    {
-        
-    }
+
+namespace cutesms {
+struct StunIceControlledAttr : public StunMsgAttr {
+    StunIceControlledAttr(uint32_t rand) : StunMsgAttr(STUN_ICE_ATTR_ICE_CONTROLLED), tie_breaker_(rand) {}
 
     StunIceControlledAttr() = default;
 
@@ -23,14 +21,11 @@ struct StunIceControlledAttr : public StunMsgAttr
 
     int32_t decode(uint8_t *data, size_t len);
 
-    uint64_t get_tie_breaker() const {
-        return tie_breaker_;
-    }
+    uint64_t get_tie_breaker() const { return tie_breaker_; }
 
-    void set_tie_breaker(uint64_t val) {
-        tie_breaker_ = val;
-    }
+    void set_tie_breaker(uint64_t val) { tie_breaker_ = val; }
+
 private:
     uint64_t tie_breaker_ = 0;
 };
-};
+};  // namespace cutesms

@@ -1,12 +1,13 @@
 #pragma once
-#include <memory>
-#include <string>
-#include <mutex>
 #include <deque>
+#include <memory>
+#include <mutex>
 #include <shared_mutex>
+#include <string>
 
 #include "core/media_source.hpp"
-namespace mms {
+
+namespace cutesms {
 class Mp4Segment;
 class PublishApp;
 class MediaBridge;
@@ -15,7 +16,8 @@ class StreamSession;
 
 class MpdLiveMediaSource : public MediaSource {
 public:
-    MpdLiveMediaSource(ThreadWorker *worker, std::weak_ptr<StreamSession> session, std::shared_ptr<PublishApp> app);
+    MpdLiveMediaSource(ThreadWorker *worker, std::weak_ptr<StreamSession> session,
+                       std::shared_ptr<PublishApp> app);
     virtual ~MpdLiveMediaSource();
     // 初始化相关函数
     bool init();
@@ -30,14 +32,14 @@ public:
     bool on_video_segment(std::shared_ptr<Mp4Segment> Mp4Segment);
 
     // 管理及数据获取相关函数
-    bool is_ready() {
-        return is_ready_;
-    }
+    bool is_ready() { return is_ready_; }
 
     std::string get_mpd();
-    void set_mpd(const std::string & v);
-    std::shared_ptr<Mp4Segment> get_mp4_segment(const std::string & mp4_name);
-    std::shared_ptr<MediaBridge> get_or_create_bridge(const std::string & id, std::shared_ptr<PublishApp> app, const std::string & stream_name);
+    void set_mpd(const std::string &v);
+    std::shared_ptr<Mp4Segment> get_mp4_segment(const std::string &mp4_name);
+    std::shared_ptr<MediaBridge> get_or_create_bridge(const std::string &id, std::shared_ptr<PublishApp> app,
+                                                      const std::string &stream_name);
+
 protected:
     std::shared_mutex segments_mtx_;
     std::shared_ptr<Mp4Segment> audio_init_seg_;
@@ -49,7 +51,8 @@ protected:
     std::string mpd_;
     bool is_ready_ = false;
     std::string availabilityStartTime;
+
 private:
     void update_mpd();
 };
-};
+};  // namespace cutesms

@@ -1,19 +1,17 @@
+#include "rtmps_server.hpp"
+
 #include <memory>
 
-#include "log/log.h"
-#include "rtmps_server.hpp"
-#include "rtmp_server_session.hpp"
 #include "config/config.h"
+#include "log/log.h"
+#include "rtmp_server_session.hpp"
 
-using namespace mms;
 
-RtmpsServer::RtmpsServer(ThreadWorker *w) {
-    tls_server_ = std::make_unique<TlsServer>(this, this, w);
-}
+using namespace cutesms;
 
-RtmpsServer::~RtmpsServer() {
+RtmpsServer::RtmpsServer(ThreadWorker *w) { tls_server_ = std::make_unique<TlsServer>(this, this, w); }
 
-}
+RtmpsServer::~RtmpsServer() {}
 
 bool RtmpsServer::start(uint16_t port) {
     tls_server_->set_socket_inactive_timeout_ms(Config::get_instance()->get_socket_inactive_timeout_ms());
@@ -23,9 +21,7 @@ bool RtmpsServer::start(uint16_t port) {
     return false;
 }
 
-void RtmpsServer::stop() {
-    tls_server_->stop_listen();
-}
+void RtmpsServer::stop() { tls_server_->stop_listen(); }
 
 void RtmpsServer::on_socket_open(std::shared_ptr<SocketInterface> tls_socket) {
     std::shared_ptr<RtmpServerSession> s = std::make_shared<RtmpServerSession>(tls_socket);
@@ -34,14 +30,15 @@ void RtmpsServer::on_socket_open(std::shared_ptr<SocketInterface> tls_socket) {
 }
 
 void RtmpsServer::on_socket_close(std::shared_ptr<SocketInterface> tls_socket) {
-    std::shared_ptr<RtmpServerSession> s = std::static_pointer_cast<RtmpServerSession>(tls_socket->get_session());
+    std::shared_ptr<RtmpServerSession> s =
+        std::static_pointer_cast<RtmpServerSession>(tls_socket->get_session());
     tls_socket->clear_session();
     if (s) {
         s->close();
     }
 }
 
-std::shared_ptr<SSL_CTX> RtmpsServer::on_tls_ext_servername(const std::string & domain_name) {
+std::shared_ptr<SSL_CTX> RtmpsServer::on_tls_ext_servername(const std::string &domain_name) {
     auto c = Config::get_instance();
     if (!c) {
         CORE_ERROR("could not find cert for:{}", domain_name);

@@ -3,30 +3,27 @@
  * @Date: 2023-07-02 10:56:58
  * @LastEditTime: 2023-12-27 12:49:11
  * @LastEditors: jbl19860422
- * @Description: 
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved. 
+ * @Description:
+ * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
  */
-#include "log/log.h"
-#include "protocol/ts/ts_segment.hpp"
 #include "ts_media_source.hpp"
+
+#include "app/publish_app.h"
+#include "bridge/bridge_factory.hpp"
+#include "bridge/media_bridge.hpp"
+#include "core/stream_session.hpp"
+#include "log/log.h"
+#include "protocol_ts/ts_segment.hpp"
+#include "recorder/recorder.h"
+#include "recorder/recorder_factory.hpp"
 #include "ts_media_sink.hpp"
 
-#include "bridge/media_bridge.hpp"
-#include "bridge/bridge_factory.hpp"
-#include "recorder/recorder_factory.hpp"
+using namespace cutesms;
+TsMediaSource::TsMediaSource(ThreadWorker *worker, std::weak_ptr<StreamSession> session,
+                             std::shared_ptr<PublishApp> app)
+    : MediaSource("ts", session, app, worker), pes_pkts_(2048), keyframe_indexes_(200) {}
 
-#include "core/stream_session.hpp"
-#include "app/publish_app.h"
-#include "recorder/recorder.h"
-
-using namespace mms;
-TsMediaSource::TsMediaSource(ThreadWorker *worker, std::weak_ptr<StreamSession> session, std::shared_ptr<PublishApp> app) : MediaSource("ts", session, app, worker), pes_pkts_(2048), keyframe_indexes_(200) {
-
-}
-
-TsMediaSource::~TsMediaSource() {
-
-}
+TsMediaSource::~TsMediaSource() {}
 
 Json::Value TsMediaSource::to_json() {
     Json::Value v;
@@ -39,10 +36,7 @@ Json::Value TsMediaSource::to_json() {
     return v;
 }
 
-
-bool TsMediaSource::init() {
-    return true;
-}
+bool TsMediaSource::init() { return true; }
 
 bool TsMediaSource::on_ts_segment(std::shared_ptr<TsSegment> ts_seg) {
     std::lock_guard<std::recursive_mutex> lck(sinks_mtx_);
@@ -60,7 +54,9 @@ bool TsMediaSource::has_no_sinks_for_time(uint32_t milli_secs) {
         return false;
     }
 
-    int64_t now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
+    int64_t now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                         std::chrono::steady_clock::now().time_since_epoch())
+                         .count();
     if (now_ms - last_sinks_or_bridges_leave_time_ < milli_secs) {
         return false;
     }
@@ -70,7 +66,7 @@ bool TsMediaSource::has_no_sinks_for_time(uint32_t milli_secs) {
 bool TsMediaSource::on_pes_packet(std::shared_ptr<PESPacket> pes_packet) {
     if (pes_packet->pes_header.stream_id == TsPESStreamIdVideoCommon) {
         has_video_ = true;
-        latest_video_timestamp_ = pes_packet->pes_header.dts/90;
+        latest_video_timestamp_ = pes_packet->pes_header.dts / 90;
     } else if (pes_packet->pes_header.stream_id == TsPESStreamIdAudioCommon) {
         has_audio_ = true;
     }
@@ -80,8 +76,8 @@ bool TsMediaSource::on_pes_packet(std::shared_ptr<PESPacket> pes_packet) {
         std::unique_lock<std::shared_mutex> wlock(keyframe_indexes_rw_mutex_);
         keyframe_indexes_.push_back(latest_frame_index_);
     }
-    
-    if (latest_frame_index_ <= 300 || latest_frame_index_%10 == 0) {
+
+    if (latest_frame_index_ <= 300 || latest_frame_index_ % 10 == 0) {
         std::lock_guard<std::recursive_mutex> lck(sinks_mtx_);
         for (auto sink : sinks_) {
             auto lazy_sink = std::static_pointer_cast<LazyMediaSink>(sink);
@@ -106,10 +102,10 @@ std::vector<std::shared_ptr<PESPacket>> TsMediaSource::get_pkts(int64_t &last_pk
             {
                 std::shared_lock<std::shared_mutex> rlock(keyframe_indexes_rw_mutex_);
                 it = keyframe_indexes_.rbegin();
-                while(it != keyframe_indexes_.rend()) {
+                while (it != keyframe_indexes_.rend()) {
                     auto pkt = pes_pkts_.get_pkt(*it);
                     if (pkt) {
-                        if (latest_video_timestamp_ - pkt->pes_header.dts/90 >= 2000) {
+                        if (latest_video_timestamp_ - pkt->pes_header.dts / 90 >= 2000) {
                             start_idx = *it;
                             break;
                         }
@@ -128,7 +124,7 @@ std::vector<std::shared_ptr<PESPacket>> TsMediaSource::get_pkts(int64_t &last_pk
                     break;
                 }
 
-                if (latest_audio_timestamp_ - pkt->pes_header.dts/90 >= 1000) {
+                if (latest_audio_timestamp_ - pkt->pes_header.dts / 90 >= 1000) {
                     break;
                 }
                 index--;
@@ -142,7 +138,7 @@ std::vector<std::shared_ptr<PESPacket>> TsMediaSource::get_pkts(int64_t &last_pk
         }
 
         uint32_t pkt_count = 0;
-        while(start_idx <= latest_frame_index_ && pkt_count < max_count) {
+        while (start_idx <= latest_frame_index_ && pkt_count < max_count) {
             auto pkt = pes_pkts_.get_pkt(start_idx);
             if (pkt) {
                 pkts.emplace_back(pes_pkts_.get_pkt(start_idx));
@@ -154,7 +150,7 @@ std::vector<std::shared_ptr<PESPacket>> TsMediaSource::get_pkts(int64_t &last_pk
     } else {
         int64_t start_idx = last_pkt_index;
         uint32_t pkt_count = 0;
-        while(start_idx <= latest_frame_index_ && pkt_count < max_count) {
+        while (start_idx <= latest_frame_index_ && pkt_count < max_count) {
             auto t = pes_pkts_.get_pkt(start_idx);
             if (t) {
                 pkts.emplace_back(pes_pkts_.get_pkt(start_idx));
@@ -168,19 +164,22 @@ std::vector<std::shared_ptr<PESPacket>> TsMediaSource::get_pkts(int64_t &last_pk
     return pkts;
 }
 
-std::shared_ptr<MediaBridge> TsMediaSource::get_or_create_bridge(const std::string & id, std::shared_ptr<PublishApp> app, const std::string & stream_name) {
+std::shared_ptr<MediaBridge> TsMediaSource::get_or_create_bridge(const std::string &id,
+                                                                 std::shared_ptr<PublishApp> app,
+                                                                 const std::string &stream_name) {
     std::unique_lock<std::shared_mutex> lck(bridges_mtx_);
     std::shared_ptr<MediaBridge> bridge;
     auto it = bridges_.find(id);
     if (it != bridges_.end()) {
         bridge = it->second;
-    } 
+    }
 
     if (bridge) {
         return bridge;
     }
 
-    bridge = BridgeFactory::create_bridge(worker_, id, app, std::weak_ptr<MediaSource>(shared_from_this()), app->get_domain_name(), app->get_app_name(), stream_name);
+    bridge = BridgeFactory::create_bridge(worker_, id, app, std::weak_ptr<MediaSource>(shared_from_this()),
+                                          app->get_domain_name(), app->get_app_name(), stream_name);
     if (!bridge) {
         return nullptr;
     }
@@ -192,12 +191,13 @@ std::shared_ptr<MediaBridge> TsMediaSource::get_or_create_bridge(const std::stri
 
     auto media_source = bridge->get_media_source();
     media_source->set_source_info(app->get_domain_name(), app->get_app_name(), stream_name);
-    
+
     bridges_.insert(std::pair(id, bridge));
     return bridge;
 }
 
-std::shared_ptr<Recorder> TsMediaSource::get_or_create_recorder(const std::string & record_type, std::shared_ptr<PublishApp> app) {
+std::shared_ptr<Recorder> TsMediaSource::get_or_create_recorder(const std::string &record_type,
+                                                                std::shared_ptr<PublishApp> app) {
     CORE_DEBUG("TsMediaSource::get_or_create_recorder");
     std::shared_ptr<Recorder> recorder;
     {
@@ -207,8 +207,9 @@ std::shared_ptr<Recorder> TsMediaSource::get_or_create_recorder(const std::strin
             return it->second;
         }
     }
-    
-    CORE_INFO("create recorder {}/{}/{}/{}", app_->get_domain_name(), app->get_app_name(), stream_name_, record_type);
+
+    CORE_INFO("create recorder {}/{}/{}/{}", app_->get_domain_name(), app->get_app_name(), stream_name_,
+              record_type);
     std::shared_ptr<MediaSource> source;
     auto media_type = get_media_type();
     if (record_type != get_media_type()) {
@@ -225,8 +226,9 @@ std::shared_ptr<Recorder> TsMediaSource::get_or_create_recorder(const std::strin
     if (!source) {
         return nullptr;
     }
-    
-    recorder = RecorderFactory::create_recorder(worker_, record_type, app, std::weak_ptr<MediaSource>(source), app->get_domain_name(), app->get_app_name(), stream_name_);
+
+    recorder = RecorderFactory::create_recorder(worker_, record_type, app, std::weak_ptr<MediaSource>(source),
+                                                app->get_domain_name(), app->get_app_name(), stream_name_);
     if (!recorder->init()) {
         return nullptr;
     }

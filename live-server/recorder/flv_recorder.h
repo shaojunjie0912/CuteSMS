@@ -1,26 +1,28 @@
 #pragma once
-#include <string>
-#include <sys/uio.h>
 #include <fcntl.h>
+#include <sys/uio.h>
 #include <unistd.h>
 
-#include "recorder.h"
-#include "json/json.h"
+#include <string>
 
-namespace mms {
+#include "json/json.h"
+#include "recorder.h"
+
+
+namespace cutesms {
 class ThreadWorker;
 class FlvMediaSink;
 class PublishApp;
 
 class FlvRecorder : public Recorder {
 public:
-    FlvRecorder(ThreadWorker *worker, std::shared_ptr<PublishApp> app, 
-               std::weak_ptr<MediaSource> source, const std::string & domain_name, const std::string & app_name, 
-               const std::string & stream_name);
+    FlvRecorder(ThreadWorker *worker, std::shared_ptr<PublishApp> app, std::weak_ptr<MediaSource> source,
+                const std::string &domain_name, const std::string &app_name, const std::string &stream_name);
     virtual ~FlvRecorder();
 
     bool init() override;
     void close() override;
+
 private:
     bool has_write_flv_header_ = false;
     uint32_t prev_tag_size_ = 0;
@@ -31,4 +33,4 @@ private:
     int64_t record_start_time_ = 0;
     int flv_file_ = -1;
 };
-};
+};  // namespace cutesms

@@ -1,14 +1,14 @@
 #pragma once
-#include <memory>
-#include <list>
-#include <boost/asio/steady_timer.hpp>
 #include <boost/asio/awaitable.hpp>
+#include <boost/asio/steady_timer.hpp>
+#include <list>
+#include <memory>
 
 #include "../media_bridge.hpp"
-#include "protocol/rtp/rtp_packer.h"
 #include "base/wait_group.h"
+#include "protocol_rtp/rtp_packer.h"
 
-namespace mms {
+namespace cutesms {
 class ThreadWorker;
 class RtmpMediaSink;
 class RtspMediaSource;
@@ -20,7 +20,8 @@ class Sdp;
 class MediaSink;
 class RtmpToRtsp : public MediaBridge {
 public:
-    RtmpToRtsp(ThreadWorker *worker, std::shared_ptr<PublishApp>, std::weak_ptr<MediaSource> origin_source, const std::string & domain_name, const std::string & app_name, const std::string & stream_name);
+    RtmpToRtsp(ThreadWorker *worker, std::shared_ptr<PublishApp>, std::weak_ptr<MediaSource> origin_source,
+               const std::string &domain_name, const std::string &app_name, const std::string &stream_name);
     virtual ~RtmpToRtsp();
     // 主要处理函数
     bool init() override;
@@ -28,13 +29,14 @@ public:
     boost::asio::awaitable<bool> on_audio_packet(std::shared_ptr<RtmpMessage> audio_pkt);
     boost::asio::awaitable<bool> on_video_packet(std::shared_ptr<RtmpMessage> video_pkt);
     void close() override;
+
 private:
     bool generate_sdp();
-    int32_t get_nalus(uint8_t *data, int32_t len, std::list<std::string_view> & nalus);
+    int32_t get_nalus(uint8_t *data, int32_t len, std::list<std::string_view> &nalus);
 
     std::shared_ptr<RtmpMediaSink> rtmp_media_sink_;
     std::shared_ptr<RtspMediaSource> rtsp_media_source_;
-    
+
     std::shared_ptr<RtmpMetaDataMessage> metadata_;
     std::shared_ptr<RtmpMessage> video_header_;
     std::shared_ptr<RtmpMessage> audio_header_;
@@ -45,7 +47,7 @@ private:
     std::shared_ptr<Codec> video_codec_;
     std::shared_ptr<Codec> audio_codec_;
     int32_t nalu_length_size_ = 4;
-    
+
     boost::asio::steady_timer check_closable_timer_;
     std::shared_ptr<Sdp> sdp_;
     uint8_t audio_pt_ = 97;
@@ -63,9 +65,10 @@ private:
     int32_t audio_buf_bytes_ = 0;
 
     WaitGroup wg_;
+
 private:
     boost::asio::awaitable<bool> process_h264_packet(std::shared_ptr<RtmpMessage> video_pkt);
     boost::asio::awaitable<bool> process_h265_packet(std::shared_ptr<RtmpMessage> video_pkt);
     boost::asio::awaitable<bool> process_aac_packet(std::shared_ptr<RtmpMessage> audio_pkt);
 };
-};
+};  // namespace cutesms

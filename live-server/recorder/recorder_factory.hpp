@@ -2,7 +2,7 @@
 #include <memory>
 #include <string>
 
-namespace mms {
+namespace cutesms {
 class Session;
 class PublishApp;
 class ThreadWorker;
@@ -11,12 +11,11 @@ class Recorder;
 
 class RecorderFactory {
 public:
-    static std::shared_ptr<Recorder> create_recorder(ThreadWorker *worker, 
-                                                     const std::string & id, 
+    static std::shared_ptr<Recorder> create_recorder(ThreadWorker *worker, const std::string &id,
                                                      std::shared_ptr<PublishApp> app,
                                                      std::weak_ptr<MediaSource> origin_source,
-                                                     const std::string & domain_name, 
-                                                     const std::string & app_name, 
-                                                     const std::string & stream_name); 
+                                                     const std::string &domain_name,
+                                                     const std::string &app_name,
+                                                     const std::string &stream_name);
 };
-};
+};  // namespace cutesms

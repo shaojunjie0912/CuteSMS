@@ -1,16 +1,14 @@
-#include <boost/algorithm/string.hpp>
 #include "webrtc_config.h"
-using namespace mms;
 
-WebrtcConfig::WebrtcConfig() {
+#include <boost/algorithm/string.hpp>
 
-}
+using namespace cutesms;
 
-WebrtcConfig::~WebrtcConfig() {
+WebrtcConfig::WebrtcConfig() {}
 
-}
+WebrtcConfig::~WebrtcConfig() {}
 
-int32_t WebrtcConfig::load(const YAML::Node & config) {
+int32_t WebrtcConfig::load(const YAML::Node& config) {
     YAML::Node enabled = config["enabled"];
     if (enabled.IsDefined()) {
         enabled_ = enabled.as<bool>();
@@ -33,14 +31,8 @@ int32_t WebrtcConfig::load(const YAML::Node & config) {
     return 0;
 }
 
-uint16_t WebrtcConfig::get_udp_port() const {
-    return udp_port_;
-}
+uint16_t WebrtcConfig::get_udp_port() const { return udp_port_; }
 
-const std::string & WebrtcConfig::get_ip() const {
-    return ip_;
-}
+const std::string& WebrtcConfig::get_ip() const { return ip_; }
 
-const std::string & WebrtcConfig::get_internal_ip() const {
-    return internal_ip_;
-}
+const std::string& WebrtcConfig::get_internal_ip() const { return internal_ip_; }

@@ -3,36 +3,35 @@
  * @Date: 2023-07-09 18:51:22
  * @LastEditTime: 2023-07-09 18:51:39
  * @LastEditors: jbl19860422
- * @Description: 
- * @FilePath: \mms\mms\config\http_callback_config.cpp
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved. 
+ * @Description:
+ * @FilePath: \cutesms\cutesms\config\http_callback_config.cpp
+ * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
  */
-#include <boost/algorithm/string.hpp>
-#include <string_view>
-#include <boost/utility/string_view.hpp>
-
 #include "http_callback_config.h"
+
+#include <boost/algorithm/string.hpp>
+#include <boost/utility/string_view.hpp>
+#include <string_view>
+
 #include "base/utils/utils.h"
-#include "placeholder/domain_placeholder.h"
+#include "core/stream_session.hpp"
+#include "param/md5_param.h"
+#include "param/param.h"
 #include "placeholder/app_placeholder.h"
+#include "placeholder/domain_placeholder.h"
+#include "placeholder/param_placeholder.h"
 #include "placeholder/stream_name_placeholder.h"
 #include "placeholder/stream_type_placeholder.h"
 #include "placeholder/string_placeholder.h"
-#include "placeholder/param_placeholder.h"
 #include "placeholder/url_param_placeholder.h"
-
-#include "param/param.h"
-#include "param/md5_param.h"
-
+#include "placeholder_generator.h"
 #include "service/dns/dns_service.hpp"
-#include "core/stream_session.hpp"
 #include "spdlog/spdlog.h"
 
-#include "placeholder_generator.h"
 
-using namespace mms;
+using namespace cutesms;
 
-int32_t HttpCallbackConfig::load_config(const YAML::Node & node) {
+int32_t HttpCallbackConfig::load_config(const YAML::Node& node) {
     // auto params_node = node["params"];
     // if (params_node.IsDefined()) {
     //     if (params_node.size() > 0) {
@@ -43,7 +42,7 @@ int32_t HttpCallbackConfig::load_config(const YAML::Node & node) {
     //             if (left_bracket_pos == std::string::npos) {//解析错误
     //                 return -2;
     //             }
-                
+
     //             if (param_pattern[param_pattern.size() - 1] != ')') {
     //                 return -3;
     //             }
@@ -53,8 +52,8 @@ int32_t HttpCallbackConfig::load_config(const YAML::Node & node) {
     //             if (!param) {
     //                 return -4;
     //             }
-    //             std::string method_params_list = param_pattern.substr(left_bracket_pos + 1, param_pattern.size() - left_bracket_pos - 2);
-    //             std::vector<std::string> method_params;
+    //             std::string method_params_list = param_pattern.substr(left_bracket_pos + 1,
+    //             param_pattern.size() - left_bracket_pos - 2); std::vector<std::string> method_params;
     //             boost::split(method_params, method_params_list, boost::is_any_of(","));
     //             for (size_t i = 0; i < method_params.size(); i++) {
     //                 if (0 != parse_method_param(node, param, method_params[i])) {
@@ -82,7 +81,7 @@ int32_t HttpCallbackConfig::load_config(const YAML::Node & node) {
 
     auto holder0 = url_holders_[0]->get_holder();
     std::vector<std::string> vs;
-    boost::split(vs, holder0, boost::is_any_of("/"));//http://domain/, rtmp://domain/
+    boost::split(vs, holder0, boost::is_any_of("/"));  // http://domain/, rtmp://domain/
     if (vs.size() < 3) {
         return -9;
     }
@@ -106,8 +105,8 @@ int32_t HttpCallbackConfig::load_config(const YAML::Node & node) {
     } else {
         target_domain_ = vs[2].substr(0, colon_pos);
         try {
-            port_ = std::atoi(vs[2].substr(colon_pos+1).c_str());
-        } catch (std::exception & exp) {
+            port_ = std::atoi(vs[2].substr(colon_pos + 1).c_str());
+        } catch (std::exception& exp) {
             return -11;
         }
     }
@@ -140,7 +139,7 @@ int32_t HttpCallbackConfig::load_config(const YAML::Node & node) {
 std::string HttpCallbackConfig::gen_url(std::shared_ptr<StreamSession> s) const {
     std::string url;
     spdlog::info("url holders count:{}", url_holders_.size());
-    for (auto & h : url_holders_) {
+    for (auto& h : url_holders_) {
         url += h->get_val(*s);
     }
     return url;
@@ -148,17 +147,18 @@ std::string HttpCallbackConfig::gen_url(std::shared_ptr<StreamSession> s) const 
 
 std::string HttpCallbackConfig::gen_body(std::shared_ptr<StreamSession> s) const {
     std::string url;
-    for (auto & h : body_holders_) {
+    for (auto& h : body_holders_) {
         url += h->get_val(*s);
     }
     return url;
 }
 
-std::unordered_map<std::string, std::string> HttpCallbackConfig::gen_headers(std::shared_ptr<StreamSession> s) const {
+std::unordered_map<std::string, std::string> HttpCallbackConfig::gen_headers(
+    std::shared_ptr<StreamSession> s) const {
     std::unordered_map<std::string, std::string> headers;
     for (auto it = headers_holders_.begin(); it != headers_holders_.end(); it++) {
         std::string value;
-        for (auto & h : it->second) {
+        for (auto& h : it->second) {
             value += h->get_val(*s);
         }
         headers[it->first] = value;

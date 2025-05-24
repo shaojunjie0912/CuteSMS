@@ -1,18 +1,16 @@
 #include "greater_check_config.h"
-#include "core/stream_session.hpp"
+
 #include "auth_config.h"
+#include "core/stream_session.hpp"
 
-using namespace mms;
 
-GreaterCheckConfig::GreaterCheckConfig(bool can_equal) : can_equal_(can_equal) {
+using namespace cutesms;
 
-}
+GreaterCheckConfig::GreaterCheckConfig(bool can_equal) : can_equal_(can_equal) {}
 
-GreaterCheckConfig::~GreaterCheckConfig() {
+GreaterCheckConfig::~GreaterCheckConfig() {}
 
-}
-
-bool GreaterCheckConfig::check(StreamSession & session, const std::vector<std::string> & method_params) {
+bool GreaterCheckConfig::check(StreamSession& session, const std::vector<std::string>& method_params) {
     ((void)session);
     if (method_params.size() != 2) {
         return false;
@@ -26,8 +24,7 @@ bool GreaterCheckConfig::check(StreamSession & session, const std::vector<std::s
         } else {
             return i1 > i2;
         }
-    } catch (std::exception & e) {
+    } catch (std::exception& e) {
         return false;
     }
 }
-

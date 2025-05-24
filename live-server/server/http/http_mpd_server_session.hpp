@@ -3,10 +3,11 @@
 #include <boost/asio/experimental/channel.hpp>
 #include <boost/asio/experimental/concurrent_channel.hpp>
 
-#include "core/stream_session.hpp"
 #include "base/wait_group.h"
+#include "core/stream_session.hpp"
 
-namespace mms {
+
+namespace cutesms {
 class RtmpMediaSink;
 class HttpRequest;
 class HttpResponse;
@@ -18,9 +19,10 @@ public:
     virtual ~HttpMpdServerSession();
     void service();
     void close();
+
 private:
     std::shared_ptr<RtmpMediaSink> rtmp_media_sink_;
     std::shared_ptr<HttpRequest> http_request_;
     std::shared_ptr<HttpResponse> http_response_;
 };
-};
+};  // namespace cutesms

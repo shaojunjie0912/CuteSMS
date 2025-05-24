@@ -1,50 +1,52 @@
-#include "log/log.h"
+#include "http_api_server.hpp"
 
 #include <boost/shared_ptr.hpp>
 #include <memory>
 #include <string>
 
-#include "http_api_server.hpp"
-#include "http_server_session.hpp"
+#include "../../version.h"
+#include "app/app.h"
+#include "app/app_manager.h"
+#include "config/app_config.h"
+#include "core/source_manager.hpp"
+#include "core/stream_session.hpp"
 #include "http_flv_server_session.hpp"
-#include "http_ts_server_session.hpp"
-#include "http_m3u8_server_session.hpp"
-#include "http_mpd_server_session.hpp"
-#include "http_m4s_server_session.hpp"
-
 #include "http_long_mp4_server_session.hpp"
 #include "http_long_ts_server_session.hpp"
+#include "http_m3u8_server_session.hpp"
+#include "http_m4s_server_session.hpp"
+#include "http_mpd_server_session.hpp"
+#include "http_server_session.hpp"
+#include "http_ts_server_session.hpp"
+#include "log/log.h"
 
-#include "core/stream_session.hpp"
-#include "core/source_manager.hpp"
 
-#include "config/app_config.h"
-#include "app/app_manager.h"
-#include "app/app.h"
-#include "../../version.h"
-
-using namespace mms;
-HttpApiServer::~HttpApiServer() {
-
-}
+using namespace cutesms;
+HttpApiServer::~HttpApiServer() {}
 
 bool HttpApiServer::register_route() {
     bool ret;
-    ret = on_get("/api/version", std::bind(&HttpApiServer::get_api_version, this, std::placeholders::_1,std::placeholders::_2,std::placeholders::_3));
+    ret = on_get("/api/version", std::bind(&HttpApiServer::get_api_version, this, std::placeholders::_1,
+                                           std::placeholders::_2, std::placeholders::_3));
     if (!ret) {
         return false;
     }
-    ret = on_get("/api/domain_streams", std::bind(&HttpApiServer::get_domain_streams, this, std::placeholders::_1,std::placeholders::_2,std::placeholders::_3));
+    ret = on_get("/api/domain_streams",
+                 std::bind(&HttpApiServer::get_domain_streams, this, std::placeholders::_1,
+                           std::placeholders::_2, std::placeholders::_3));
     if (!ret) {
         return false;
     }
 
-    ret = on_get("/api/app_streams", std::bind(&HttpApiServer::get_app_streams, this, std::placeholders::_1,std::placeholders::_2,std::placeholders::_3));
+    ret = on_get("/api/app_streams", std::bind(&HttpApiServer::get_app_streams, this, std::placeholders::_1,
+                                               std::placeholders::_2, std::placeholders::_3));
     if (!ret) {
         return false;
     }
 
-    ret = on_post("/api/cut_off_stream", std::bind(&HttpApiServer::cut_off_stream, this, std::placeholders::_1,std::placeholders::_2,std::placeholders::_3));
+    ret =
+        on_post("/api/cut_off_stream", std::bind(&HttpApiServer::cut_off_stream, this, std::placeholders::_1,
+                                                 std::placeholders::_2, std::placeholders::_3));
     if (!ret) {
         return false;
     }
@@ -52,7 +54,9 @@ bool HttpApiServer::register_route() {
     return true;
 }
 
-boost::asio::awaitable<void> HttpApiServer::get_api_version(std::shared_ptr<HttpServerSession> session, std::shared_ptr<HttpRequest> req, std::shared_ptr<HttpResponse> resp) {
+boost::asio::awaitable<void> HttpApiServer::get_api_version(std::shared_ptr<HttpServerSession> session,
+                                                            std::shared_ptr<HttpRequest> req,
+                                                            std::shared_ptr<HttpResponse> resp) {
     (void)session;
     (void)req;
     Json::Value root;
@@ -73,9 +77,9 @@ boost::asio::awaitable<void> HttpApiServer::get_api_version(std::shared_ptr<Http
     co_return;
 }
 
- boost::asio::awaitable<void> HttpApiServer::get_domain_streams(std::shared_ptr<HttpServerSession> session, 
-                                                            std::shared_ptr<HttpRequest> req, 
-                                                            std::shared_ptr<HttpResponse> resp) {
+boost::asio::awaitable<void> HttpApiServer::get_domain_streams(std::shared_ptr<HttpServerSession> session,
+                                                               std::shared_ptr<HttpRequest> req,
+                                                               std::shared_ptr<HttpResponse> resp) {
     (void)session;
     (void)req;
     Json::Value root;
@@ -83,7 +87,7 @@ boost::asio::awaitable<void> HttpApiServer::get_api_version(std::shared_ptr<Http
     auto app_streams = SourceManager::get_instance().get_sources(domain);
     for (auto it_app = app_streams.begin(); it_app != app_streams.end(); it_app++) {
         Json::Value japp_streams;
-        for (auto & stream : it_app->second) {
+        for (auto& stream : it_app->second) {
             japp_streams[stream.first] = stream.second->to_json();
         }
         root[it_app->first] = japp_streams;
@@ -104,10 +108,10 @@ boost::asio::awaitable<void> HttpApiServer::get_api_version(std::shared_ptr<Http
 
     resp->close();
     co_return;
-}  
+}
 
-boost::asio::awaitable<void> HttpApiServer::get_app_streams(std::shared_ptr<HttpServerSession> session, 
-                                                            std::shared_ptr<HttpRequest> req, 
+boost::asio::awaitable<void> HttpApiServer::get_app_streams(std::shared_ptr<HttpServerSession> session,
+                                                            std::shared_ptr<HttpRequest> req,
                                                             std::shared_ptr<HttpResponse> resp) {
     (void)session;
     (void)req;
@@ -116,8 +120,8 @@ boost::asio::awaitable<void> HttpApiServer::get_app_streams(std::shared_ptr<Http
     auto app = req->get_query_param("app");
     auto streams = SourceManager::get_instance().get_sources(domain, app);
     Json::Value jstreams;
-    for (auto & stream : streams) {
-        jstreams[stream.first]= stream.second->to_json();
+    for (auto& stream : streams) {
+        jstreams[stream.first] = stream.second->to_json();
     }
     root[app] = jstreams;
     root["code"] = 0;
@@ -137,12 +141,11 @@ boost::asio::awaitable<void> HttpApiServer::get_app_streams(std::shared_ptr<Http
 
     resp->close();
     co_return;
-} 
+}
 
-boost::asio::awaitable<void> HttpApiServer::cut_off_stream(std::shared_ptr<HttpServerSession> session, 
-                                                            std::shared_ptr<HttpRequest> req, 
-                                                            std::shared_ptr<HttpResponse> resp) 
-{
+boost::asio::awaitable<void> HttpApiServer::cut_off_stream(std::shared_ptr<HttpServerSession> session,
+                                                           std::shared_ptr<HttpRequest> req,
+                                                           std::shared_ptr<HttpResponse> resp) {
     (void)session;
     auto domain = req->get_query_param("domain");
     auto app = req->get_query_param("app");
@@ -157,7 +160,8 @@ boost::asio::awaitable<void> HttpApiServer::cut_off_stream(std::shared_ptr<HttpS
     co_return;
 }
 
-boost::asio::awaitable<void> HttpApiServer::response_json(std::shared_ptr<HttpResponse> resp, int32_t code, const std::string & msg) {
+boost::asio::awaitable<void> HttpApiServer::response_json(std::shared_ptr<HttpResponse> resp, int32_t code,
+                                                          const std::string& msg) {
     Json::Value root;
     root["code"] = code;
     root["msg"] = msg;

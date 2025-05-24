@@ -1,8 +1,10 @@
 #pragma once
 #include <arpa/inet.h>
 #include <stdint.h>
-#include "protocol/rtp/rtp_packet.h"
-namespace mms {
+
+#include "protocol_rtp/rtp_packet.h"
+
+namespace cutesms {
 class RtpOverTcpPktHeader {
 public:
     int32_t decode(uint8_t *data, size_t len) {
@@ -27,7 +29,7 @@ public:
         if (len < 2) {
             return 0;
         }
-        pkt_len_ = ntohs((*(uint16_t*)data));
+        pkt_len_ = ntohs((*(uint16_t *)data));
         len -= 2;
         data += 2;
         return data - data_start;
@@ -53,29 +55,22 @@ public:
         if (len < 2) {
             return -3;
         }
-        *(uint16_t*)data = htons(pkt_len_);
+        *(uint16_t *)data = htons(pkt_len_);
         len -= 2;
         data += 2;
         return data - data_start;
     }
 
-    uint8_t get_channel() const {
-        return channel_;
-    }
+    uint8_t get_channel() const { return channel_; }
 
-    uint16_t get_pkt_len() const {
-        return pkt_len_;
-    }
+    uint16_t get_pkt_len() const { return pkt_len_; }
 
-    void set_channel(uint8_t v) {
-        channel_ = v;
-    }
+    void set_channel(uint8_t v) { channel_ = v; }
 
-    void set_pkt_len(uint16_t v) {
-        pkt_len_ = v;
-    }
+    void set_pkt_len(uint16_t v) { pkt_len_ = v; }
+
 private:
     uint8_t channel_ = 0;
     uint16_t pkt_len_ = 0;
 };
-};
+};  // namespace cutesms

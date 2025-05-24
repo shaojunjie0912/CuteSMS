@@ -1,19 +1,17 @@
 #include "equal_check_config.h"
-#include "core/stream_session.hpp"
+
 #include "auth_config.h"
+#include "core/stream_session.hpp"
 #include "log/log.h"
 
-using namespace mms;
 
-EqualCheckConfig::EqualCheckConfig(bool equal) : equal_(equal) {
+using namespace cutesms;
 
-}
+EqualCheckConfig::EqualCheckConfig(bool equal) : equal_(equal) {}
 
-EqualCheckConfig::~EqualCheckConfig() {
+EqualCheckConfig::~EqualCheckConfig() {}
 
-}
-
-bool EqualCheckConfig::check(StreamSession & session, const std::vector<std::string> & method_params) {
+bool EqualCheckConfig::check(StreamSession& session, const std::vector<std::string>& method_params) {
     ((void)session);
     if (method_params.size() != 2) {
         return false;
@@ -25,4 +23,3 @@ bool EqualCheckConfig::check(StreamSession & session, const std::vector<std::str
         return method_params[0] != method_params[1];
     }
 }
-

@@ -1,23 +1,20 @@
 #include "check_config.h"
-#include "server/session.hpp"
+
+#include "../placeholder/placeholder.h"
 #include "auth_config.h"
+#include "base/network/session.hpp"
 #include "equal_check_config.h"
 #include "greater_check_config.h"
-#include "smaller_check_config.h"
-#include "../placeholder/placeholder.h"
 #include "log/log.h"
+#include "smaller_check_config.h"
 
-using namespace mms;
+using namespace cutesms;
 
-CheckConfig::CheckConfig() {
+CheckConfig::CheckConfig() {}
 
-}
+CheckConfig::~CheckConfig() {}
 
-CheckConfig::~CheckConfig() {
-
-}
-
-std::shared_ptr<CheckConfig> CheckConfig::gen_check(const std::string & method_name) {
+std::shared_ptr<CheckConfig> CheckConfig::gen_check(const std::string& method_name) {
     if (method_name == "<") {
         return std::make_shared<SmallerCheckConfig>();
     } else if (method_name == ">") {
@@ -34,11 +31,11 @@ std::shared_ptr<CheckConfig> CheckConfig::gen_check(const std::string & method_n
     return nullptr;
 }
 
-bool CheckConfig::check(StreamSession & session) {
+bool CheckConfig::check(StreamSession& session) {
     std::vector<std::string> method_params;
-    for (auto & mph : holders_) {
+    for (auto& mph : holders_) {
         std::string p;
-        for (auto & h : mph) {
+        for (auto& h : mph) {
             auto v = h->get_val(session);
             p += v;
         }
@@ -48,7 +45,6 @@ bool CheckConfig::check(StreamSession & session) {
     return check(session, method_params);
 }
 
-void CheckConfig::add_placeholder(const std::vector<std::shared_ptr<PlaceHolder>> & method_param_holder) {
+void CheckConfig::add_placeholder(const std::vector<std::shared_ptr<PlaceHolder>>& method_param_holder) {
     holders_.push_back(method_param_holder);
 }
-

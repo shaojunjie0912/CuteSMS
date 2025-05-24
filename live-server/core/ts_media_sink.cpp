@@ -1,18 +1,15 @@
+#include "ts_media_sink.hpp"
+
 #include <boost/asio/co_spawn.hpp>
 #include <boost/asio/detached.hpp>
 
-#include "ts_media_sink.hpp"
+#include "base/thread/thread_worker.hpp"
 #include "core/ts_media_source.hpp"
 
-#include "base/thread/thread_worker.hpp"
-using namespace mms;
-TsMediaSink::TsMediaSink(ThreadWorker *worker) : LazyMediaSink(worker) {
+using namespace cutesms;
+TsMediaSink::TsMediaSink(ThreadWorker *worker) : LazyMediaSink(worker) {}
 
-}
-
-TsMediaSink::~TsMediaSink() {
-
-}
+TsMediaSink::~TsMediaSink() {}
 
 void TsMediaSink::close() {
     cb_ = {};
@@ -22,10 +19,13 @@ void TsMediaSink::close() {
 
 bool TsMediaSink::recv_ts_segment(std::shared_ptr<TsSegment> ts_seg) {
     auto self(this->shared_from_this());
-    boost::asio::co_spawn(worker_->get_io_context(), [this, self, ts_seg]()->boost::asio::awaitable<void> {
-        co_await cb_(ts_seg);
-        co_return;
-    }, boost::asio::detached);
+    boost::asio::co_spawn(
+        worker_->get_io_context(),
+        [this, self, ts_seg]() -> boost::asio::awaitable<void> {
+            co_await cb_(ts_seg);
+            co_return;
+        },
+        boost::asio::detached);
     return true;
 }
 
@@ -33,7 +33,7 @@ boost::asio::awaitable<void> TsMediaSink::do_work() {
     if (!source_->is_stream_ready()) {
         co_return;
     }
-    
+
     auto ts_source = std::static_pointer_cast<TsMediaSource>(source_);
     std::vector<std::shared_ptr<PESPacket>> pkts;
     pkts.reserve(20);
@@ -47,10 +47,13 @@ boost::asio::awaitable<void> TsMediaSink::do_work() {
     co_return;
 }
 
-void TsMediaSink::on_ts_segment(const std::function<boost::asio::awaitable<bool>(std::shared_ptr<TsSegment> msg)> & cb) {
+void TsMediaSink::on_ts_segment(
+    const std::function<boost::asio::awaitable<bool>(std::shared_ptr<TsSegment> msg)> &cb) {
     cb_ = cb;
 }
 
-void TsMediaSink::on_pes_pkts(const std::function<boost::asio::awaitable<bool>(const std::vector<std::shared_ptr<PESPacket>> & pkts)> & cb) {
+void TsMediaSink::on_pes_pkts(
+    const std::function<boost::asio::awaitable<bool>(const std::vector<std::shared_ptr<PESPacket>> &pkts)>
+        &cb) {
     pes_pkts_cb_ = cb;
 }

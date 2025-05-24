@@ -1,24 +1,23 @@
-#include <iostream>
+#include "config.h"
+
 #include <filesystem>
-#include <mutex> 
+#include <iostream>
+#include <mutex>
 #include <shared_mutex>
 
-#include "log/log.h"
-#include "config.h"
-#include "yaml-cpp/yaml.h"
-#include "base/utils/utils.h"
-
-#include "spdlog/spdlog.h"
-#include "service/dns/dns_service.hpp"
-#include "service/conn/http_conn_pools.h"
 #include "app/app_manager.h"
+#include "base/utils/utils.h"
+#include "log/log.h"
+#include "service/conn/http_conn_pools.h"
+#include "service/dns/dns_service.hpp"
+#include "spdlog/spdlog.h"
+#include "yaml-cpp/yaml.h"
 
-using namespace mms;
+
+using namespace cutesms;
 std::atomic<std::shared_ptr<Config>> Config::instance_;
 
-Config::Config() : cert_manager_(*this) {
-
-}
+Config::Config() : cert_manager_(*this) {}
 
 std::shared_ptr<Config> Config::get_instance() {
     auto inst = instance_.load();
@@ -29,11 +28,11 @@ std::shared_ptr<Config> Config::get_instance() {
     return inst;
 }
 
-bool Config::load_config(const std::string & config_path) {
+bool Config::load_config(const std::string &config_path) {
     YAML::Node config;
     try {
-        config = YAML::LoadFile(config_path + "/mms.yaml");
-    } catch (YAML::ParserException & ex) {
+        config = YAML::LoadFile(config_path + "/cutesms.yaml");
+    } catch (YAML::ParserException &ex) {
         return false;
     } catch (YAML::BadFile &ex) {
         return false;
@@ -121,8 +120,6 @@ bool Config::load_config(const std::string & config_path) {
         }
     }
 
-
-
     // YAML::Node webrtc_port = config["https_api_port"];
     // if (webrtc_port.IsDefined()) {
     //     webrtc_udp_port_ = webrtc_port.as<uint16_t>();
@@ -151,7 +148,7 @@ bool Config::load_config(const std::string & config_path) {
     if (socket_timeout.IsDefined() && socket_timeout.IsScalar()) {
         auto s = socket_timeout.as<std::string>();
         if (s.ends_with("s")) {
-            socket_inactive_timeout_ms_ = std::atoi(s.c_str())*1000;
+            socket_inactive_timeout_ms_ = std::atoi(s.c_str()) * 1000;
         } else if (s.ends_with("ms")) {
             socket_inactive_timeout_ms_ = std::atoi(s.c_str());
         } else {
@@ -161,16 +158,16 @@ bool Config::load_config(const std::string & config_path) {
 
     auto domains = AppManager::get_instance().get_domains();
     std::unordered_map<std::string, bool> domains_exist_map;
-    for (auto & domain : domains) {
+    for (auto &domain : domains) {
         domains_exist_map[domain] = false;
     }
 
-    for (const auto & file_entry : std::filesystem::directory_iterator(config_path + "/publish")) {
+    for (const auto &file_entry : std::filesystem::directory_iterator(config_path + "/publish")) {
         if (!file_entry.is_regular_file() || file_entry.path().extension() != ".yaml") {
             continue;
         }
 
-        const std::string & name = file_entry.path().filename().string();
+        const std::string &name = file_entry.path().filename().string();
         size_t point_pos = name.find_last_of(".");
         std::string domain = name.substr(0, point_pos);
         CORE_INFO("find config of domain:{}", domain);
@@ -181,12 +178,12 @@ bool Config::load_config(const std::string & config_path) {
         domains_exist_map[domain] = true;
     }
 
-    for (const auto & file_entry : std::filesystem::directory_iterator(config_path + "/play")) {
+    for (const auto &file_entry : std::filesystem::directory_iterator(config_path + "/play")) {
         if (!file_entry.is_regular_file() || file_entry.path().extension() != ".yaml") {
             continue;
         }
 
-        const std::string & name = file_entry.path().filename().string();
+        const std::string &name = file_entry.path().filename().string();
         size_t point_pos = name.find_last_of(".");
         std::string domain = name.substr(0, point_pos);
         CORE_INFO("find config of domain:{}", domain);
@@ -197,8 +194,8 @@ bool Config::load_config(const std::string & config_path) {
         domains_exist_map[domain] = true;
     }
 
-    for (auto & p : domains_exist_map) {
-        if (!p.second) {//已经不存在的，删除
+    for (auto &p : domains_exist_map) {
+        if (!p.second) {  // 已经不存在的，删除
             AppManager::get_instance().remove_domain(p.first);
         }
     }
@@ -206,7 +203,7 @@ bool Config::load_config(const std::string & config_path) {
     return true;
 }
 
-bool Config::reload_config(const std::string & config_path) {
+bool Config::reload_config(const std::string &config_path) {
     std::shared_ptr<Config> new_config = std::make_shared<Config>();
     if (!new_config->load_config(config_path)) {
         return false;
@@ -216,9 +213,9 @@ bool Config::reload_config(const std::string & config_path) {
     return true;
 }
 
-bool Config::load_domain_config(const std::string & domain, const std::string & file) {
+bool Config::load_domain_config(const std::string &domain, const std::string &file) {
     auto config = std::make_shared<DomainConfig>(*this);
-    auto ret =  config->load_config(file);
+    auto ret = config->load_config(file);
     if (!ret) {
         return false;
     }
@@ -228,7 +225,7 @@ bool Config::load_domain_config(const std::string & domain, const std::string & 
     return true;
 }
 
-std::shared_ptr<DomainConfig> Config::get_domain_config(const std::string & domain_name) {
+std::shared_ptr<DomainConfig> Config::get_domain_config(const std::string &domain_name) {
     std::shared_lock<std::shared_mutex> lck(mutex_);
     auto it = domains_config_.find(domain_name);
     if (it == domains_config_.end()) {

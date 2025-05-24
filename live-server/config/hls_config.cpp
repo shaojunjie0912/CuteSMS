@@ -1,17 +1,16 @@
-#include <boost/algorithm/string.hpp>
 #include "hls_config.h"
+
+#include <boost/algorithm/string.hpp>
+
 #include "log/log.h"
-using namespace mms;
 
-HlsConfig::HlsConfig() {
+using namespace cutesms;
 
-}
+HlsConfig::HlsConfig() {}
 
-HlsConfig::~HlsConfig() {
+HlsConfig::~HlsConfig() {}
 
-}
-
-int32_t HlsConfig::load(const YAML::Node & config) {
+int32_t HlsConfig::load(const YAML::Node& config) {
     YAML::Node enabled = config["enabled"];
     if (enabled.IsDefined()) {
         enabled_ = enabled.as<bool>();
@@ -31,9 +30,9 @@ int32_t HlsConfig::load(const YAML::Node & config) {
     if (ts_max_size_node.IsDefined()) {
         auto v = ts_max_size_node.as<std::string>();
         if (v.ends_with("k") || v.ends_with("K")) {
-            ts_max_size_ = std::atoi(v.substr(0, v.size() - 1).c_str())*1024;
+            ts_max_size_ = std::atoi(v.substr(0, v.size() - 1).c_str()) * 1024;
         } else if (v.ends_with("m") || v.ends_with("M")) {
-            ts_max_size_ = std::atoi(v.substr(0, v.size() - 1).c_str())*1024*1024;
+            ts_max_size_ = std::atoi(v.substr(0, v.size() - 1).c_str()) * 1024 * 1024;
         }
     }
 

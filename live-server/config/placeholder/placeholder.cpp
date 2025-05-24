@@ -1,16 +1,14 @@
 #include "placeholder.h"
+
 #include "core/stream_session.hpp"
 
-using namespace mms;
-PlaceHolder::PlaceHolder() {
 
-}
+using namespace cutesms;
+PlaceHolder::PlaceHolder() {}
 
-PlaceHolder::~PlaceHolder() {
+PlaceHolder::~PlaceHolder() {}
 
-}
-
-std::string PlaceHolder::get_val(StreamSession & session) {
+std::string PlaceHolder::get_val(StreamSession& session) {
     ((void)session);
     return "";
 }

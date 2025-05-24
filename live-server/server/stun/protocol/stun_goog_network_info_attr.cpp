@@ -1,24 +1,18 @@
 #include "stun_goog_network_info_attr.h"
-using namespace mms;
+using namespace cutesms;
 
-size_t StunGoogNetworkInfoAttr::size()
-{
-    return StunMsgAttr::size() + 4;
-}
+size_t StunGoogNetworkInfoAttr::size() { return StunMsgAttr::size() + 4; }
 
-int32_t StunGoogNetworkInfoAttr::encode(uint8_t *data, size_t len)
-{
+int32_t StunGoogNetworkInfoAttr::encode(uint8_t *data, size_t len) {
     length = 4;
     uint8_t *data_start = data;
     int32_t consumed = StunMsgAttr::encode(data, len);
-    if (consumed < 0)
-    {
+    if (consumed < 0) {
         return -1;
     }
     data += consumed;
     len -= consumed;
-    if (len < 4)
-    {
+    if (len < 4) {
         return -2;
     }
 
@@ -29,24 +23,20 @@ int32_t StunGoogNetworkInfoAttr::encode(uint8_t *data, size_t len)
     return data - data_start;
 }
 
-int32_t StunGoogNetworkInfoAttr::decode(uint8_t *data, size_t len)
-{
+int32_t StunGoogNetworkInfoAttr::decode(uint8_t *data, size_t len) {
     uint8_t *data_start = data;
     int32_t consumed = StunMsgAttr::decode(data, len);
-    if (consumed < 0)
-    {
+    if (consumed < 0) {
         return -1;
     }
     data += consumed;
     len -= consumed;
 
-    if (len <= 0)
-    {
+    if (len <= 0) {
         return -2;
     }
 
-    if (length != 4)
-    {
+    if (length != 4) {
         return -3;
     }
 

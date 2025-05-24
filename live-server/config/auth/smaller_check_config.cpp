@@ -1,18 +1,16 @@
 #include "smaller_check_config.h"
-#include "core/stream_session.hpp"
+
 #include "auth_config.h"
+#include "core/stream_session.hpp"
 
-using namespace mms;
 
-SmallerCheckConfig::SmallerCheckConfig(bool can_equal) : can_equal_(can_equal) {
+using namespace cutesms;
 
-}
+SmallerCheckConfig::SmallerCheckConfig(bool can_equal) : can_equal_(can_equal) {}
 
-SmallerCheckConfig::~SmallerCheckConfig() {
+SmallerCheckConfig::~SmallerCheckConfig() {}
 
-}
-
-bool SmallerCheckConfig::check(StreamSession & session, const std::vector<std::string> & method_params) {
+bool SmallerCheckConfig::check(StreamSession& session, const std::vector<std::string>& method_params) {
     ((void)session);
     if (method_params.size() != 2) {
         return false;
@@ -26,8 +24,7 @@ bool SmallerCheckConfig::check(StreamSession & session, const std::vector<std::s
         } else {
             return i1 < i2;
         }
-    } catch (std::exception & e) {
+    } catch (std::exception& e) {
         return false;
     }
 }
-

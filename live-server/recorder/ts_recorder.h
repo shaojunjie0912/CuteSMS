@@ -1,9 +1,11 @@
 #pragma once
 #include <string>
-#include "recorder.h"
-#include "json/json.h"
 
-namespace mms {
+#include "json/json.h"
+#include "recorder.h"
+
+
+namespace cutesms {
 class ThreadWorker;
 class TsMediaSink;
 class TsSegment;
@@ -12,7 +14,8 @@ class PublishApp;
 class TsRecordSeg {
 public:
     TsRecordSeg();
-    bool load(const Json::Value & v);
+    bool load(const Json::Value &v);
+
 public:
     int64_t create_at_;
     int64_t duration_;
@@ -25,13 +28,13 @@ public:
 
 class TsRecorder : public Recorder {
 public:
-    TsRecorder(ThreadWorker *worker, std::shared_ptr<PublishApp> app, 
-               std::weak_ptr<MediaSource> source, const std::string & domain_name, const std::string & app_name, 
-               const std::string & stream_name);
+    TsRecorder(ThreadWorker *worker, std::shared_ptr<PublishApp> app, std::weak_ptr<MediaSource> source,
+               const std::string &domain_name, const std::string &app_name, const std::string &stream_name);
     virtual ~TsRecorder();
 
     bool init() override;
     void close() override;
+
 private:
     std::shared_ptr<TsMediaSink> ts_media_sink_;
     std::shared_ptr<TsSegment> prev_ts_seg_;
@@ -41,4 +44,4 @@ private:
     int64_t record_start_time_ = 0;
     std::vector<TsRecordSeg> ts_segs_;
 };
-};
+};  // namespace cutesms

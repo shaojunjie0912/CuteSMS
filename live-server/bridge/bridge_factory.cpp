@@ -3,46 +3,41 @@
  * @Date: 2023-12-03 11:50:29
  * @LastEditTime: 2023-12-03 11:50:39
  * @LastEditors: jbl19860422
- * @Description: 
- * @FilePath: \mms\mms\server\transcode\bridge_factory.cpp
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved. 
+ * @Description:
+ * @FilePath: \cutesms\cutesms\server\transcode\bridge_factory.cpp
+ * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
  */
-#include "log/log.h"
 #include "bridge_factory.hpp"
+
+#include "app/publish_app.h"
 #include "base/thread/thread_worker.hpp"
-
+#include "config/app_config.h"
+#include "flv/flv_to_rtmp.hpp"
+#include "flv/flv_to_rtsp.hpp"
+#include "flv/flv_to_ts.hpp"
+#include "log/log.h"
+#include "mp4/mp4_to_mpd.hpp"
 #include "rtmp/rtmp_to_flv.hpp"
-#include "rtmp/rtmp_to_ts.hpp"
-#include "rtmp/rtmp_to_rtsp.hpp"
 #include "rtmp/rtmp_to_mp4.hpp"
-
+#include "rtmp/rtmp_to_rtsp.hpp"
+#include "rtmp/rtmp_to_ts.hpp"
 #include "rtsp/rtsp_to_flv.hpp"
 #include "rtsp/rtsp_to_rtmp.hpp"
 #include "rtsp/rtsp_to_ts.hpp"
-
-#include "flv/flv_to_rtmp.hpp"
-#include "flv/flv_to_ts.hpp"
-#include "flv/flv_to_rtsp.hpp"
-
+#include "ts/ts_to_hls.hpp"
 #include "webrtc/webrtc_to_flv.hpp"
 #include "webrtc/webrtc_to_rtmp.hpp"
 #include "webrtc/webrtc_to_ts.hpp"
 
-#include "ts/ts_to_hls.hpp"
-#include "mp4/mp4_to_mpd.hpp"
 
-#include "app/publish_app.h"
-#include "config/app_config.h"
-
-using namespace mms;
-std::shared_ptr<MediaBridge> BridgeFactory::create_bridge(ThreadWorker *worker, 
-                                                         const std::string & id, 
-                                                         std::shared_ptr<PublishApp> app,
-                                                         std::weak_ptr<MediaSource> origin_source,
-                                                         const std::string & domain_name, 
-                                                         const std::string & app_name, 
-                                                         const std::string & stream_name) {
-    CORE_INFO("create bridge:{}", id);                                    
+using namespace cutesms;
+std::shared_ptr<MediaBridge> BridgeFactory::create_bridge(ThreadWorker *worker, const std::string &id,
+                                                          std::shared_ptr<PublishApp> app,
+                                                          std::weak_ptr<MediaSource> origin_source,
+                                                          const std::string &domain_name,
+                                                          const std::string &app_name,
+                                                          const std::string &stream_name) {
+    CORE_INFO("create bridge:{}", id);
     if (id == "rtmp-flv" && app->get_conf()->bridge_config().rtmp_to_flv()) {
         return std::make_shared<RtmpToFlv>(worker, app, origin_source, domain_name, app_name, stream_name);
     } else if (id == "rtmp-rtsp{rtp[es]}" && app->get_conf()->bridge_config().rtmp_to_rtsp()) {
@@ -73,6 +68,6 @@ std::shared_ptr<MediaBridge> BridgeFactory::create_bridge(ThreadWorker *worker,
         return std::make_shared<WebRtcToRtmp>(worker, app, origin_source, domain_name, app_name, stream_name);
     } else if (id == "webrtc{rtp[es]}-ts" && app->get_conf()->bridge_config().webrtc_to_hls()) {
         return std::make_shared<WebRtcToTs>(worker, app, origin_source, domain_name, app_name, stream_name);
-    } 
+    }
     return nullptr;
 }

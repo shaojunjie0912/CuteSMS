@@ -1,6 +1,7 @@
 /*
 @https://blog.csdn.net/u012538729/article/details/115694308
-USERNAME：用户名，用于消息完整性，在webrtc中的规则为 “对端的ice-ufrag：自己的ice-ufrag”，其中ice-ufrag已通过提议/应答的SDP信息进行交互。
+USERNAME：用户名，用于消息完整性，在webrtc中的规则为
+“对端的ice-ufrag：自己的ice-ufrag”，其中ice-ufrag已通过提议/应答的SDP信息进行交互。
 
 
 11.2.6 USERNAME
@@ -84,45 +85,34 @@ Internet-Draft                ICE SDP Usage                  August 2019
 
 #pragma once
 #include <string>
+
 #include "stun_define.hpp"
-namespace mms
-{
-    struct StunUsernameAttr : public StunMsgAttr
-    {
-        StunUsernameAttr(const std::string &local_user_name, const std::string &remote_user_name = "") : StunMsgAttr(STUN_ATTR_USERNAME), local_user_name_(local_user_name), remote_user_name_(remote_user_name)
-        {
-        }
 
-        StunUsernameAttr() = default;
+namespace cutesms {
+struct StunUsernameAttr : public StunMsgAttr {
+    StunUsernameAttr(const std::string &local_user_name, const std::string &remote_user_name = "")
+        : StunMsgAttr(STUN_ATTR_USERNAME),
+          local_user_name_(local_user_name),
+          remote_user_name_(remote_user_name) {}
 
-        size_t size();
+    StunUsernameAttr() = default;
 
-        int32_t encode(uint8_t *data, size_t len);
+    size_t size();
 
-        int32_t decode(uint8_t *data, size_t len);
+    int32_t encode(uint8_t *data, size_t len);
 
-        const std::string &get_local_user_name() const
-        {
-            return local_user_name_;
-        }
+    int32_t decode(uint8_t *data, size_t len);
 
-        void set_local_user_name(const std::string &username)
-        {
-            local_user_name_ = username;
-        }
+    const std::string &get_local_user_name() const { return local_user_name_; }
 
-        const std::string &get_remote_user_name() const
-        {
-            return remote_user_name_;
-        }
+    void set_local_user_name(const std::string &username) { local_user_name_ = username; }
 
-        void set_remote_user_name(const std::string &username)
-        {
-            remote_user_name_ = username;
-        }
+    const std::string &get_remote_user_name() const { return remote_user_name_; }
 
-    private:
-        std::string local_user_name_;
-        std::string remote_user_name_;
-    };
+    void set_remote_user_name(const std::string &username) { remote_user_name_ = username; }
+
+private:
+    std::string local_user_name_;
+    std::string remote_user_name_;
 };
+};  // namespace cutesms

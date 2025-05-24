@@ -3,24 +3,24 @@
  * @Date: 2023-07-02 10:56:58
  * @LastEditTime: 2023-12-31 14:29:47
  * @LastEditors: jbl19860422
- * @Description: 
- * @FilePath: \mms\mms\config\app_config.cpp
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved. 
+ * @Description:
+ * @FilePath: \cutesms\cutesms\config\app_config.cpp
+ * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
  */
+#include "app_config.h"
+
 #include <iostream>
 
-#include "log/log.h"
-#include "app_config.h"
-#include "config/cdn/origin_pull_config.h"
-#include "config/cdn/edge_push_config.h"
 #include "auth/auth_config.h"
-using namespace mms;
-AppConfig::AppConfig(const std::string & domain_name, std::weak_ptr<DomainConfig> domain_cfg) : domain_name_(domain_name), domain_cfg_(domain_cfg) {
-    
-}
+#include "config/cdn/edge_push_config.h"
+#include "config/cdn/origin_pull_config.h"
+#include "log/log.h"
 
-int32_t AppConfig::load_config(const YAML::Node & node)
-{
+using namespace cutesms;
+AppConfig::AppConfig(const std::string& domain_name, std::weak_ptr<DomainConfig> domain_cfg)
+    : domain_name_(domain_name), domain_cfg_(domain_cfg) {}
+
+int32_t AppConfig::load_config(const YAML::Node& node) {
     auto name_node = node["name"];
     if (!name_node.IsDefined()) {
         return -1;
@@ -38,7 +38,8 @@ int32_t AppConfig::load_config(const YAML::Node & node)
                 HttpCallbackConfig callback_config;
                 auto ret = callback_config.load_config(callback_node);
                 if (0 != ret) {
-                    CORE_ERROR("load on publish http callback config failed, domain:{}, app:{}, ret:{}", domain_name_, app_name_, ret);
+                    CORE_ERROR("load on publish http callback config failed, domain:{}, app:{}, ret:{}",
+                               domain_name_, app_name_, ret);
                     return -2;
                 }
                 on_publish_.push_back(callback_config);
@@ -52,7 +53,8 @@ int32_t AppConfig::load_config(const YAML::Node & node)
                 HttpCallbackConfig callback_config;
                 auto ret = callback_config.load_config(callback_node);
                 if (0 != ret) {
-                    CORE_ERROR("load on publish http callback config failed, domain:{}, app:{}, ret:{}", domain_name_, app_name_, ret);
+                    CORE_ERROR("load on publish http callback config failed, domain:{}, app:{}, ret:{}",
+                               domain_name_, app_name_, ret);
                     return -2;
                 }
                 on_unpublish_.push_back(callback_config);
@@ -83,7 +85,8 @@ int32_t AppConfig::load_config(const YAML::Node & node)
                     push_config->set_test_index(j);
                     auto ret = push_config->load(push_node);
                     if (0 != ret) {
-                        CORE_WARN("load push config failed, domain:{}, app:{}, ret:{}", domain_name_, app_name_, ret);
+                        CORE_WARN("load push config failed, domain:{}, app:{}, ret:{}", domain_name_,
+                                  app_name_, ret);
                         continue;
                     }
                     edge_push_configs_.push_back(push_config);
@@ -105,7 +108,7 @@ int32_t AppConfig::load_config(const YAML::Node & node)
             }
         }
     }
-    
+
     auto publish_auth_node = node["publish_auth_check"];
     if (publish_auth_node.IsDefined()) {
         auto publish_auth = std::make_shared<AuthConfig>();

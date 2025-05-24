@@ -1,6 +1,5 @@
 // RFC 5389                          STUN                      October 2008
 
-
 // 15.5.  FINGERPRINT
 
 //    The FINGERPRINT attribute MAY be present in all STUN messages.  The
@@ -28,78 +27,67 @@
 //    done over the value of the MESSAGE-INTEGRITY attribute as well.
 
 #pragma once
-#include <string>
-#include "stun_define.hpp"
-#include "base/utils/utils.h"
 #include <iostream>
-namespace mms {
-    struct StunFingerPrintAttr : public StunMsgAttr
-    {
-        StunFingerPrintAttr(uint8_t *data, size_t len) : StunMsgAttr(STUN_ATTR_FINGERPRINT)
-        {
-            crc32 = Utils::get_crc32(data, len) ^ 0x5354554e;
+#include <string>
+
+#include "base/utils/utils.h"
+#include "stun_define.hpp"
+
+namespace cutesms {
+struct StunFingerPrintAttr : public StunMsgAttr {
+    StunFingerPrintAttr(uint8_t *data, size_t len) : StunMsgAttr(STUN_ATTR_FINGERPRINT) {
+        crc32 = Utils::get_crc32(data, len) ^ 0x5354554e;
+    }
+
+    StunFingerPrintAttr() = default;
+
+    size_t size() { return StunMsgAttr::size() + sizeof(uint32_t); }
+
+    int32_t encode(uint8_t *data, size_t len) {
+        length = sizeof(uint32_t);
+        uint8_t *data_start = data;
+        int32_t consumed = StunMsgAttr::encode(data, len);
+        if (consumed < 0) {
+            return -1;
+        }
+        data += consumed;
+        len -= consumed;
+        if (len < sizeof(uint32_t)) {
+            return -2;
+        }
+        *(uint32_t *)data = htonl(crc32);
+        data += sizeof(uint32_t);
+        return data - data_start;
+    }
+
+    int32_t decode(uint8_t *data, size_t len) {
+        uint8_t *data_start = data;
+        int32_t consumed = StunMsgAttr::decode(data, len);
+        if (consumed < 0) {
+            return -1;
+        }
+        data += consumed;
+        len -= consumed;
+
+        if (len < sizeof(uint32_t)) {
+            return -2;
         }
 
-        StunFingerPrintAttr() = default;
-        
-        size_t size()
-        {
-            return StunMsgAttr::size() + sizeof(uint32_t);
+        if (length != sizeof(uint32_t)) {
+            return -3;
         }
 
-        int32_t encode(uint8_t *data, size_t len)
-        {
-            length = sizeof(uint32_t);
-            uint8_t *data_start = data;
-            int32_t consumed = StunMsgAttr::encode(data, len);
-            if (consumed < 0)
-            {
-                return -1;
-            }
-            data += consumed;
-            len -= consumed;
-            if (len < sizeof(uint32_t))
-            {
-                return -2;
-            }
-            *(uint32_t *)data = htonl(crc32);
-            data += sizeof(uint32_t);
-            return data - data_start;
-        }
+        crc32 = ntohl(*(uint32_t *)data);
+        data += 4;
+        return data - data_start;
+    }
 
-        int32_t decode(uint8_t *data, size_t len)
-        {
-            uint8_t *data_start = data;
-            int32_t consumed = StunMsgAttr::decode(data, len);
-            if (consumed < 0)
-            {
-                return -1;
-            }
-            data += consumed;
-            len -= consumed;
+    bool check(uint8_t *data, size_t len) {
+        len -= 8;  // 去掉fingerprint本身长度
+        uint32_t crc32_check = Utils::get_crc32(data, len) ^ 0x5354554e;
+        return crc32 == crc32_check;
+    }
 
-            if (len < sizeof(uint32_t))
-            {
-                return -2;
-            }
-
-            if (length != sizeof(uint32_t))
-            {
-                return -3;
-            }
-
-            crc32 = ntohl(*(uint32_t *)data);
-            data += 4;
-            return data - data_start;
-        }
-
-        bool check(uint8_t *data, size_t len)
-        {
-            len -= 8;//去掉fingerprint本身长度
-            uint32_t crc32_check = Utils::get_crc32(data, len) ^ 0x5354554e;
-            return crc32 == crc32_check;
-        }
-
-        uint32_t crc32;
-    };
+    uint32_t crc32;
 };
+};  // namespace cutesms

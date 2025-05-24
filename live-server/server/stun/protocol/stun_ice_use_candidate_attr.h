@@ -13,13 +13,9 @@ The USE-CANDIDATE attribute indicates that the candidate pair
 */
 #pragma once
 #include "stun_define.hpp"
-namespace mms {
-struct StunIceUseCandidateAttr : public StunMsgAttr
-{
-    StunIceUseCandidateAttr() : StunMsgAttr(STUN_ICE_ATTR_USE_CANDIDATE)
-    {
-        
-    }
+namespace cutesms {
+struct StunIceUseCandidateAttr : public StunMsgAttr {
+    StunIceUseCandidateAttr() : StunMsgAttr(STUN_ICE_ATTR_USE_CANDIDATE) {}
 
     size_t size();
 
@@ -27,4 +23,4 @@ struct StunIceUseCandidateAttr : public StunMsgAttr
 
     int32_t decode(uint8_t *data, size_t len);
 };
-};
+};  // namespace cutesms

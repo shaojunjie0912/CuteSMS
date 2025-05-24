@@ -1,15 +1,16 @@
+#include "log.h"
+
 #include <filesystem>
 
-#include "log.h"
-#include "spdlog/sinks/stdout_sinks.h"
-#include "spdlog/sinks/stdout_color_sinks.h"
-#include "spdlog/sinks/basic_file_sink.h"
-#include "spdlog/sinks/rotating_file_sink.h"
-#include "spdlog/sinks/daily_file_sink.h"
-
 #include "base/utils/utils.h"
+#include "spdlog/sinks/basic_file_sink.h"
+#include "spdlog/sinks/daily_file_sink.h"
+#include "spdlog/sinks/rotating_file_sink.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
+#include "spdlog/sinks/stdout_sinks.h"
 
-using namespace mms;
+
+using namespace cutesms;
 std::shared_ptr<spdlog::logger> Log::core_logger_;
 std::shared_ptr<spdlog::logger> Log::hls_logger_;
 spdlog::logger *Log::ptr_core_logger_ = nullptr;

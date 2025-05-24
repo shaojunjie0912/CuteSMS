@@ -1,51 +1,43 @@
-#include <iostream>
 #include "stun_ice_priority_attr.h"
-using namespace mms;
 
-size_t StunIcePriorityAttr::size()
-{
-    return StunMsgAttr::size() + 4;
-}
+#include <iostream>
 
-int32_t StunIcePriorityAttr::encode(uint8_t *data, size_t len)
-{
+using namespace cutesms;
+
+size_t StunIcePriorityAttr::size() { return StunMsgAttr::size() + 4; }
+
+int32_t StunIcePriorityAttr::encode(uint8_t *data, size_t len) {
     length = 4;
     uint8_t *data_start = data;
     int32_t consumed = StunMsgAttr::encode(data, len);
-    if (consumed < 0)
-    {
+    if (consumed < 0) {
         return -1;
     }
     data += consumed;
     len -= consumed;
-    if (len < length)
-    {
+    if (len < length) {
         return -2;
     }
-    
+
     *(uint32_t *)data = htonl(priority_);
     data += 4;
     return data - data_start;
 }
 
-int32_t StunIcePriorityAttr::decode(uint8_t *data, size_t len)
-{
+int32_t StunIcePriorityAttr::decode(uint8_t *data, size_t len) {
     uint8_t *data_start = data;
     int32_t consumed = StunMsgAttr::decode(data, len);
-    if (consumed < 0)
-    {
+    if (consumed < 0) {
         return -1;
     }
     data += consumed;
     len -= consumed;
 
-    if (len < 4)
-    {
+    if (len < 4) {
         return -2;
     }
 
-    if (length != 4) 
-    {
+    if (length != 4) {
         return -3;
     }
 

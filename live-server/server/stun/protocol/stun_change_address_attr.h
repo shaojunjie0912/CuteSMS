@@ -1,14 +1,10 @@
 #pragma once
-namespace mms
-{
-    struct StunChangeAddressAttr : public StunMsgAttr
-    {
-        StunChangeAddressAttr() : StunMsgAttr(STUN_ATTR_CHANGED_ADDRESS)
-        {
-        }
+namespace cutesms {
+struct StunChangeAddressAttr : public StunMsgAttr {
+    StunChangeAddressAttr() : StunMsgAttr(STUN_ATTR_CHANGED_ADDRESS) {}
 
-        uint8_t family; // always 0x01
-        uint16_t port;
-        uint32_t address;
-    };
+    uint8_t family;  // always 0x01
+    uint16_t port;
+    uint32_t address;
 };
+};  // namespace cutesms

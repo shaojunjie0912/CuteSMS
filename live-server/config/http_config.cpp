@@ -1,16 +1,14 @@
 #include "http_config.h"
+
 #include "log/log.h"
-using namespace mms;
 
-StaticFileServerConfig::StaticFileServerConfig() {
+using namespace cutesms;
 
-}
+StaticFileServerConfig::StaticFileServerConfig() {}
 
-StaticFileServerConfig::~StaticFileServerConfig() {
+StaticFileServerConfig::~StaticFileServerConfig() {}
 
-}
-
-int32_t StaticFileServerConfig::load(const YAML::Node & config) {
+int32_t StaticFileServerConfig::load(const YAML::Node& config) {
     YAML::Node enabled = config["enabled"];
     if (enabled.IsDefined()) {
         enabled_ = enabled.as<bool>();
@@ -26,19 +24,15 @@ int32_t StaticFileServerConfig::load(const YAML::Node & config) {
     return 0;
 }
 
-const std::unordered_map<std::string, std::string> & StaticFileServerConfig::get_path_map() const {
+const std::unordered_map<std::string, std::string>& StaticFileServerConfig::get_path_map() const {
     return path_map_;
 }
 
-HttpConfig::HttpConfig() {
+HttpConfig::HttpConfig() {}
 
-}
+HttpConfig::~HttpConfig() {}
 
-HttpConfig::~HttpConfig() {
-
-}
-
-int32_t HttpConfig::load(const YAML::Node & config) {
+int32_t HttpConfig::load(const YAML::Node& config) {
     YAML::Node enabled = config["enabled"];
     if (enabled.IsDefined()) {
         enabled_ = enabled.as<bool>();
@@ -59,6 +53,6 @@ int32_t HttpConfig::load(const YAML::Node & config) {
     return 0;
 }
 
-const StaticFileServerConfig & HttpConfig::get_static_file_server_config() const {
+const StaticFileServerConfig& HttpConfig::get_static_file_server_config() const {
     return static_file_server_config_;
 }

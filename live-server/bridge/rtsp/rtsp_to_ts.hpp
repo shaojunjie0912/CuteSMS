@@ -3,33 +3,31 @@
  * @Date: 2023-08-31 23:19:56
  * @LastEditTime: 2023-11-07 20:50:53
  * @LastEditors: jbl19860422
- * @Description: 
- * @FilePath: \mms\mms\server\transcode\rtmp_to_ts.hpp
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved. 
+ * @Description:
+ * @FilePath: \cutesms\cutesms\server\transcode\rtmp_to_ts.hpp
+ * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
  */
-#pragma once 
-#include <vector>
+#pragma once
 #include <list>
 #include <memory>
 #include <shared_mutex>
+#include <vector>
 
-#include "protocol/rtp/rtp_h264_depacketizer.h"
-#include "protocol/rtp/rtp_h265_depacketizer.h"
-#include "protocol/rtp/rtp_aac_depacketizer.h"
-
-#include "rtmp_define.hpp"
 #include "../media_bridge.hpp"
+#include "../rtmp/rtmp_to_ts.hpp"
+#include "base/wait_group.h"
 #include "core/rtmp_media_sink.hpp"
 #include "core/ts_media_source.hpp"
-#include "protocol/ts/ts_pat_pmt.hpp"
-#include "../rtmp/rtmp_to_ts.hpp"
-#include "protocol/rtp/rtp_packet.h"
-#include "protocol/rtp/rtp_aac_depacketizer.h"
-#include "protocol/rtp/rtp_aac_nalu.h"
+#include "protocol_rtmp/rtmp_define.hpp"
+#include "protocol_rtp/rtp_aac_depacketizer.h"
+#include "protocol_rtp/rtp_aac_nalu.h"
+#include "protocol_rtp/rtp_h264_depacketizer.h"
+#include "protocol_rtp/rtp_h265_depacketizer.h"
+#include "protocol_rtp/rtp_packet.h"
+#include "protocol_ts/ts_pat_pmt.hpp"
 
-#include "base/wait_group.h"
 
-namespace mms {
+namespace cutesms {
 class RtmpMetaDataMessage;
 class Codec;
 class PublishApp;
@@ -50,8 +48,10 @@ class AACEncoder;
 
 class RtspToTs : public MediaBridge {
 public:
-    RtspToTs(ThreadWorker *worker, std::shared_ptr<PublishApp> app, std::weak_ptr<MediaSource> origin_source, const std::string & domain_name, const std::string & app_name, const std::string & stream_name);
+    RtspToTs(ThreadWorker *worker, std::shared_ptr<PublishApp> app, std::weak_ptr<MediaSource> origin_source,
+             const std::string &domain_name, const std::string &app_name, const std::string &stream_name);
     virtual ~RtspToTs();
+
 public:
     bool init() override;
     void process_video_packet(std::shared_ptr<RtpPacket> pkt);
@@ -60,8 +60,10 @@ public:
     void process_audio_packet(std::shared_ptr<RtpPacket> pkt, int64_t timestamp);
     void on_ts_segment(std::shared_ptr<TsSegment> ts_seg);
     void close() override;
+
 private:
     std::shared_ptr<TsSegment> curr_seg_;
+
 private:
     std::shared_ptr<TsMediaSource> ts_media_source_;
     std::shared_ptr<RtpMediaSink> rtp_media_sink_;
@@ -78,12 +80,12 @@ private:
     int16_t PCR_PID = -1;
     TsStream video_type_;
     TsStream audio_type_;
-    void generate_h264_ts(int64_t timestamp, std::shared_ptr<RtpH264NALU> & nalu);
-    void generate_h265_ts(int64_t timestamp, std::shared_ptr<RtpH265NALU> & nalu);
+    void generate_h264_ts(int64_t timestamp, std::shared_ptr<RtpH264NALU> &nalu);
+    void generate_h265_ts(int64_t timestamp, std::shared_ptr<RtpH265NALU> &nalu);
     void process_aac_packet(std::shared_ptr<RtpPacket> audio_pkt, int64_t timestamp);
     void generate_aac_ts(int64_t timestamp, std::shared_ptr<RtpAACNALU> nalu);
-    void create_pat(std::string_view & pat_seg);
-    void create_pmt(std::string_view & pmt_seg);
+    void create_pat(std::string_view &pat_seg);
+    void create_pmt(std::string_view &pmt_seg);
     void create_video_ts(std::shared_ptr<PESPacket> pes_packet, int32_t pes_len, bool is_key);
     void create_audio_ts(std::shared_ptr<PESPacket> pes_packet);
     std::unordered_map<int16_t, uint8_t> continuity_counter_;
@@ -110,7 +112,7 @@ private:
 
     double video_fps_ = 25;
     uint32_t video_dts_ = 0;
-    
+
     WaitGroup wg_;
 };
-};
+};  // namespace cutesms

@@ -1,9 +1,10 @@
-#include <memory>
-#include <atomic>
 #include <array>
+#include <atomic>
+#include <memory>
 
-#include "server/session.hpp"
-namespace mms {
+#include "base/network/session.hpp"
+
+namespace cutesms {
 class WebSocketPacket;
 class SocketInterface;
 
@@ -13,9 +14,9 @@ public:
     virtual ~WebSocketServerSession();
     void service() override;
     void close() override;
+
 private:
     std::shared_ptr<SocketInterface> sock_;
     std::shared_ptr<WebSocketPacket> packet_;
-    
 };
-};
+};  // namespace cutesms

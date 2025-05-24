@@ -3,39 +3,38 @@
  * @Date: 2023-09-16 10:32:17
  * @LastEditTime: 2023-12-27 21:23:40
  * @LastEditors: jbl19860422
- * @Description: 
- * @FilePath: \mms\mms\server\http\http_server_session.hpp
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved. 
+ * @Description:
+ * @FilePath: \cutesms\cutesms\server\http\http_server_session.hpp
+ * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
  */
 #pragma once
-#include <memory>
-#include <atomic>
 #include <array>
-#include <list>
-
+#include <atomic>
 #include <boost/asio/co_spawn.hpp>
 #include <boost/asio/detached.hpp>
-#include <boost/asio/use_awaitable.hpp>
 #include <boost/asio/redirect_error.hpp>
+#include <boost/asio/use_awaitable.hpp>
+#include <list>
+#include <memory>
 
-#include "protocol/http/http_parser.hpp"
-#include "protocol/http/http_define.h"
-#include "protocol/http/http_request.hpp"
-#include "server/session.hpp"
-#include "core/rtmp_media_sink.hpp"
-#include "protocol/http/http_response.hpp"
-#include "websocket_server_session.hpp"
-#include "log/log.h"
+#include "base/network/session.hpp"
 #include "base/wait_group.h"
+#include "core/rtmp_media_sink.hpp"
+#include "log/log.h"
+#include "protocol_http/http_define.h"
+#include "protocol_http/http_parser.hpp"
+#include "protocol_http/http_request.hpp"
+#include "protocol_http/http_response.hpp"
+#include "websocket_server_session.hpp"
 
-namespace mms {
+namespace cutesms {
 class HttpServerSession;
 class SocketInterface;
 
 class HttpRequestHandler {
 public:
-    virtual boost::asio::awaitable<bool> on_new_request(std::shared_ptr<HttpServerSession> session, 
-                                                        std::shared_ptr<HttpRequest> req, 
+    virtual boost::asio::awaitable<bool> on_new_request(std::shared_ptr<HttpServerSession> session,
+                                                        std::shared_ptr<HttpRequest> req,
                                                         std::shared_ptr<HttpResponse> resp) = 0;
 };
 
@@ -51,10 +50,12 @@ public:
     boost::asio::awaitable<void> on_http_request(std::shared_ptr<HttpRequest> req);
     boost::asio::awaitable<void> process_one_req(std::shared_ptr<HttpRequest> req);
     boost::asio::awaitable<void> close_or_do_next_req();
+
 protected:
     boost::asio::awaitable<void> cycle_recv();
-    boost::asio::awaitable<std::pair<bool,int32_t>> parse_recv_buf(const char *buf, int32_t len);
+    boost::asio::awaitable<std::pair<bool, int32_t>> parse_recv_buf(const char *buf, int32_t len);
     bool is_websocket_req(std::shared_ptr<HttpRequest> req);
+
 protected:
     HttpRequestHandler *request_handler_;
     std::shared_ptr<SocketInterface> sock_;
@@ -62,6 +63,7 @@ protected:
     std::shared_ptr<HttpRequest> curr_req_;
     std::list<std::shared_ptr<HttpRequest>> reqs_;
     bool is_websocket_ = false;
+
 protected:
     std::unique_ptr<char[]> buf_;
     int32_t buf_size_ = 0;
@@ -69,4 +71,4 @@ protected:
     WaitGroup wg_;
 };
 
-};
+};  // namespace cutesms

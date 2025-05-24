@@ -3,61 +3,67 @@
  * @Date: 2023-07-02 10:56:58
  * @LastEditTime: 2023-12-27 12:49:11
  * @LastEditors: jbl19860422
- * @Description: 
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved. 
+ * @Description:
+ * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
  */
+
+#include "rtmp_media_sink.hpp"
 
 #include <boost/asio/co_spawn.hpp>
 #include <boost/asio/detached.hpp>
-#include <boost/asio/use_awaitable.hpp>
 #include <boost/asio/redirect_error.hpp>
+#include <boost/asio/use_awaitable.hpp>
 
-#include "rtmp_media_sink.hpp"
-#include "rtmp_media_source.hpp"
 #include "log/log.h"
+#include "rtmp_media_source.hpp"
 
-using namespace mms;
 
-RtmpMediaSink::RtmpMediaSink(ThreadWorker *worker) : LazyMediaSink(worker) {
-}
+using namespace cutesms;
 
-bool RtmpMediaSink::init() {
-    return true;
-}
+RtmpMediaSink::RtmpMediaSink(ThreadWorker *worker) : LazyMediaSink(worker) {}
 
-RtmpMediaSink::~RtmpMediaSink() {
-    CORE_DEBUG("destroy rtmp media sink");
-}
+bool RtmpMediaSink::init() { return true; }
+
+RtmpMediaSink::~RtmpMediaSink() { CORE_DEBUG("destroy rtmp media sink"); }
 
 bool RtmpMediaSink::on_audio_packet(std::shared_ptr<RtmpMessage> audio_pkt) {
     auto self(this->shared_from_this());
-    boost::asio::co_spawn(worker_->get_io_context(), [this, self, audio_pkt]()->boost::asio::awaitable<void> {
-        std::vector<std::shared_ptr<RtmpMessage>> v = {audio_pkt};
-        co_await rtmp_msg_cb_(v);
-        co_return;
-    }, boost::asio::detached);
+    boost::asio::co_spawn(
+        worker_->get_io_context(),
+        [this, self, audio_pkt]() -> boost::asio::awaitable<void> {
+            std::vector<std::shared_ptr<RtmpMessage>> v = {audio_pkt};
+            co_await rtmp_msg_cb_(v);
+            co_return;
+        },
+        boost::asio::detached);
     return true;
 }
 
 bool RtmpMediaSink::on_video_packet(std::shared_ptr<RtmpMessage> video_pkt) {
     auto self(this->shared_from_this());
-    boost::asio::co_spawn(worker_->get_io_context(), [this, self, video_pkt]()->boost::asio::awaitable<void> {
-        std::vector<std::shared_ptr<RtmpMessage>> v = {video_pkt};
-        co_await rtmp_msg_cb_(v);
-        co_return;
-    }, boost::asio::detached);
+    boost::asio::co_spawn(
+        worker_->get_io_context(),
+        [this, self, video_pkt]() -> boost::asio::awaitable<void> {
+            std::vector<std::shared_ptr<RtmpMessage>> v = {video_pkt};
+            co_await rtmp_msg_cb_(v);
+            co_return;
+        },
+        boost::asio::detached);
     return true;
 }
 
 bool RtmpMediaSink::on_metadata(std::shared_ptr<RtmpMessage> metadata_pkt) {
     auto self(this->shared_from_this());
-    boost::asio::co_spawn(worker_->get_io_context(), [this, self, metadata_pkt]()->boost::asio::awaitable<void> {
-        std::vector<std::shared_ptr<RtmpMessage>> v = {metadata_pkt};
-        co_await rtmp_msg_cb_(v);
-        co_return;
-    }, boost::asio::detached);
+    boost::asio::co_spawn(
+        worker_->get_io_context(),
+        [this, self, metadata_pkt]() -> boost::asio::awaitable<void> {
+            std::vector<std::shared_ptr<RtmpMessage>> v = {metadata_pkt};
+            co_await rtmp_msg_cb_(v);
+            co_return;
+        },
+        boost::asio::detached);
     return true;
-} 
+}
 
 boost::asio::awaitable<void> RtmpMediaSink::do_work() {
     if (!source_->is_stream_ready()) {
@@ -82,7 +88,9 @@ boost::asio::awaitable<void> RtmpMediaSink::do_work() {
     co_return;
 }
 
-void RtmpMediaSink::on_rtmp_message(const std::function<boost::asio::awaitable<bool>(const std::vector<std::shared_ptr<RtmpMessage>> & msgs)> & cb) {
+void RtmpMediaSink::on_rtmp_message(
+    const std::function<boost::asio::awaitable<bool>(const std::vector<std::shared_ptr<RtmpMessage>> &msgs)>
+        &cb) {
     rtmp_msg_cb_ = cb;
 }
 

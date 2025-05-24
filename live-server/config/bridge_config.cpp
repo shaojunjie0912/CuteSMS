@@ -1,17 +1,16 @@
-#include <boost/algorithm/string.hpp>
 #include "bridge_config.h"
+
+#include <boost/algorithm/string.hpp>
+
 #include "log/log.h"
-using namespace mms;
 
-BridgeConfig::BridgeConfig() {
+using namespace cutesms;
 
-}
+BridgeConfig::BridgeConfig() {}
 
-BridgeConfig::~BridgeConfig() {
+BridgeConfig::~BridgeConfig() {}
 
-}
-
-int32_t BridgeConfig::load(const YAML::Node & config) {
+int32_t BridgeConfig::load(const YAML::Node& config) {
     auto no_players_timeout = config["no_players_timeout"];
     try {
         if (no_players_timeout.IsDefined()) {
@@ -21,10 +20,10 @@ int32_t BridgeConfig::load(const YAML::Node & config) {
                 no_players_timeout_ms_ = std::atoi(s.c_str());
             } else if (sno_players_timeout.ends_with("s")) {
                 auto s = sno_players_timeout.substr(0, sno_players_timeout.size() - 2);
-                no_players_timeout_ms_ = std::atoi(s.c_str())*1000;
+                no_players_timeout_ms_ = std::atoi(s.c_str()) * 1000;
             }
         }
-    } catch (std::exception & exp) {
+    } catch (std::exception& exp) {
         CORE_ERROR("read no_players_timeout failed");
         return -1;
     }
@@ -59,7 +58,6 @@ int32_t BridgeConfig::load(const YAML::Node & config) {
             rtmp_to_webrtc_ = v == "on";
         }
     }
-    
 
     //================= flv =====================
     YAML::Node flv = config["flv"];
@@ -92,7 +90,7 @@ int32_t BridgeConfig::load(const YAML::Node & config) {
             flv_to_webrtc_ = v == "on";
         }
     }
-    
+
     //================= rtsp =====================
     YAML::Node rtsp = config["rtsp"];
     if (rtsp.IsDefined()) {
@@ -124,7 +122,7 @@ int32_t BridgeConfig::load(const YAML::Node & config) {
             rtsp_to_webrtc_ = v == "on";
         }
     }
-    
+
     //================= webrtc =====================
     YAML::Node webrtc = config["webrtc"];
     if (webrtc.IsDefined()) {
@@ -156,6 +154,6 @@ int32_t BridgeConfig::load(const YAML::Node & config) {
             webrtc_to_rtsp_ = v == "on";
         }
     }
-    
+
     return 0;
 }

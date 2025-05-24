@@ -3,23 +3,25 @@
  * @Date: 2023-09-16 10:32:17
  * @LastEditTime: 2023-12-06 22:04:43
  * @LastEditors: jbl19860422
- * @Description: 
- * @FilePath: \mms\mms\server\http\https_server_base.cpp
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved. 
+ * @Description:
+ * @FilePath: \cutesms\cutesms\server\http\https_server_base.cpp
+ * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
  */
 
-#include <boost/shared_ptr.hpp>
-#include <memory>
-#include <fstream>
+#include "https_server_base.hpp"
 
-#include "log/log.h"
+#include <boost/shared_ptr.hpp>
+#include <fstream>
+#include <memory>
+
 #include "base/thread/thread_pool.hpp"
 #include "base/utils/utils.h"
-#include "https_server_base.hpp"
-#include "http_server_session.hpp"
 #include "config/config.h"
+#include "http_server_session.hpp"
+#include "log/log.h"
 #include "ws_conn.hpp"
-using namespace mms;
+
+using namespace cutesms;
 
 HttpsServerBase::HttpsServerBase(ThreadWorker *w) {
     tls_server_ = std::make_unique<TlsServer>(this, this, w);
@@ -35,18 +37,14 @@ bool HttpsServerBase::start(uint16_t port) {
     if (0 != ret) {
         CORE_ERROR("start https server failed, code:{}", ret);
         return false;
-    } 
-    
+    }
+
     return true;
 }
 
-HttpsServerBase::~HttpsServerBase() {
+HttpsServerBase::~HttpsServerBase() {}
 
-}
-
-void HttpsServerBase::stop() {
-    tls_server_->stop_listen();
-}
+void HttpsServerBase::stop() { tls_server_->stop_listen(); }
 
 void HttpsServerBase::on_socket_open(std::shared_ptr<SocketInterface> tls_socket) {
     std::shared_ptr<HttpServerSession> s = std::make_shared<HttpServerSession>(this, tls_socket);
@@ -55,40 +53,44 @@ void HttpsServerBase::on_socket_open(std::shared_ptr<SocketInterface> tls_socket
 }
 
 void HttpsServerBase::on_socket_close(std::shared_ptr<SocketInterface> tls_socket) {
-    std::shared_ptr<HttpServerSession> s = std::static_pointer_cast<HttpServerSession>(tls_socket->get_session());
+    std::shared_ptr<HttpServerSession> s =
+        std::static_pointer_cast<HttpServerSession>(tls_socket->get_session());
     tls_socket->clear_session();
     if (s) {
         s->close();
     }
 }
 
-bool HttpsServerBase::register_route() {
-    return true;
-}
+bool HttpsServerBase::register_route() { return true; }
 
-bool HttpsServerBase::on_get(const std::string & path, const HTTPS_HANDLER & handler) {
+bool HttpsServerBase::on_get(const std::string &path, const HTTPS_HANDLER &handler) {
     return get_route_tree_.add_route(path, handler);
 }
 
-bool HttpsServerBase::on_post(const std::string & path, const HTTPS_HANDLER & handler) {
+bool HttpsServerBase::on_post(const std::string &path, const HTTPS_HANDLER &handler) {
     return post_route_tree_.add_route(path, handler);
 }
 
-bool HttpsServerBase::on_websocket(const std::string & path, const WS_HANDLER & handler) {
+bool HttpsServerBase::on_websocket(const std::string &path, const WS_HANDLER &handler) {
     return websocket_route_tree_.add_route(path, handler);
 }
 
-bool HttpsServerBase::on_static_fs(const std::string & path, const std::string & root_path) {
+bool HttpsServerBase::on_static_fs(const std::string &path, const std::string &root_path) {
     if (!boost::ends_with(path, "/*")) {
         spdlog::error("create static fs failed, path:{} is not end with *", path);
         return false;
     }
 
     std::string prefix = path.substr(0, path.size() - 1);
-    return get_route_tree_.add_route(path, std::bind(&HttpsServerBase::static_fs_handler, this, root_path, prefix, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+    return get_route_tree_.add_route(
+        path, std::bind(&HttpsServerBase::static_fs_handler, this, root_path, prefix, std::placeholders::_1,
+                        std::placeholders::_2, std::placeholders::_3));
 }
 
-boost::asio::awaitable<void> HttpsServerBase::static_fs_handler(std::string root_path, std::string prefix, std::shared_ptr<HttpServerSession> session, std::shared_ptr<HttpRequest> req, std::shared_ptr<HttpResponse> resp) {
+boost::asio::awaitable<void> HttpsServerBase::static_fs_handler(std::string root_path, std::string prefix,
+                                                                std::shared_ptr<HttpServerSession> session,
+                                                                std::shared_ptr<HttpRequest> req,
+                                                                std::shared_ptr<HttpResponse> resp) {
     (void)session;
     spdlog::info("get static file request, path:{}", prefix + req->get_path_param("*"));
     std::ifstream file;
@@ -117,7 +119,7 @@ boost::asio::awaitable<void> HttpsServerBase::static_fs_handler(std::string root
         resp->close();
         co_return;
     }
-    
+
     resp->add_header("Content-Type", it_content_type->second);
     resp->add_header("Connection", "close");
     file.seekg(0, std::ios::end);
@@ -131,7 +133,7 @@ boost::asio::awaitable<void> HttpsServerBase::static_fs_handler(std::string root
         co_return;
     }
 
-    bool ret = co_await resp->write_data((uint8_t*)body.get(), length);
+    bool ret = co_await resp->write_data((uint8_t *)body.get(), length);
     if (!ret) {
         resp->close();
         co_return;
@@ -140,9 +142,11 @@ boost::asio::awaitable<void> HttpsServerBase::static_fs_handler(std::string root
     co_return;
 }
 
-boost::asio::awaitable<bool> HttpsServerBase::on_new_request(std::shared_ptr<HttpServerSession> session, std::shared_ptr<HttpRequest> req, std::shared_ptr<HttpResponse> resp) {
-    switch(req->get_method()) {
-        case GET : {
+boost::asio::awaitable<bool> HttpsServerBase::on_new_request(std::shared_ptr<HttpServerSession> session,
+                                                             std::shared_ptr<HttpRequest> req,
+                                                             std::shared_ptr<HttpResponse> resp) {
+    switch (req->get_method()) {
+        case GET: {
             if (is_websocket_req(req)) {
                 auto handler = websocket_route_tree_.get_route(req->get_path(), req->path_params());
                 if (!handler.has_value()) {
@@ -163,7 +167,7 @@ boost::asio::awaitable<bool> HttpsServerBase::on_new_request(std::shared_ptr<Htt
                     if (!protocol.empty()) {
                         resp->add_header("Sec-WebSocket-Protocol", protocol);
                     }
-                    
+
                     if (!co_await resp->write_header(101, "Switching Protocols")) {
                         resp->close();
                         co_return false;
@@ -174,7 +178,7 @@ boost::asio::awaitable<bool> HttpsServerBase::on_new_request(std::shared_ptr<Htt
                 }
             } else {
                 auto handler = get_route_tree_.get_route(req->get_path(), req->path_params());
-                if (!handler.has_value()) {//404
+                if (!handler.has_value()) {  // 404
                     resp->add_header("Connection", "close");
                     co_await resp->write_header(404, "Not Found");
                     resp->close();
@@ -184,7 +188,7 @@ boost::asio::awaitable<bool> HttpsServerBase::on_new_request(std::shared_ptr<Htt
             }
             break;
         }
-        default : {
+        default: {
             break;
         }
     }
@@ -192,27 +196,27 @@ boost::asio::awaitable<bool> HttpsServerBase::on_new_request(std::shared_ptr<Htt
 }
 
 bool HttpsServerBase::is_websocket_req(std::shared_ptr<HttpRequest> req) {
-    auto & host = req->get_header("Host");
+    auto &host = req->get_header("Host");
     if (host.empty()) {
         return false;
     }
 
-    auto & upgrade = req->get_header("Upgrade");
+    auto &upgrade = req->get_header("Upgrade");
     if (upgrade != "websocket") {
         return false;
     }
 
-    auto & connection = req->get_header("Connection");
+    auto &connection = req->get_header("Connection");
     if (connection != "Upgrade") {
         return false;
     }
 
-    auto & sec_websocket_key = req->get_header("Sec-WebSocket-Key");
+    auto &sec_websocket_key = req->get_header("Sec-WebSocket-Key");
     if (sec_websocket_key.empty()) {
         return false;
     }
 
-    auto & sec_websocket_version = req->get_header("Sec-WebSocket-Version");
+    auto &sec_websocket_version = req->get_header("Sec-WebSocket-Version");
     if (sec_websocket_version.empty()) {
         return false;
     }
@@ -222,7 +226,7 @@ bool HttpsServerBase::is_websocket_req(std::shared_ptr<HttpRequest> req) {
         if (isec_websocket_version != 13) {
             return false;
         }
-    } catch (std::exception & e) {
+    } catch (std::exception &e) {
         return false;
     }
 

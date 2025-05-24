@@ -3,33 +3,31 @@
  * @Date: 2023-07-22 13:24:41
  * @LastEditTime: 2023-07-22 15:39:31
  * @LastEditors: jbl19860422
- * @Description: 
- * @FilePath: \mms\mms\config\domain_config.cpp
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved. 
+ * @Description:
+ * @FilePath: \cutesms\cutesms\config\domain_config.cpp
+ * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
  */
+#include "domain_config.h"
+
 #include <iostream>
 
-#include "domain_config.h"
-#include "yaml-cpp/yaml.h"
-#include "app_config.h"
-#include "app/app_manager.h"
 #include "app/app.h"
-#include "app/publish_app.h"
+#include "app/app_manager.h"
 #include "app/play_app.h"
-
+#include "app/publish_app.h"
+#include "app_config.h"
 #include "certs/certs_manager.h"
-
-#include "spdlog/spdlog.h"
 #include "config.h"
 #include "log/log.h"
+#include "spdlog/spdlog.h"
+#include "yaml-cpp/yaml.h"
 
-using namespace mms;
 
-DomainConfig::DomainConfig(Config & top_conf) : top_conf_(top_conf) {
+using namespace cutesms;
 
-}
+DomainConfig::DomainConfig(Config& top_conf) : top_conf_(top_conf) {}
 
-bool DomainConfig::load_config(const std::string & file) {
+bool DomainConfig::load_config(const std::string& file) {
     YAML::Node config = YAML::LoadFile(file);
     auto type_node = config["type"];
     if (!type_node.IsDefined()) {
@@ -83,14 +81,15 @@ bool DomainConfig::load_config(const std::string & file) {
 
     auto app_names = AppManager::get_instance().get_domain_apps_name(domain_name_);
     std::unordered_map<std::string, bool> app_exist_map;
-    for (auto & app_name : app_names) {
+    for (auto& app_name : app_names) {
         app_exist_map[app_name] = false;
     }
 
     auto apps = config["apps"];
     for (size_t i = 0; i < apps.size(); i++) {
         YAML::Node app_node = apps[i];
-        std::shared_ptr<AppConfig> app_config = std::make_shared<AppConfig>(domain_name_, std::weak_ptr<DomainConfig>(shared_from_this()));
+        std::shared_ptr<AppConfig> app_config =
+            std::make_shared<AppConfig>(domain_name_, std::weak_ptr<DomainConfig>(shared_from_this()));
         if (0 != app_config->load_config(app_node)) {
             CORE_ERROR("load app config failed, domain:{}", domain_name_);
             return false;
@@ -103,9 +102,11 @@ bool DomainConfig::load_config(const std::string & file) {
             } else {
                 app = std::make_shared<PlayApp>(domain_name_, app_config->get_app_name());
                 // 如果是播放app，查找推流app，并添加绑定
-                auto publish_app = AppManager::get_instance().get_app(publish_domain_name_, app_config->get_app_name());
+                auto publish_app =
+                    AppManager::get_instance().get_app(publish_domain_name_, app_config->get_app_name());
                 if (!publish_app || !publish_app->is_publish_app()) {
-                    CORE_ERROR("could not find publish app for domain:{}, app:{}", publish_domain_name_, app_config->get_app_name());
+                    CORE_ERROR("could not find publish app for domain:{}, app:{}", publish_domain_name_,
+                               app_config->get_app_name());
                     return false;
                 }
                 auto play_app = std::static_pointer_cast<PlayApp>(app);
@@ -121,20 +122,18 @@ bool DomainConfig::load_config(const std::string & file) {
     }
 
     // 配置文件更新后，如果app被删了，需要移除已经不存在的app
-    for (auto & p : app_exist_map) {
+    for (auto& p : app_exist_map) {
         if (!p.second) {
             AppManager::get_instance().remove_app(domain_name_, p.first);
         }
     }
-    
+
     return true;
 }
 
-const std::string & DomainConfig::get_publish_domain_name() const {
-    return publish_domain_name_;
-}
+const std::string& DomainConfig::get_publish_domain_name() const { return publish_domain_name_; }
 
-std::shared_ptr<AppConfig> DomainConfig::get_app_conf(const std::string & app_name) {
+std::shared_ptr<AppConfig> DomainConfig::get_app_conf(const std::string& app_name) {
     auto it = app_confs_.find(app_name);
     if (it == app_confs_.end()) {
         return nullptr;

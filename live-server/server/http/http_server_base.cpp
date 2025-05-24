@@ -3,32 +3,29 @@
  * @Date: 2023-09-16 10:32:17
  * @LastEditTime: 2023-10-02 15:44:43
  * @LastEditors: jbl19860422
- * @Description: 
- * @FilePath: \mms\mms\server\http\http_server_base.cpp
- * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved. 
+ * @Description:
+ * @FilePath: \cutesms\cutesms\server\http\http_server_base.cpp
+ * Copyright (c) 2023 by jbl19860422@gitee.com, All Rights Reserved.
  */
-#include "log/log.h"
+#include "http_server_base.hpp"
 
-#include <memory>
-#include <fstream>
 #include <boost/shared_ptr.hpp>
+#include <fstream>
+#include <memory>
 
 #include "base/utils/utils.h"
-#include "http_server_base.hpp"
-#include "http_server_session.hpp"
-#include "ws_conn.hpp"
 #include "config/config.h"
+#include "http_server_session.hpp"
+#include "log/log.h"
+#include "ws_conn.hpp"
 
-namespace mms {
-HttpServerBase::HttpServerBase(ThreadWorker *w):TcpServer(this, w) {
 
-}
+namespace cutesms {
+HttpServerBase::HttpServerBase(ThreadWorker *w) : TcpServer(this, w) {}
 
-HttpServerBase::~HttpServerBase() {
+HttpServerBase::~HttpServerBase() {}
 
-}
-
-bool HttpServerBase::start(uint16_t port, const std::string & ip) {
+bool HttpServerBase::start(uint16_t port, const std::string &ip) {
     if (!register_route()) {
         return false;
     }
@@ -36,13 +33,11 @@ bool HttpServerBase::start(uint16_t port, const std::string & ip) {
     set_socket_inactive_timeout_ms(Config::get_instance()->get_socket_inactive_timeout_ms());
     if (0 == start_listen(port, ip)) {
         return true;
-    } 
+    }
     return false;
 }
 
-void HttpServerBase::stop() {
-    stop_listen();
-}
+void HttpServerBase::stop() { stop_listen(); }
 
 void HttpServerBase::on_socket_open(std::shared_ptr<SocketInterface> tcp_socket) {
     std::shared_ptr<HttpServerSession> s = std::make_shared<HttpServerSession>(this, tcp_socket);
@@ -51,40 +46,44 @@ void HttpServerBase::on_socket_open(std::shared_ptr<SocketInterface> tcp_socket)
 }
 
 void HttpServerBase::on_socket_close(std::shared_ptr<SocketInterface> tcp_socket) {
-    std::shared_ptr<HttpServerSession> s = std::static_pointer_cast<HttpServerSession>(tcp_socket->get_session());
+    std::shared_ptr<HttpServerSession> s =
+        std::static_pointer_cast<HttpServerSession>(tcp_socket->get_session());
     tcp_socket->clear_session();
     if (s) {
         s->close();
     }
 }
 
-bool HttpServerBase::register_route() {
-    return true;
-}
+bool HttpServerBase::register_route() { return true; }
 
-bool HttpServerBase::on_get(const std::string & path, const HTTP_HANDLER & handler) {
+bool HttpServerBase::on_get(const std::string &path, const HTTP_HANDLER &handler) {
     return get_route_tree_.add_route(path, handler);
 }
 
-bool HttpServerBase::on_static_fs(const std::string & path, const std::string & root_path) {
+bool HttpServerBase::on_static_fs(const std::string &path, const std::string &root_path) {
     if (!boost::ends_with(path, "/*")) {
         CORE_ERROR("create static fs failed, path:{} is not end with *", path);
         return false;
     }
 
     std::string prefix = path.substr(0, path.size() - 1);
-    return get_route_tree_.add_route(path, std::bind(&HttpServerBase::static_fs_handler, this, root_path, prefix, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+    return get_route_tree_.add_route(
+        path, std::bind(&HttpServerBase::static_fs_handler, this, root_path, prefix, std::placeholders::_1,
+                        std::placeholders::_2, std::placeholders::_3));
 }
 
-bool HttpServerBase::on_post(const std::string & path, const HTTP_HANDLER & handler) {
+bool HttpServerBase::on_post(const std::string &path, const HTTP_HANDLER &handler) {
     return post_route_tree_.add_route(path, handler);
 }
 
-bool HttpServerBase::on_websocket(const std::string & path, const WS_HANDLER & handler) {
+bool HttpServerBase::on_websocket(const std::string &path, const WS_HANDLER &handler) {
     return websocket_route_tree_.add_route(path, handler);
 }
 
-boost::asio::awaitable<void> HttpServerBase::static_fs_handler(std::string root_path, std::string prefix, std::shared_ptr<HttpServerSession> session, std::shared_ptr<HttpRequest> req, std::shared_ptr<HttpResponse> resp) {
+boost::asio::awaitable<void> HttpServerBase::static_fs_handler(std::string root_path, std::string prefix,
+                                                               std::shared_ptr<HttpServerSession> session,
+                                                               std::shared_ptr<HttpRequest> req,
+                                                               std::shared_ptr<HttpResponse> resp) {
     (void)resp;
     (void)session;
     CORE_INFO("get static file request, path:{}", prefix + req->get_path_param("*"));
@@ -114,7 +113,7 @@ boost::asio::awaitable<void> HttpServerBase::static_fs_handler(std::string root_
         }
         resp->add_header("Content-Type", it_content_type->second);
     }
-    
+
     resp->add_header("Connection", "close");
     file.seekg(0, std::ios::end);
     int32_t length = file.tellg();
@@ -127,7 +126,7 @@ boost::asio::awaitable<void> HttpServerBase::static_fs_handler(std::string root_
         co_return;
     }
 
-    bool ret = co_await resp->write_data((uint8_t*)body.get(), length);
+    bool ret = co_await resp->write_data((uint8_t *)body.get(), length);
     if (!ret) {
         resp->close();
         co_return;
@@ -136,10 +135,12 @@ boost::asio::awaitable<void> HttpServerBase::static_fs_handler(std::string root_
     co_return;
 }
 
-boost::asio::awaitable<bool> HttpServerBase::on_new_request(std::shared_ptr<HttpServerSession> session,                 std::shared_ptr<HttpRequest> req, std::shared_ptr<HttpResponse> resp) {
+boost::asio::awaitable<bool> HttpServerBase::on_new_request(std::shared_ptr<HttpServerSession> session,
+                                                            std::shared_ptr<HttpRequest> req,
+                                                            std::shared_ptr<HttpResponse> resp) {
     CORE_DEBUG("get new http request, path:{}", req->get_path());
-    switch(req->get_method()) {
-        case GET : {
+    switch (req->get_method()) {
+        case GET: {
             if (is_websocket_req(req)) {
                 auto handler = websocket_route_tree_.get_route(req->get_path(), req->path_params());
                 if (!handler.has_value()) {
@@ -160,7 +161,7 @@ boost::asio::awaitable<bool> HttpServerBase::on_new_request(std::shared_ptr<Http
                     if (!protocol.empty()) {
                         resp->add_header("Sec-WebSocket-Protocol", protocol);
                     }
-                    
+
                     if (!co_await resp->write_header(101, "Switching Protocols")) {
                         resp->close();
                         co_return false;
@@ -172,7 +173,7 @@ boost::asio::awaitable<bool> HttpServerBase::on_new_request(std::shared_ptr<Http
                 }
             } else {
                 auto handler = get_route_tree_.get_route(req->get_path(), req->path_params());
-                if (!handler.has_value()) {//404
+                if (!handler.has_value()) {  // 404
                     resp->add_header("Connection", "close");
                     co_await resp->write_header(404, "Not Found");
                     resp->close();
@@ -182,9 +183,9 @@ boost::asio::awaitable<bool> HttpServerBase::on_new_request(std::shared_ptr<Http
             }
             break;
         }
-        case POST : {
+        case POST: {
             auto handler = post_route_tree_.get_route(req->get_path(), req->path_params());
-            if (!handler.has_value()) {//404
+            if (!handler.has_value()) {  // 404
                 resp->add_header("Connection", "close");
                 co_await resp->write_header(404, "Not Found");
                 resp->close();
@@ -193,7 +194,7 @@ boost::asio::awaitable<bool> HttpServerBase::on_new_request(std::shared_ptr<Http
             }
             break;
         }
-        default : {
+        default: {
             break;
         }
     }
@@ -201,27 +202,27 @@ boost::asio::awaitable<bool> HttpServerBase::on_new_request(std::shared_ptr<Http
 }
 
 bool HttpServerBase::is_websocket_req(std::shared_ptr<HttpRequest> req) {
-    auto & host = req->get_header("Host");
+    auto &host = req->get_header("Host");
     if (host.empty()) {
         return false;
     }
 
-    auto & upgrade = req->get_header("Upgrade");
+    auto &upgrade = req->get_header("Upgrade");
     if (upgrade != "websocket") {
         return false;
     }
 
-    auto & connection = req->get_header("Connection");
+    auto &connection = req->get_header("Connection");
     if (connection != "Upgrade") {
         return false;
     }
 
-    auto & sec_websocket_key = req->get_header("Sec-WebSocket-Key");
+    auto &sec_websocket_key = req->get_header("Sec-WebSocket-Key");
     if (sec_websocket_key.empty()) {
         return false;
     }
 
-    auto & sec_websocket_version = req->get_header("Sec-WebSocket-Version");
+    auto &sec_websocket_version = req->get_header("Sec-WebSocket-Version");
     if (sec_websocket_version.empty()) {
         return false;
     }
@@ -231,7 +232,7 @@ bool HttpServerBase::is_websocket_req(std::shared_ptr<HttpRequest> req) {
         if (isec_websocket_version != 13) {
             return false;
         }
-    } catch (std::exception & e) {
+    } catch (std::exception &e) {
         return false;
     }
 
@@ -243,4 +244,4 @@ bool HttpServerBase::is_websocket_req(std::shared_ptr<HttpRequest> req) {
     return true;
 }
 
-};
+};  // namespace cutesms

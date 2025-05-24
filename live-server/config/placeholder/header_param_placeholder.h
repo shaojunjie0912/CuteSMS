@@ -1,16 +1,20 @@
 #pragma once
 #include <string>
+
 #include "placeholder.h"
-namespace mms {
+
+namespace cutesms {
 class AuthConfig;
 class StreamSession;
 class HeaderParamPlaceHolder : public PlaceHolder {
 public:
-    HeaderParamPlaceHolder(const std::string & name);
+    HeaderParamPlaceHolder(const std::string& name);
     virtual ~HeaderParamPlaceHolder();
+
 public:
-    std::string get_val(StreamSession & session);
+    std::string get_val(StreamSession& session);
+
 private:
     std::string name_;
 };
-};
+};  // namespace cutesms

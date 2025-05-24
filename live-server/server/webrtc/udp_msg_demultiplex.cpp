@@ -8,10 +8,9 @@
 // //             |      [64..79] -+--> forward to TURN Channel
 // //             |                |
 // //             |    [128..191] -+--> forward to RTP/RTCP
-namespace mms {
+namespace cutesms {
 
-UDP_MSG_TYPE detect_msg_type(uint8_t * data, size_t len)
-{
+UDP_MSG_TYPE detect_msg_type(uint8_t* data, size_t len) {
     (void)len;
     if (data[0] <= 3) {
         return UDP_MSG_STUN;
@@ -27,4 +26,4 @@ UDP_MSG_TYPE detect_msg_type(uint8_t * data, size_t len)
     return UDP_MSG_UNKNOWN;
 }
 
-};
+};  // namespace cutesms

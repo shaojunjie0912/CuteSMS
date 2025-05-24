@@ -1,16 +1,15 @@
-#include <boost/algorithm/string.hpp>
 #include "rtmp_config.h"
+
+#include <boost/algorithm/string.hpp>
+
 #include "log/log.h"
-using namespace mms;
-RtmpConfig::RtmpConfig() {
 
-}
+using namespace cutesms;
+RtmpConfig::RtmpConfig() {}
 
-RtmpConfig::~RtmpConfig() {
+RtmpConfig::~RtmpConfig() {}
 
-}
-
-int32_t RtmpConfig::load(const YAML::Node & config) {
+int32_t RtmpConfig::load(const YAML::Node& config) {
     YAML::Node enabled = config["enabled"];
     if (enabled.IsDefined()) {
         enabled_ = enabled.as<bool>();

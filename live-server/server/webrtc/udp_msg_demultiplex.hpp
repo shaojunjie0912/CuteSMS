@@ -25,16 +25,16 @@
 // //             |      [64..79] -+--> forward to TURN Channel
 // //             |                |
 // //             |    [128..191] -+--> forward to RTP/RTCP
-namespace mms {
+namespace cutesms {
 enum UDP_MSG_TYPE {
     UDP_MSG_UNKNOWN = 0,
-    UDP_MSG_STUN    = 1,
-    UDP_MSG_ZRTP    = 2,
-    UDP_MSG_DTLS    = 3,
-    UDP_MSG_TURN    = 4,
-    UDP_MSG_RTP     = 5,
+    UDP_MSG_STUN = 1,
+    UDP_MSG_ZRTP = 2,
+    UDP_MSG_DTLS = 3,
+    UDP_MSG_TURN = 4,
+    UDP_MSG_RTP = 5,
 };
 
-UDP_MSG_TYPE detect_msg_type(uint8_t * data, size_t len);
+UDP_MSG_TYPE detect_msg_type(uint8_t* data, size_t len);
 
-};
+};  // namespace cutesms

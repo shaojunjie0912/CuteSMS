@@ -1,42 +1,37 @@
+#include "rtmp_media_source.hpp"
+
 #include <boost/asio/co_spawn.hpp>
 #include <boost/asio/detached.hpp>
 
-#include "rtmp_media_source.hpp"
-#include "protocol/rtmp/flv/flv_tag.hpp"
-#include "rtmp_media_sink.hpp"
+#include "app/publish_app.h"
 #include "bridge/bridge_factory.hpp"
 #include "bridge/media_bridge.hpp"
-
 #include "codec/codec.hpp"
-#include "codec/h264/h264_avcc.hpp"
-#include "codec/h264/h264_codec.hpp"
-#include "codec/aac/aac_codec.hpp"
-#include "codec/mp3/mp3_codec.hpp"
-#include "codec/g711/g711a_codec.hpp"
-#include "codec/g711/g711u_codec.hpp"
-
-#include "codec/hevc/hevc_codec.hpp"
-#include "codec/hevc/hevc_hvcc.hpp"
-#include "codec/av1/av1_codec.hpp"
-
-#include "core/stream_session.hpp"
-
-#include "protocol/rtmp/rtmp_define.hpp"
-#include "protocol/rtmp/rtmp_message/data_message/rtmp_metadata_message.hpp"
-
-#include "app/publish_app.h"
+#include "codec_aac/aac_codec.hpp"
+#include "codec_av1/av1_codec.hpp"
+#include "codec_g711/g711a_codec.hpp"
+#include "codec_g711/g711u_codec.hpp"
+#include "codec_h264/h264_avcc.hpp"
+#include "codec_h264/h264_codec.hpp"
+#include "codec_hevc/hevc_codec.hpp"
+#include "codec_hevc/hevc_hvcc.hpp"
+#include "codec_mp3/mp3_codec.hpp"
 #include "core/error_code.hpp"
+#include "core/stream_session.hpp"
+#include "protocol_rtmp/flv/flv_tag.hpp"
+#include "protocol_rtmp/rtmp_define.hpp"
+#include "protocol_rtmp/rtmp_message/data_message/rtmp_metadata_message.hpp"
+#include "rtmp_media_sink.hpp"
 #include "spdlog/spdlog.h"
 
-using namespace mms;
 
-RtmpMediaSource::RtmpMediaSource(ThreadWorker *worker, std::weak_ptr<StreamSession> s, std::shared_ptr<PublishApp> app) : MediaSource("rtmp", s, app, worker), av_pkts_(2048), keyframe_indexes_(200) {
+using namespace cutesms;
 
-}
+RtmpMediaSource::RtmpMediaSource(ThreadWorker *worker, std::weak_ptr<StreamSession> s,
+                                 std::shared_ptr<PublishApp> app)
+    : MediaSource("rtmp", s, app, worker), av_pkts_(2048), keyframe_indexes_(200) {}
 
-RtmpMediaSource::~RtmpMediaSource() {
-    CORE_DEBUG("destroy RtmpMediaSource");
-}
+RtmpMediaSource::~RtmpMediaSource() { CORE_DEBUG("destroy RtmpMediaSource"); }
 
 Json::Value RtmpMediaSource::to_json() {
     Json::Value v;
@@ -55,19 +50,22 @@ bool RtmpMediaSource::add_media_sink(std::shared_ptr<MediaSink> media_sink) {
     return true;
 }
 
-std::shared_ptr<MediaBridge> RtmpMediaSource::get_or_create_bridge(const std::string & id, std::shared_ptr<PublishApp> app, const std::string & stream_name) {
+std::shared_ptr<MediaBridge> RtmpMediaSource::get_or_create_bridge(const std::string &id,
+                                                                   std::shared_ptr<PublishApp> app,
+                                                                   const std::string &stream_name) {
     std::unique_lock<std::shared_mutex> lck(bridges_mtx_);
     std::shared_ptr<MediaBridge> bridge;
     auto it = bridges_.find(id);
     if (it != bridges_.end()) {
         bridge = it->second;
-    } 
+    }
 
     if (bridge) {
         return bridge;
     }
 
-    bridge = BridgeFactory::create_bridge(worker_, id, app, std::weak_ptr<MediaSource>(shared_from_this()), app->get_domain_name(), app->get_app_name(), stream_name);
+    bridge = BridgeFactory::create_bridge(worker_, id, app, std::weak_ptr<MediaSource>(shared_from_this()),
+                                          app->get_domain_name(), app->get_app_name(), stream_name);
     if (!bridge) {
         return nullptr;
     }
@@ -79,7 +77,7 @@ std::shared_ptr<MediaBridge> RtmpMediaSource::get_or_create_bridge(const std::st
 
     auto media_source = bridge->get_media_source();
     media_source->set_source_info(app->get_domain_name(), app->get_app_name(), stream_name);
-    
+
     bridges_.insert(std::pair(id, bridge));
     auto lazy_sink = std::static_pointer_cast<LazyMediaSink>(media_sink);
     lazy_sink->wakeup();
@@ -89,7 +87,7 @@ std::shared_ptr<MediaBridge> RtmpMediaSource::get_or_create_bridge(const std::st
 bool RtmpMediaSource::on_audio_packet(std::shared_ptr<RtmpMessage> audio_pkt) {
     AudioTagHeader header;
     auto payload = audio_pkt->get_using_data();
-    int32_t header_consumed = header.decode((uint8_t*)payload.data(), payload.size());
+    int32_t header_consumed = header.decode((uint8_t *)payload.data(), payload.size());
     if (header_consumed < 0) {
         return false;
     }
@@ -101,14 +99,15 @@ bool RtmpMediaSource::on_audio_packet(std::shared_ptr<RtmpMessage> audio_pkt) {
         audio_header_ = audio_pkt;
         sequence_header = true;
         auto audio_config = std::make_shared<AudioSpecificConfig>();
-        int32_t consumed = audio_config->parse((uint8_t*)payload.data() + header_consumed, payload.size() - header_consumed);
+        int32_t consumed = audio_config->parse((uint8_t *)payload.data() + header_consumed,
+                                               payload.size() - header_consumed);
         if (consumed < 0) {
             CORE_ERROR("parse aac audio header failed, ret:{}", consumed);
             return false;
         }
 
         if (audio_codec_) {
-            AACCodec *aac_codec = ((AACCodec*)audio_codec_.get());
+            AACCodec *aac_codec = ((AACCodec *)audio_codec_.get());
             aac_codec->set_audio_specific_config(audio_config);
             audio_ready_ = true;
         }
@@ -117,7 +116,8 @@ bool RtmpMediaSource::on_audio_packet(std::shared_ptr<RtmpMessage> audio_pkt) {
     latest_frame_index_ = av_pkts_.add_pkt(audio_pkt);
 
     if (!stream_ready_) {
-        stream_ready_ = (metadata_ != nullptr) && (has_audio_?audio_ready_:true) && (has_video_?video_ready_:true);
+        stream_ready_ = (metadata_ != nullptr) && (has_audio_ ? audio_ready_ : true) &&
+                        (has_video_ ? video_ready_ : true);
         if (stream_ready_) {
             on_stream_ready();
         }
@@ -128,7 +128,7 @@ bool RtmpMediaSource::on_audio_packet(std::shared_ptr<RtmpMessage> audio_pkt) {
     }
 
     latest_audio_timestamp_ = audio_pkt->timestamp_;
-    if (latest_frame_index_ <= 300 || latest_frame_index_%10 == 0) {
+    if (latest_frame_index_ <= 300 || latest_frame_index_ % 10 == 0) {
         std::lock_guard<std::recursive_mutex> lck(sinks_mtx_);
         for (auto sink : sinks_) {
             auto lazy_sink = std::static_pointer_cast<LazyMediaSink>(sink);
@@ -143,7 +143,7 @@ bool RtmpMediaSource::on_video_packet(std::shared_ptr<RtmpMessage> video_pkt) {
     // 解析头部
     VideoTagHeader header;
     auto payload = video_pkt->get_using_data();
-    int32_t header_consumed = header.decode((uint8_t*)payload.data(), payload.size());
+    int32_t header_consumed = header.decode((uint8_t *)payload.data(), payload.size());
     if (header_consumed <= 0) {
         return false;
     }
@@ -156,7 +156,8 @@ bool RtmpMediaSource::on_video_packet(std::shared_ptr<RtmpMessage> video_pkt) {
         // 解析avc configuration header
         if (!video_codec_) {
             if (header.is_extheader) {
-                if (header.get_codec_id() == VideoTagHeader::HEVC || header.get_codec_id() == VideoTagHeader::HEVC_FOURCC) {
+                if (header.get_codec_id() == VideoTagHeader::HEVC ||
+                    header.get_codec_id() == VideoTagHeader::HEVC_FOURCC) {
                     video_codec_ = std::make_shared<HevcCodec>();
                 }
             }
@@ -170,24 +171,25 @@ bool RtmpMediaSource::on_video_packet(std::shared_ptr<RtmpMessage> video_pkt) {
     }
 
     latest_frame_index_ = av_pkts_.add_pkt(video_pkt);
-    if (header.is_key_frame() && !header.is_seq_header()) {// 关键帧索引
+    if (header.is_key_frame() && !header.is_seq_header()) {  // 关键帧索引
         std::unique_lock<std::shared_mutex> wlock(keyframe_indexes_rw_mutex_);
         keyframe_indexes_.push_back(latest_frame_index_);
-    } 
+    }
 
     if (!stream_ready_) {
-        stream_ready_ = (metadata_ != nullptr) && (has_audio_?audio_ready_:true) && (has_video_?video_ready_:true);
+        stream_ready_ = (metadata_ != nullptr) && (has_audio_ ? audio_ready_ : true) &&
+                        (has_video_ ? video_ready_ : true);
         if (stream_ready_) {
             on_stream_ready();
         }
     }
-    
+
     if (sequence_header) {
         return true;
     }
 
     latest_video_timestamp_ = video_pkt->timestamp_;
-    if (latest_frame_index_ <= 300 || latest_frame_index_%10 == 0) {
+    if (latest_frame_index_ <= 300 || latest_frame_index_ % 10 == 0) {
         std::lock_guard<std::recursive_mutex> lck(sinks_mtx_);
         for (auto sink : sinks_) {
             auto lazy_sink = std::static_pointer_cast<LazyMediaSink>(sink);
@@ -199,7 +201,7 @@ bool RtmpMediaSource::on_video_packet(std::shared_ptr<RtmpMessage> video_pkt) {
 }
 
 void RtmpMediaSource::on_stream_ready() {
-    {// 创建推流
+    {  // 创建推流
         auto s = get_session();
         if (s) {
             app_->create_push_streams(shared_from_this(), s);
@@ -214,7 +216,7 @@ bool RtmpMediaSource::on_metadata(std::shared_ptr<RtmpMessage> metadata_pkt) {
         CORE_ERROR("metadata decode failed. ret={}", ret);
         return false;
     }
-    
+
     has_video_ = metadata_->has_video();
     has_audio_ = metadata_->has_audio();
 
@@ -254,7 +256,8 @@ bool RtmpMediaSource::on_metadata(std::shared_ptr<RtmpMessage> metadata_pkt) {
     return true;
 }
 
-std::vector<std::shared_ptr<RtmpMessage>> RtmpMediaSource::get_pkts(int64_t &last_pkt_index, uint32_t max_count) {
+std::vector<std::shared_ptr<RtmpMessage>> RtmpMediaSource::get_pkts(int64_t &last_pkt_index,
+                                                                    uint32_t max_count) {
     std::vector<std::shared_ptr<RtmpMessage>> pkts;
     if (last_pkt_index == -1) {
         if (!stream_ready_) {
@@ -266,7 +269,7 @@ std::vector<std::shared_ptr<RtmpMessage>> RtmpMediaSource::get_pkts(int64_t &las
         if (has_video_) {
             if (video_header_) {
                 pkts.emplace_back(video_header_);
-            } 
+            }
         }
 
         if (has_audio_) {
@@ -274,14 +277,14 @@ std::vector<std::shared_ptr<RtmpMessage>> RtmpMediaSource::get_pkts(int64_t &las
                 pkts.emplace_back(audio_header_);
             }
         }
-        
+
         int64_t start_idx = -1;
         if (has_video_) {
             boost::circular_buffer<uint64_t>::reverse_iterator it;
             {
                 std::shared_lock<std::shared_mutex> rlock(keyframe_indexes_rw_mutex_);
                 it = keyframe_indexes_.rbegin();
-                while(it != keyframe_indexes_.rend()) {
+                while (it != keyframe_indexes_.rend()) {
                     auto pkt = av_pkts_.get_pkt(*it);
                     if (pkt) {
                         if (latest_video_timestamp_ - pkt->timestamp_ >= 2000) {
@@ -317,7 +320,7 @@ std::vector<std::shared_ptr<RtmpMessage>> RtmpMediaSource::get_pkts(int64_t &las
         }
 
         uint32_t pkt_count = 0;
-        while(start_idx <= latest_frame_index_ && pkt_count < max_count) {
+        while (start_idx <= latest_frame_index_ && pkt_count < max_count) {
             auto pkt = av_pkts_.get_pkt(start_idx);
             if (pkt) {
                 pkts.emplace_back(av_pkts_.get_pkt(start_idx));
@@ -329,7 +332,7 @@ std::vector<std::shared_ptr<RtmpMessage>> RtmpMediaSource::get_pkts(int64_t &las
     } else {
         int64_t start_idx = last_pkt_index;
         uint32_t pkt_count = 0;
-        while(start_idx <= latest_frame_index_ && pkt_count < max_count) {
+        while (start_idx <= latest_frame_index_ && pkt_count < max_count) {
             auto t = av_pkts_.get_pkt(start_idx);
             if (t) {
                 pkts.emplace_back(av_pkts_.get_pkt(start_idx));

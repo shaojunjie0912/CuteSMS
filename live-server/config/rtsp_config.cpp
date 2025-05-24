@@ -1,16 +1,15 @@
-#include <boost/algorithm/string.hpp>
 #include "rtsp_config.h"
+
+#include <boost/algorithm/string.hpp>
+
 #include "log/log.h"
-using namespace mms;
-RtspConfig::RtspConfig() {
 
-}
+using namespace cutesms;
+RtspConfig::RtspConfig() {}
 
-RtspConfig::~RtspConfig() {
+RtspConfig::~RtspConfig() {}
 
-}
-
-int32_t RtspConfig::load(const YAML::Node & config) {
+int32_t RtspConfig::load(const YAML::Node& config) {
     YAML::Node enabled = config["enabled"];
     if (enabled.IsDefined()) {
         enabled_ = enabled.as<bool>();
