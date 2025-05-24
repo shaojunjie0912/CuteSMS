@@ -1,7 +1,6 @@
 #pragma once
+#include <base/network/session.hpp>
 #include <memory>
-
-#include "../../session.hpp"
 
 namespace cutesms {
 
@@ -14,7 +13,9 @@ class TlsSession : public Session {
 public:
     TlsSession(bool mode, SocketInterfaceHandler *tls_handler, TlsServerNameHandler *server_name_handler,
                std::shared_ptr<TcpSocket> tcp_socket);
+
     virtual ~TlsSession();
+
     std::shared_ptr<TcpSocket> get_tcp_socket();
 
     void service() override;

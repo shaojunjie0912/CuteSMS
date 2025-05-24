@@ -1,4 +1,6 @@
 #include <protocol_rtsp/rtsp_request.hpp>
+#include <sstream>
+
 
 namespace cutesms {
 RtspRequest::RtspRequest() {}
@@ -134,7 +136,6 @@ int32_t RtspRequest::parse_rtsp_header(const std::string_view& buf) {
     return pos_end + 4;
 }
 
-#include "spdlog/spdlog.h"
 int32_t RtspRequest::parse_request_line(const std::string_view& buf) {
     std::string_view buf_inner = buf;
     auto pos_end = buf_inner.find(RTSP_CRLF);

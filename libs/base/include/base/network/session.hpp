@@ -8,7 +8,6 @@
 #include <string>
 #include <unordered_map>
 
-
 namespace cutesms {
 class App;
 class ThreadWorker;

@@ -1,6 +1,6 @@
 #pragma once
-#include <server_tls/tls_session.h>
 
+#include <base/network/tls_session.hpp>
 #include <base/network/tls_socket.hpp>
 #include <memory>
 #include <server_tcp/tcp_server.hpp>
@@ -12,8 +12,8 @@ public:
     virtual ~TlsServer();
 
 public:
-    int32_t start_listen(uint16_t port);
-    void stop_listen();
+    int32_t start_listen(uint16_t port, const std::string &addr = "") override;
+    void stop_listen() override;
 
 private:
     void on_socket_open(std::shared_ptr<SocketInterface> tcp_socket) final override;

@@ -3,7 +3,6 @@
 
 #include <server_tls/tls_server.hpp>
 
-
 namespace cutesms {
 TlsServer::TlsServer(SocketInterfaceHandler *tls_handler, TlsServerNameHandler *name_handler,
                      ThreadWorker *worker)
@@ -11,7 +10,7 @@ TlsServer::TlsServer(SocketInterfaceHandler *tls_handler, TlsServerNameHandler *
 
 TlsServer::~TlsServer() {}
 
-int32_t TlsServer::start_listen(uint16_t port) {
+int32_t TlsServer::start_listen(uint16_t port, const std::string &addr) {
     if (!init_ssl()) {
         spdlog::error("init ssl failed");
         return -1;
