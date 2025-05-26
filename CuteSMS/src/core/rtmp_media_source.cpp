@@ -2,11 +2,11 @@
 
 #include <boost/asio/co_spawn.hpp>
 #include <boost/asio/detached.hpp>
+#include <codec_base/codec.hpp>
 
 #include "app/publish_app.h"
 #include "bridge/bridge_factory.hpp"
 #include "bridge/media_bridge.hpp"
-#include "codec/codec.hpp"
 #include "codec_aac/aac_codec.hpp"
 #include "codec_av1/av1_codec.hpp"
 #include "codec_g711/g711a_codec.hpp"
@@ -23,7 +23,6 @@
 #include "protocol_rtmp/rtmp_message/data_message/rtmp_metadata_message.hpp"
 #include "rtmp_media_sink.hpp"
 #include "spdlog/spdlog.h"
-
 
 using namespace cutesms;
 

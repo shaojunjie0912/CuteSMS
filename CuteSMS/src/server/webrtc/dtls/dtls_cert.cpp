@@ -7,9 +7,8 @@
 #include <iostream>
 #include <sstream>
 
-#include "spdlog/spdlog.h"
-
 using namespace cutesms;
+
 bool DtlsCert::init(const std::string &domain) {
     domain_ = domain;
     if (!create_cert()) {
@@ -26,11 +25,6 @@ DtlsCert::~DtlsCert() {
     //     RSA_free(rsa_);
     //     rsa_ = nullptr;
     // }
-
-    if (bn_) {
-        BN_free(bn_);
-        bn_ = nullptr;
-    }
 
     if (pkey_) {
         EVP_PKEY_free(pkey_);
@@ -88,19 +82,42 @@ bool DtlsCert::create_cert() {
     int seq = std::rand() % 9999999;
     ASN1_INTEGER_set(X509_get_serialNumber(certificate_), seq);  // serial number
     // 创建pkey
-    rsa_ = RSA_new();
-    bn_ = BN_new();
     pkey_ = EVP_PKEY_new();
-    BN_set_word(bn_, RSA_F4);
-    int ret = RSA_generate_key_ex(rsa_, RSA_KEY_LENGTH, bn_, nullptr);
-    if (ret != 1) {
-        BN_free(bn_);
-        bn_ = nullptr;
+    EVP_PKEY_CTX *ctx = EVP_PKEY_CTX_new_id(EVP_PKEY_RSA, NULL);
+    if (!ctx) {
         EVP_PKEY_free(pkey_);
         pkey_ = nullptr;
         return false;
     }
-    EVP_PKEY_assign(pkey_, EVP_PKEY_RSA, reinterpret_cast<char *>(rsa_));
+
+    if (EVP_PKEY_keygen_init(ctx) <= 0) {
+        EVP_PKEY_CTX_free(ctx);
+        EVP_PKEY_free(pkey_);
+        pkey_ = nullptr;
+        return false;
+    }
+
+    if (EVP_PKEY_CTX_set_rsa_keygen_bits(ctx, RSA_KEY_LENGTH) <= 0) {
+        EVP_PKEY_CTX_free(ctx);
+        EVP_PKEY_free(pkey_);
+        pkey_ = nullptr;
+        return false;
+    }
+
+    // 使用 RSA_F4 (65537) 作为公钥指数
+    BIGNUM *e = BN_new();
+    BN_set_word(e, RSA_F4);
+    EVP_PKEY_CTX_set1_rsa_keygen_pubexp(ctx, e);
+    BN_free(e);
+
+    if (EVP_PKEY_keygen(ctx, &pkey_) <= 0) {
+        EVP_PKEY_CTX_free(ctx);
+        EVP_PKEY_free(pkey_);
+        pkey_ = nullptr;
+        return false;
+    }
+
+    EVP_PKEY_CTX_free(ctx);
     X509_set_pubkey(certificate_, pkey_);
     // 设置时长
     static const int expired_days = 365 * 10;
@@ -119,8 +136,9 @@ bool DtlsCert::create_cert() {
     // X509_NAME_add_entry_by_txt(name, "O", MBSTRING_ASC, company, -1, -1, 0);
     // X509_NAME_add_entry_by_txt(name, "CN", MBSTRING_ASC, common_name, -1, -1, 0);
 
-    X509_NAME_add_entry_by_txt(name, "C", MBSTRING_ASC, (const unsigned char *)"China", -1, -1, 0);  // country
-    X509_NAME_add_entry_by_txt(name, "ST", MBSTRING_ASC, (const unsigned char *)"SG", -1, -1, 0);    // state
+    X509_NAME_add_entry_by_txt(name, "C", MBSTRING_ASC, (const unsigned char *)"China", -1, -1,
+                               0);                                                                 // country
+    X509_NAME_add_entry_by_txt(name, "ST", MBSTRING_ASC, (const unsigned char *)"SG", -1, -1, 0);  // state
     X509_NAME_add_entry_by_txt(name, "CN", MBSTRING_ASC, (const unsigned char *)domain_.c_str(), -1, -1,
                                0);  // common name
     X509_set_issuer_name(certificate_, name);
@@ -131,10 +149,8 @@ bool DtlsCert::create_cert() {
     // add_ext(certificate_, NID_subject_key_identifier, (char*)("hash"));
     // add_ext(certificate_, NID_authority_key_identifier, (char*)("keyid:always"));
     // 生成签名
-    ret = X509_sign(certificate_, pkey_, EVP_sha1());  // some hash type here
+    int ret = X509_sign(certificate_, pkey_, EVP_sha1());  // some hash type here
     if (ret == 0) {
-        BN_free(bn_);
-        bn_ = nullptr;
         EVP_PKEY_free(pkey_);
         pkey_ = nullptr;
         return false;
@@ -157,8 +173,6 @@ bool DtlsCert::create_cert() {
     std::unique_ptr<BIO, void (*)(BIO *)> memDER{BIO_new(BIO_s_mem()), BIO_free_all};
     ret = i2d_X509_bio(memDER.get(), certificate_);
     if (ret != 1) {
-        BN_free(bn_);
-        bn_ = nullptr;
         EVP_PKEY_free(pkey_);
         pkey_ = nullptr;
         return false;
@@ -173,5 +187,3 @@ bool DtlsCert::create_cert() {
     PEM_write_bio_PrivateKey(keyFile.get(), pkey_, nullptr, nullptr, 0, nullptr, nullptr);
     return true;
 }
-
-RSA *DtlsCert::get_rsa() { return rsa_; }

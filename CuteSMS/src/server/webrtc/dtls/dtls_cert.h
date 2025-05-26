@@ -1,12 +1,11 @@
 #pragma once
+#include <openssl/bio.h>
+#include <openssl/ssl.h>
+#include <openssl/x509.h>
 #include <stdio.h>
 
 #include <memory>
 #include <string>
-
-#include "openssl/bio.h"
-#include "openssl/ssl.h"
-#include "openssl/x509.h"
 
 
 namespace cutesms {
@@ -20,8 +19,6 @@ public:
 
     const std::string &get_der() const { return der_; }
 
-    RSA *get_rsa();
-
     X509 *get_cert() { return certificate_; }
 
     EVP_PKEY *get_pkey() { return pkey_; }
@@ -29,9 +26,7 @@ public:
 private:
     std::string domain_;
     X509 *certificate_ = nullptr;
-    RSA *rsa_ = nullptr;
     EVP_PKEY *pkey_ = nullptr;
-    BIGNUM *bn_ = nullptr;
     std::string finger_print_;
     std::string der_;
 

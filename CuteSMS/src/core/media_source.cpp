@@ -4,12 +4,12 @@
 #include <boost/asio/detached.hpp>
 #include <boost/asio/redirect_error.hpp>
 #include <boost/asio/use_awaitable.hpp>
+#include <codec_base/codec.hpp>
 
 #include "app/publish_app.h"
 #include "base/thread/thread_worker.hpp"
 #include "bridge/bridge_factory.hpp"
 #include "bridge/media_bridge.hpp"
-#include "codec/codec.hpp"
 #include "config/config.h"
 #include "core/source_manager.hpp"
 #include "core/stream_session.hpp"
@@ -18,6 +18,7 @@
 #include "recorder/recorder.h"
 #include "recorder/recorder_factory.hpp"
 #include "spdlog/spdlog.h"
+
 
 using namespace cutesms;
 

@@ -9,7 +9,8 @@
  */
 #include "rtsp_media_source.hpp"
 
-#include "codec/codec.hpp"
+#include <codec_base/codec.hpp>
+
 #include "codec_aac/aac_codec.hpp"
 #include "codec_g711/g711a_codec.hpp"
 #include "codec_g711/g711u_codec.hpp"
@@ -19,7 +20,6 @@
 #include "codec_opus/opus_codec.hpp"
 #include "core/rtp_media_sink.hpp"
 #include "core/stream_session.hpp"
-
 
 // #include "core/media_center/media_center_manager.h"
 

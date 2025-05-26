@@ -1,33 +1,17 @@
 target("cutesms", function () 
     set_kind("binary")
     add_files("**.cpp")
+
+    -- TODO: 这里其实不规范, 加上 src 作为 include...
     add_includedirs("$(projectdir)/CuteSMS/src", { public = true })
-    -- base
-    add_deps("base")
-    -- protocol
-    add_deps(
-        "protocol_http",
-        "protocol_mp4",
-        "protocol_rtmp",
-        "protocol_rtp",
-        "protocol_rtsp",
-        "protocol_sdp",
-        "protocol_ts"
-    )
-    -- codec
-    add_deps(
-        "codec"
-    )
-    -- sdk
-    add_deps(
-        "sdk_http"
-    )
-    -- server
-    add_deps(
-        "server_tcp",
-        "server_tls",
-        "server_udp"
-    )
+
+    add_deps("base")     -- base
+    add_deps("protocol")     -- protocol
+    add_deps("codec")     -- codec
+    add_deps("sdk")     -- sdk
+    add_deps("server")     -- server
+
+    -- 第三方库
     add_packages(
         "spdlog",
         "boost",

@@ -1,6 +1,6 @@
 #include "rtp_media_sink.hpp"
 
-#include "codec/codec.hpp"
+#include <codec_base/codec.hpp>
 
 using namespace cutesms;
 
