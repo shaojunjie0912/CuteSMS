@@ -1,2 +1,2 @@
 includes("libs")
-includes("cutesms")
+includes("src")

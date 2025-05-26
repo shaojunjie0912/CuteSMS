@@ -1,7 +1,7 @@
 target("cutesms", function () 
     set_kind("binary")
     add_files("**.cpp")
-    add_includedirs("$(projectdir)/CuteSMS/cutesms", { public = true })
+    add_includedirs("$(projectdir)/CuteSMS/src", { public = true })
     -- base
     add_deps("base")
     -- protocol
